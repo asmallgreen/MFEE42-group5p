@@ -29,15 +29,17 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `course` (
   `id` int(6) NOT NULL,
-  `co_name` varchar(255) NOT NULL,
-  `co_capacity` int(6) NOT NULL,
-  `co_price` int(6) NOT NULL,
-  `co_discount` varchar(255) NOT NULL,
-  `co_location` varchar(255) NOT NULL,
-  `co_schedule` datetime NOT NULL,
-  `co_intro` varchar(255) NOT NULL,
-  `co_description` varchar(1000) NOT NULL,
-  `co_review` varchar(1000) NOT NULL
+  `name` varchar(255) NOT NULL,
+  `capacity` int(6) NOT NULL,
+  `level` varchar(255) NOT NULL,
+  `price` int(6) NOT NULL,
+  `discount_id` varchar(255) NOT NULL,
+  `location` varchar(255) NOT NULL,
+  `schedule` datetime NOT NULL,
+  `intro` varchar(255) NOT NULL,
+  `teacher` varchar(255) NOT NULL,
+  `description` varchar(1000) NOT NULL,
+  `review` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
