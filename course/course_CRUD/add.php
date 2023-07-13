@@ -9,7 +9,7 @@ if(isset($_POST["action"])&&($_POST["action"]=="add")){
 	$stmt -> close();
 	$db_link -> close();
 	//重新導向回到主畫面
-	header("Location: data.php");
+	header("Location: data_page.php");
 }	
 ?>
 <html>
@@ -19,7 +19,7 @@ if(isset($_POST["action"])&&($_POST["action"]=="add")){
 </head>
 <body>
 <h1 align="center">課程管理系統 - 新增課程</h1>
-<p align="center"><a href="data.php">回主畫面</a></p>
+<p align="center"><a href="data_page.php">回主畫面</a></p>
 <form action="" method="post" name="formAdd" id="formAdd">
   <table border="1" align="center" cellpadding="4">
     <tr>
