@@ -41,109 +41,133 @@
 	$total_pages = ceil($total_records/$pageRow_records);
 ?>
 
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>課程管理系統</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>課程管理系統</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    /* Truncate table cell text with ellipsis (...) */
+    .table-responsive td {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  </style>
 </head>
+
 <body>
-<h1 align="center">課程管理系統</h1>
-<p align="center"><a href="add.php">新增學生資料</a>。</p>
+  <div class="container">
+    <h1 class="text-center">課程管理系統</h1>
+    <div class="text-center mb-3">
+      <a href="add.php" class="btn btn-primary">新增學生資料</a>
+    </div>
 
-<!-- 搜尋表單 -->
+    <!-- 搜尋表單 -->
+    <form class="text-center mb-3" method="GET" action="">
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <label for="field" class="form-label">選擇欄位：</label>
+          <select name="field" id="field" class="form-select">
+            <option value="">-- 全部 --</option>
+            <option value="name">課程名稱</option>
+            <option value="location">上課地點</option>
+            <option value="teacher_id">教師</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label for="keyword" class="form-label">關鍵字：</label>
+          <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo $search_keyword; ?>">
+        </div>
+        <div class="col-md-4 align-self-end">
+          <button type="submit" class="btn btn-primary">搜尋</button>
+        </div>
+      </div>
+    </form>
 
-<form align="center" method="GET" action="">
-	<label for="field">選擇欄位：</label>
-	<select name="field" id="field">
-		<option value="">-- 全部 --</option>
-		<option value="name">課程名稱</option>
-		<option value="location">上課地點</option>
-		<option value="teacher_id">教師</option>
-	</select>
-	<label for="keyword">關鍵字：</label>
-	<input type="text" name="keyword" id="keyword" value="<?php echo $search_keyword; ?>">
-	<input type="submit" value="搜尋">
-</form>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped align-middle">
+        <!-- 表格表頭 -->
+        <tr>
+          <th>課程編號</th>
+          <th>課程名稱</th>
+          <th>人數限制</th>
+          <th>難易分級</th>
+          <th>課程價格</th>
+          <th>上課地點</th>
+          <th>開課日期</th>
+          <th>上課時間</th>
+          <th>課程時數</th>
+          <th>課程綱要</th>
+          <th>報名資格</th>
+          <th>課程目標</th>
+          <th>課程介紹</th>
+          <th>相關影音</th>
+          <th>課程敘述</th>
+          <th>開放報名</th>
+          <th>教師</th>
+          <th>適用優惠</th>
+          <th>操作</th>
+        </tr>
+        <!-- 資料內容 -->
+        <?php while ($row_result = $result->fetch_assoc()) : ?>
+          <tr>
+            <td><?php echo $row_result["id"]; ?></td>
+            <td><?php echo $row_result["name"]; ?></td>
+            <td><?php echo $row_result["capacity"]; ?></td>
+            <td><?php echo $row_result["level"]; ?></td>
+            <td><?php echo $row_result["price"]; ?></td>
+            <td><?php echo $row_result["location"]; ?></td>
+            <td><?php echo $row_result["date"]; ?></td>
+            <td><?php echo $row_result["time"]; ?></td>
+            <td><?php echo $row_result["hours"]; ?></td>
+            <td><?php echo $row_result["schedule"]; ?></td>
+            <td><?php echo $row_result["qualification"]; ?></td>
+            <td><?php echo $row_result["target"]; ?></td>
+            <td><?php echo $row_result["intro"]; ?></td>
+            <td><?php echo $row_result["image"]; ?></td>
+            <td><?php echo $row_result["description"]; ?></td>
+            <td><?php echo $row_result["valid"]; ?></td>
+            <td><?php echo $row_result["teacher_id"]; ?></td>
+            <td><?php echo $row_result["discount_id"]; ?></td>
+            <td>
+              <a href="update.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-primary">修改</a>
+              <a href="delete.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-danger">刪除</a>
+            </td>
+          </tr>
+        <?php endwhile; ?>
+      </table>
+    </div>
 
-<table border="1" align="center">
-  <!-- 表格表頭 -->
-  <tr>
-    <th>課程編號</th>
-    <th>課程名稱</th>
-    <th>人數限制</th>
-    <th>難易分級</th>
-    <th>課程價格</th>
-    <th>上課地點</th>
-    <th>開課日期</th>
-    <th>上課時間</th>
-	<th>課程時數</th>
-	<th>課程綱要</th>
-	<th>報名資格</th>
-	<th>課程目標</th>
-	<th>課程介紹</th>
-	<th>相關影音</th>
-	<th>課程敘述</th>
-	<th>開放報名</th>
-	<th>教師</th>
-	<th>適用優惠</th>
-  </tr>
-  <!-- 資料內容 -->
-<?php
-	while($row_result=$result->fetch_assoc()){
-		echo "<tr>";
-		echo "<td>".$row_result["id"]."</td>";
-		echo "<td>".$row_result["name"]."</td>";
-		echo "<td>".$row_result["capacity"]."</td>";
-		echo "<td>".$row_result["level"]."</td>";
-		echo "<td>".$row_result["price"]."</td>";
-		echo "<td>".$row_result["location"]."</td>";
-		echo "<td>".$row_result["date"]."</td>";
-		echo "<td>".$row_result["time"]."</td>";
-		echo "<td>".$row_result["hours"]."</td>";
-		echo "<td>".$row_result["schedule"]."</td>";
-		echo "<td>".$row_result["qualification"]."</td>";
-		echo "<td>".$row_result["target"]."</td>";
-		echo "<td>".$row_result["intro"]."</td>";
-		echo "<td>".$row_result["image"]."</td>";
-		echo "<td>".$row_result["description"]."</td>";
-		echo "<td>".$row_result["valid"]."</td>";
-		echo "<td>".$row_result["teacher_id"]."</td>";
-		echo "<td>".$row_result["discount_id"]."</td>";
-		echo "<td><a href='update.php?id=".$row_result["id"]."'>修改</a> ";
-		echo "<a href='delete.php?id=".$row_result["id"]."'>刪除</a></td>";
-		echo "</tr>";
-	}
-?>
-</table>
-<table border="0" align="center">
-  <tr>
-    <?php if ($num_pages > 1) { // 若不是第一頁則顯示 ?>
-    <td><a href="data_page.php?page=1">第一頁</a></td>
-    <td><a href="data_page.php?page=<?php echo $num_pages-1;?>">上一頁</a></td>
-    <?php } ?>
-    <?php if ($num_pages < $total_pages) { // 若不是最後一頁則顯示 ?>
-    <td><a href="data_page.php?page=<?php echo $num_pages+1;?>">下一頁</a></td>
-    <td><a href="data_page.php?page=<?php echo $total_pages;?>">最後頁</a></td>
-    <?php } ?>
-  </tr>
-</table>
-<table border="0" align="center">
-  <tr>
-  	<td>
-  	  頁數：
-  	  <?php
-  	  for($i=1;$i<=$total_pages;$i++){
-  	  	  if($i==$num_pages){
-  	  	  	  echo $i." ";
-  	  	  }else{
-  	  	      echo "<a href=\"data_page.php?page={$i}\">{$i}</a> ";
-  	  	  }
-  	  }
-  	  ?>
-  	</td>
-  </tr>
-</table>
+    <div class="row justify-content-center">
+      <?php if ($num_pages > 1) : ?>
+        <div class="col-auto">
+          <a href="data_page.php?page=1" class="btn btn-primary">第一頁</a>
+          <a href="data_page.php?page=<?php echo $num_pages - 1; ?>" class="btn btn-primary">上一頁</a>
+        </div>
+      <?php endif; ?>
+      <?php if ($num_pages < $total_pages) : ?>
+        <div class="col-auto">
+          <a href="data_page.php?page=<?php echo $num_pages + 1; ?>" class="btn btn-primary">下一頁</a>
+          <a href="data_page.php?page=<?php echo $total_pages; ?>" class="btn btn-primary">最後頁</a>
+        </div>
+      <?php endif; ?>
+    </div>
 
-<p align="center">目前資料筆數：<?php echo $total_records;?></p>
+    <div class="row justify-content-center mt-3">
+      <div class="col-auto">
+        <p>目前資料筆數：<?php echo $total_records; ?></p>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
+
+
