@@ -57,7 +57,7 @@
 		echo "<td>".$row_result["teacher_id"]."</td>";
 		echo "<td>".$row_result["discount_id"]."</td>";
 		echo "<td><a href='update.php?id=".$row_result["id"]."'>修改</a> ";
-		echo "<a href='delete.php?id=".$row_result["id	"]."'>刪除</a></td>";
+		echo "<a href='delete.php?id=".$row_result["id"]."'>刪除</a></td>";
 		echo "</tr>";
 	}
 ?>

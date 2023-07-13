@@ -1,9 +1,10 @@
 <?php 
+require_once("connMysql.php");
+
 if(isset($_POST["action"])&&($_POST["action"]=="add")){
-	require_once("connMysql.php");
-	$sql_query = "INSERT INTO course (name ,capacity ,level ,price ,location ,date, time, hours, schedule, qualification, target, intro, image, description, valid, teacher_id, discount_id) VALUES (?, ?, ?, ? ,? ,?)";
+	$sql_query = "INSERT INTO course (name ,capacity ,level ,price ,location ,date, time, hours, schedule, qualification, target, intro, image, description, valid, teacher_id, discount_id) VALUES (?, ?, ?, ? ,? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	$stmt = $db_link -> prepare($sql_query);
-	$stmt -> bind_param("ssssss", $_POST["name"], $_POST["capacity"], $_POST["level"], $_POST["price"], $_POST["date"], $_POST["time"], $_POST["hours"], $_POST["schedule"], $_POST["qualification"], $_POST["target"], $_POST["intro"], $_POST["image"], $_POST["description"], $_POST["valid"], $_POST["teacher_id"], $_POST["discount_id"]);
+	$stmt -> bind_param("sssssssssssssssss", $_POST["name"], $_POST["capacity"], $_POST["level"], $_POST["price"], $_POST["location"], $_POST["date"], $_POST["time"], $_POST["hours"], $_POST["schedule"], $_POST["qualification"], $_POST["target"], $_POST["intro"], $_POST["image"], $_POST["description"], $_POST["valid"], $_POST["teacher_id"], $_POST["discount_id"]);
 	$stmt -> execute();
 	$stmt -> close();
 	$db_link -> close();
@@ -38,46 +39,46 @@ if(isset($_POST["action"])&&($_POST["action"]=="add")){
       </td>
     </tr>
     <tr>
-      <td>課程價格</td><td><input type="text" name="price" id="price"></td>
+      <td>課程價格</td><td><input name="price" type="text" id="price"></td>
     </tr>
     <tr>
-      <td>上課地點</td><td><input type="text" name="location" id="location"></td>
+      <td>上課地點</td><td><input name="location" type="text" id="location"></td>
     </tr>
     <tr>
-      <td>開課日期</td><td><input type="text" name="date" id="date"></td>
+      <td>開課日期</td><td><input name="date" type="date" id="date"></td>
     </tr>
     <tr>
-      <td>上課時間</td><td><input name="text" type="time" id="time"></td>
+      <td>上課時間</td><td><input name="time" type="time" id="time"></td>
     </tr>
     <tr>
-      <td>課程時數</td><td><input name="text" type="hours" id="hours"></td>
+      <td>課程時數</td><td><input name="hours" type="text" id="hours"></td>
     </tr>
     <tr>
-      <td>課程綱要</td><td><input name="text" type="schedule" id="schedule"></td>
+      <td>課程綱要</td><td><input name="schedule" type="text" id="schedule"></td>
     </tr>
     <tr>
-      <td>報名資格</td><td><input name="text" type="qualification" id="qualification"></td>
+      <td>報名資格</td><td><input name="qualification" type="text" id="qualification"></td>
     </tr>
     <tr>
-      <td>課程目標</td><td><input name="text" type="target" id="target"></td>
+      <td>課程目標</td><td><input name="target" type="text" id="target"></td>
     </tr>
     <tr>
-      <td>課程介紹</td><td><input name="text" type="intro" id="intro"></td>
+      <td>課程介紹</td><td><input name="intro" type="text" id="intro"></td>
     </tr>
     <tr>
-      <td>上傳圖片</td><td><input name="text" type="image" id="image"></td>
+      <td>上傳圖片</td><td><input name="image" type="text" id="image"></td>
     </tr>
     <tr>
-      <td>課程敘述</td><td><input name="text" type="description" id="description"></td>
+      <td>課程敘述</td><td><input name="description" type="text" id="description"></td>
     </tr>
     <tr>
-      <td>開放報名</td><td><input name="text" type="valid" id="valid"></td>
+      <td>開放報名</td><td><input name="valid" type="text" id="valid"></td>
     </tr>
     <tr>
-      <td>授課教師</td><td><input name="text" type="teacher_id" id="teacher_id"></td>
+      <td>授課教師</td><td><input name="teacher_id" type="text" id="teacher_id"></td>
     </tr>
     <tr>
-      <td>適用優惠</td><td><input name="text" type="discount_id" id="discount_id"></td>
+      <td>適用優惠</td><td><input name="discount_id" type="text" id="discount_id"></td>
     </tr>
     <tr>
       <td colspan="2" align="center">
