@@ -36,23 +36,9 @@ $totalPage = ceil($numProduct / $perPage);
 
 
 //篩選資料
-if (isset($_GET["category"])) {
-  $limit = "";
-} else {
-  $limit = "LIMIT $startItem, $perPage";
-}
-$sql = "SELECT product_bow.*, category_bow.name AS cateName FROM product_bow JOIN category_bow ON product_bow.category = category_bow.id $whereClouse AND valid=1 ORDER BY product_bow.id ASC $limit";
+$sql = "SELECT product_bow.*, category_bow.name AS cateName FROM product_bow JOIN category_bow ON product_bow.category = category_bow.id $whereClouse AND valid=1 ORDER BY product_bow.id ASC LIMIT $startItem, $perPage";
 $result = $conn->query($sql);
 $productRows = $result->fetch_all(MYSQLI_ASSOC);
-if (isset($_GET["category"])) {
-  $numProduct = $result->num_rows;
-  $totalPage = ceil($numProduct / $perPage);
-}
-$limit = "LIMIT $startItem, $perPage";
-$sql = "SELECT product_bow.*, category_bow.name AS cateName FROM product_bow JOIN category_bow ON product_bow.category = category_bow.id $whereClouse AND valid=1 ORDER BY product_bow.id ASC $limit";
-$result = $conn->query($sql);
-$productRows = $result->fetch_all(MYSQLI_ASSOC);
-
 
 
 ?>
@@ -95,11 +81,11 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
   <div class="py-2">
     <ul class="nav nav-underline">
       <li class="nav-item">
-        <a class="nav-link  <?php if (!isset($_GET["category"])) echo "active" ?>" aria-current="page" href="product-list.php">全部</a>
+        <a class="nav-link active" aria-current="page" href="product-list.php">全部</a>
       </li>
       <?php foreach ($cateRows as $cate) : ?>
         <li class="nav-item">
-          <a class="nav-link <?php if (isset($_GET["category"]) && $_GET["category"] == $cate["id"]) echo "active"; ?>" name="category" href="product-list.php?category=<?= $cate["id"] ?>"><?= $cate["name"] ?></a>
+          <a class="nav-link" name="category" href="product-list.php?category=<?= $cate["id"] ?>"><?= $cate["name"] ?></a>
         </li>
       <?php endforeach; ?>
     </ul>
@@ -117,6 +103,7 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
 
 
       <div class="d-flex justify-content-end">
+        <?php $numProduct = $resultTotal->num_rows; ?>
         共 <?= $numProduct ?> 筆, 第 <?= $page ?> 頁
 
       </div>
@@ -129,6 +116,8 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
             <th>Name</th>
             <th>Category</th>
             <th>Price</th>
+            <th>Image_s</th>
+            <th>Image_m</th>
             <th>Created_at</th>
             <th>Updated_at</th>
             <th></th>
@@ -142,8 +131,10 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
 
               </td>
               <td><?= $product["name"] ?></td>
-              <td><?= $product["cateName"] ?></td>
+              <td><?= $product["category"] ?></td>
               <td><?= $product["price"] ?></td>
+              <td><?= $product["img_s"] ?></td>
+              <td><?= $product["img_m"] ?></td>
               <td><?= $product["created_at"] ?></td>
               <td><?= $product["updated_at"] ?></td>
               <td><a href="product-info.php" class="btn"><i class="fa-regular fa-square-plus"></i>INFO</a>
@@ -163,10 +154,7 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
     <nav aria-label="">
       <ul class="pagination ">
         <?php for ($i = 1; $i <= $totalPage; $i++) : ?>
-          <li class="page-item <?php if ($i == $page) echo "active" ?>"><a class="page-link" href="
-          <?php if(isset($_GET["category"])){
-            echo "product-list.php?category=".$category."&page=".$i;
-            }else{echo "product-list.php?page=".$i;}?>"><?= $i ?></a></li>
+          <li class="page-item <?php if ($i == $page) echo "active" ?>"><a class="page-link" href="product-list.php?page=<?= $i ?>"><?= $i ?></a></li>
         <?php endfor; ?>
       </ul>
     </nav>

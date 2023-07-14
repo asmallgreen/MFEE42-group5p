@@ -1,26 +1,28 @@
 <?php
+require_once("../db-connect.php");
 
 if (isset($_GET["name"])) {
     $name = $_GET["name"];
-    require_once("../db-connect.php");
-    $sql = "SELECT * FROM product_bow WHERE name LIKE '%$name%' AND valid=1";
-    $result = $conn->query($sql);
-    $products = $result->fetch_all(MYSQLI_ASSOC);
-    $product_count = $result->num_rows;
+    $whereClouse = "WHERE name LIKE '%$name%'";
 } elseif (isset($_GET["start"]) && isset($_GET["end"])) {
     $start = $_GET["start"];
     if ($start == "") $start = "2023-01-01";
     $end = $_GET["end"];
     if ($end == "") $end = "2023-12-31";
-    require_once("../db-connect.php");
-    $sql = "SELECT id, name, category, price, created_at FROM product_bow WHERE DATE(created_at) BETWEEN '$start' AND '$end' AND valid=1";
-    $result = $conn->query($sql);
-    $products = $result->fetch_all(MYSQLI_ASSOC);
-    $product_count = $result->num_rows;
+    $whereClouse = "WHERE DATE(created_at) BETWEEN '$start' AND '$end'";
+} elseif (isset($_GET["min"]) && isset($_GET["max"])) {
+    $min = $_GET["min"];
+    if ($min == "") $min = "0";
+    $max = $_GET["max"];
+    if ($max == "") $max = "999999";
+    $whereClouse = "WHERE product_bow.price>=$min AND product_bow.price<=$max";
 } else {
     $product_count = 0;
 }
-
+$sql = "SELECT id, name, category, price, created_at FROM product_bow $whereClouse AND valid=1";
+$result = $conn->query($sql);
+$products = $result->fetch_all(MYSQLI_ASSOC);
+$product_count = $result->num_rows;
 
 
 ?>
@@ -71,8 +73,22 @@ if (isset($_GET["name"])) {
             </form>
         </div>
         <div class="py-2">
+            <form action="product-search.php">
+                <div class="row gx-4 align-items-end">
+                    <div class="col-auto">
+                        <input type="number" class="form-control" name="min" value="<?php if (isset($min)) echo $min ?>">
+                    </div>
+                    <div class="col-auto">
+                        <input type="number" class="form-control" name="max" value="<?php if (isset($max)) echo $max ?>">
+                    </div>
+                    <div class="col-auto"><button class="btn btn-info">送出</button></div>
+
+                </div>
+            </form>
+        </div>
+        <div class="py-2">
             <div class="">
-                <h6> 搜尋<?= $name ?><?= $start . "到" . $end ?>的結果,共<?= $product_count ?>筆符合</h6>
+                <h6> 搜尋<?= $name ?><?= $start . "到" . $end ?><?=$min. "到" .$max?>的結果,共<?= $product_count ?>筆符合</h6>
             </div>
         </div>
         <div class="py-2">

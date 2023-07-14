@@ -4,9 +4,6 @@
 $name = $_POST["name"];
 $category = $_POST["category"];
 $price = $_POST["price"];
-$img_s = $_POST["img_s"];
-$img_m = $_POST["img_m"];
-
 $id = $_GET["id"];
 
 
@@ -49,23 +46,15 @@ $row = $result->fetch_assoc();
                 </tr>
                 <tr>
                     <th>Name</th>
-                    <td><input type="text" name="name"></td>
+                    <td><input type="text" name="name" value="<?= $row["name"]; ?>"></td>
                 </tr>
                 <tr>
                     <th>Category</th>
-                    <td><input type="text" name="category"></td>
+                    <td><input type="text" name="category" value="<?= $row["category"]; ?>"></td>
                 </tr>
                 <tr>
                     <th>Price</th>
-                    <td><input type="text" name="price"></td>
-                </tr>
-                <tr>
-                    <th>Img_s</th>
-                    <td><input type="text" name="img_s"></td>
-                </tr>
-                <tr>
-                    <th>Img_m</th>
-                    <td><input type="text" name="img_m"></td>
+                    <td><input type="text" name="price" value="<?= $row["price"]; ?>"></td>
                 </tr>
             </table>
 
