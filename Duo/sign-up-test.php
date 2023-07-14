@@ -24,7 +24,7 @@
   <div class="py-4 container d-flex justify-content-center align-items-center">
     <div class="signUpPanel">
         <h1 class="h3 text-center">註冊</h1>
-        <form action="_doSignUp-test.php" method="post">
+        <form action="doSignUp-test.php" method="post">
             <div class="mb-2">
                 <label for="">帳號</label>
                 <input type="text" name="account" class="form-control">

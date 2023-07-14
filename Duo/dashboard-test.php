@@ -10,7 +10,7 @@ if(!isset($_SESSION["user"])){
 <html lang="en">
 
 <head>
-  <title>Dashboard</title>
+  <title>Membership center</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -43,21 +43,21 @@ if(!isset($_SESSION["user"])){
 
 <body>
 <header class="text-bg-dark d-flex shadow fixed-top justify-content-between align-items-center">
-    <a class="bg-black py-3 px-3 text-decoration-none link-light brand-name" href="/">Company Name</a>
+    <a class="bg-black py-3 px-3 text-decoration-none link-light brand-name" href="/">Membership center</a>
     <div class="d-flex align-items-center">
       <div class="me-3">
         hi, <?=$_SESSION["user"]["name"]?>
       </div>
       
-        <a href="logout.php" class="btn btn-dark me-3"><i class="fa-solid fa-right-from-bracket"></i>Log out</a>
+        <a href="logout-test.php" class="btn btn-dark me-3"><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
     </div>
 </header>
 <aside class="main-aside position-fixed bg-light vh-100 border-end">
     <nav class="">
         <ul class="list-unstyled">
             <li>
-                <a class="d-block py-2 px-3 text-decoration-none" href="">
-                    <i class="fa-solid fa-house-chimney fa-fw me-2"></i>Dashboard
+                <a class="d-block py-2 px-3 text-decoration-none" href="./member-edit.php">
+                <i class="fa-solid fa-user-pen"></i>修改會員資料
                 </a>
             </li>
             <li>
@@ -118,13 +118,13 @@ if(!isset($_SESSION["user"])){
         <ul class="list-unstyled">
             
             <li>
-                <a class="d-block py-2 px-3 text-decoration-none" href="">
+                <a class="d-block py-2 px-3 text-decoration-none" href="./member-edit.php">
                     <i class="fa-solid fa-gear fa-fw me-2"></i>Setting
                 </a>
             </li>
             
             <li>
-                <a class="d-block py-2 px-3 text-decoration-none" href="">
+                <a class="d-block py-2 px-3 text-decoration-none" href="logout-test.php">
                     <i class="fa-solid fa-right-from-bracket fa-fw me-2"></i>Sign out
                 </a>
             </li>
@@ -134,7 +134,7 @@ if(!isset($_SESSION["user"])){
 <main class="main-content">
 <div class="px-3">
     <div class="d-flex justify-content-between align-items-center border-bottom">
-    <h1>Dashboard</h1>
+    <h1>會員資料中心</h1>
     <div>
         <div class="btn-group btn-group-sm " role="group" aria-label="">
             <button class="btn btn-outline-secondary">Share</button>
@@ -145,150 +145,13 @@ if(!isset($_SESSION["user"])){
     </div>
     
     <div class="chart">
-
-    </div>
-    <h2 class="py-2">Second title</h2>
-    <div class="table-responsive small">
-        <table class="table table-striped table-sm">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Header</th>
-              <th scope="col">Header</th>
-              <th scope="col">Header</th>
-              <th scope="col">Header</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1,001</td>
-              <td>random</td>
-              <td>data</td>
-              <td>placeholder</td>
-              <td>text</td>
-            </tr>
-            <tr>
-              <td>1,002</td>
-              <td>placeholder</td>
-              <td>irrelevant</td>
-              <td>visual</td>
-              <td>layout</td>
-            </tr>
-            <tr>
-              <td>1,003</td>
-              <td>data</td>
-              <td>rich</td>
-              <td>dashboard</td>
-              <td>tabular</td>
-            </tr>
-            <tr>
-              <td>1,003</td>
-              <td>information</td>
-              <td>placeholder</td>
-              <td>illustrative</td>
-              <td>data</td>
-            </tr>
-            <tr>
-              <td>1,004</td>
-              <td>text</td>
-              <td>random</td>
-              <td>layout</td>
-              <td>dashboard</td>
-            </tr>
-            <tr>
-              <td>1,005</td>
-              <td>dashboard</td>
-              <td>irrelevant</td>
-              <td>text</td>
-              <td>placeholder</td>
-            </tr>
-            <tr>
-              <td>1,006</td>
-              <td>dashboard</td>
-              <td>illustrative</td>
-              <td>rich</td>
-              <td>data</td>
-            </tr>
-            <tr>
-              <td>1,007</td>
-              <td>placeholder</td>
-              <td>tabular</td>
-              <td>information</td>
-              <td>irrelevant</td>
-            </tr>
-            <tr>
-              <td>1,008</td>
-              <td>random</td>
-              <td>data</td>
-              <td>placeholder</td>
-              <td>text</td>
-            </tr>
-            <tr>
-              <td>1,009</td>
-              <td>placeholder</td>
-              <td>irrelevant</td>
-              <td>visual</td>
-              <td>layout</td>
-            </tr>
-            <tr>
-              <td>1,010</td>
-              <td>data</td>
-              <td>rich</td>
-              <td>dashboard</td>
-              <td>tabular</td>
-            </tr>
-            <tr>
-              <td>1,011</td>
-              <td>information</td>
-              <td>placeholder</td>
-              <td>illustrative</td>
-              <td>data</td>
-            </tr>
-            <tr>
-              <td>1,012</td>
-              <td>text</td>
-              <td>placeholder</td>
-              <td>layout</td>
-              <td>dashboard</td>
-            </tr>
-            <tr>
-              <td>1,013</td>
-              <td>dashboard</td>
-              <td>irrelevant</td>
-              <td>text</td>
-              <td>visual</td>
-            </tr>
-            <tr>
-              <td>1,014</td>
-              <td>dashboard</td>
-              <td>illustrative</td>
-              <td>rich</td>
-              <td>data</td>
-            </tr>
-            <tr>
-              <td>1,015</td>
-              <td>random</td>
-              <td>tabular</td>
-              <td>information</td>
-              <td>text</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-</div>
-</main>
-
-
-
-
-
-<!-- <div class="container">
-    <div class="row">
-        <div class="col-lg-2 col-md-3 bg-light sidebar">
+        <div class="p-5">
             
         </div>
     </div>
-</div> -->
+    
+</div>
+</main>
 
 
   <!-- Bootstrap JavaScript Libraries -->

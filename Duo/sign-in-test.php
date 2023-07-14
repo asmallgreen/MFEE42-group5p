@@ -64,7 +64,7 @@ if (isset($_SESSION["user"])) {
       <?php if (isset($_SESSION["error"]["times"]) && $_SESSION["error"]["times"] >= 5) : ?>
         <h2 class="text-center">錯誤次數太多，請稍後再登入</h2>
       <?php else : ?>
-        <form action="_doLogin-test.php" method="post">
+        <form action="doLogin-test.php" method="post">
           <div class="input-area">
             <div class="form-floating ">
               <input type="text" class="form-control position-relative" id="floatingInput" placeholder="" name="account">
