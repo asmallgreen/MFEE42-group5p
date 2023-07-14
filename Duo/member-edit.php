@@ -72,12 +72,12 @@ $sql = "SELECT * FROM membership WHERE id='{$_SESSION['user']['id']}'";
             <ul class="list-unstyled">
                 <li>
                     <a class="d-block py-2 px-3 text-decoration-none" id="changeTitle" href="">
-                        <i class="fa-solid fa-user-pen"></i>修改會員資料
+                        <i class="fa-solid fa-user-pen"></i> 修改會員資料
                     </a>
                 </li>
                 <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-regular fa-note-sticky fa-fw me-2"></i>Order
+                    <a class="d-block py-2 px-3 text-decoration-none" href="password-edit.php">
+                    <i class="fa-solid fa-key"></i>  修改密碼
                     </a>
                 </li>
                 <li>

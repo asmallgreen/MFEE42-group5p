@@ -3,16 +3,13 @@ session_start();
 if (!isset($_SESSION["user"])) {
     header("location: sign-in.php");
 }
-$gender=$_SESSION["user"]["gender"];
+require_once("../db_connect-test.php");
+$sql = "SELECT * FROM membership WHERE id='{$_SESSION['user']['id']}'";
 
-if($gender==1){
-    $genderValue="男";
-}elseif($gender==2){
-    $genderValue="女";
-}else{
-    $genderValue="";
-}
-
+// $md5Password=$_SESSION["user"]["password"];
+// require_once("../db_connect-test.php");
+// $sql= "SELECT * FROM membership WHERE id=";
+// $result=$conn->query($sql);
 
 ?>
 
@@ -51,12 +48,17 @@ if($gender==1){
         .chart {
             height: 400px;
         }
+
+        .deletemember {
+            top: 170px;
+            right: 50px;
+        }
     </style>
 </head>
 
 <body>
     <header class="text-bg-dark d-flex shadow fixed-top justify-content-between align-items-center">
-        <a class="bg-black py-3 px-3 text-decoration-none link-light brand-name" href="/">Membership center</a>
+        <a class="bg-black py-3 px-3 text-decoration-none link-light brand-name" href="dashboard-test.php">Membership center</a>
         <div class="d-flex align-items-center">
             <div class="me-3">
                 hi, <?= $_SESSION["user"]["name"] ?>
@@ -69,8 +71,8 @@ if($gender==1){
         <nav class="">
             <ul class="list-unstyled">
                 <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="./member-edit.php">
-                        <i class="fa-solid fa-user-pen"></i>  修改會員資料
+                    <a class="d-block py-2 px-3 text-decoration-none" id="changeTitle" href="member-edit.php">
+                        <i class="fa-solid fa-user-pen"></i> 修改會員資料
                     </a>
                 </li>
                 <li>
@@ -147,7 +149,7 @@ if($gender==1){
     <main class="main-content">
         <div class="px-3">
             <div class="d-flex justify-content-between align-items-center border-bottom">
-                <h1>會員資料中心</h1>
+                <h1 id="title">修改密碼</h1>
                 <div>
                     <div class="btn-group btn-group-sm " role="group" aria-label="">
                         <button class="btn btn-outline-secondary">Share</button>
@@ -157,56 +159,43 @@ if($gender==1){
                 </div>
             </div>
 
-            <div class="chart">
-                <div class="p-5">
-                    <!-- <div class="py-2 d-flex">
-                        <div>
-                            <span class="h3 text-primary"><?= $_SESSION["user"]["account"] ?>
-                        </span>
+            <form action="doPasswordEdit-test.php" method="POST">
+                <div class="container d-flex justify-content-start py-3">
+                    <div>
+                        <div class="py-2">
+                            <label for="">password</label>
+                            <input type="text" class="form-control" value="" name="password">
                         </div>
-                        <div class="px-5 align-bottom">LV.<?=$_SESSION["user"]["level"] ?></div>
+                        <?php if (isset($_SESSION["error"]["passwordMessage"])) : ?>
+                            <div class="pt-2 text-danger"><?= $_SESSION["error"]["passwordMessage"] ?></div>
+                        <?php unset($_SESSION["error"]["passwordMessage"]);
+                        endif; ?>
+                        <div class="py-2">
+                            <label for="">repassword</label>
+                            <input type="text" class="form-control" value="" name="repassword">
+                        </div>
+                        <?php if (isset($_SESSION["error"]["repasswordMessage"])) : ?>
+                            <div class="pt-2 text-danger"><?= $_SESSION["error"]["repasswordMessage"] ?></div>
+                        <?php unset($_SESSION["error"]["repasswordMessage"]);
+                        endif; ?>
+                         <?php if (isset($_SESSION["error"]["errorPasswordMessage"])) : ?>
+                            <div class="pt-2 text-danger"><?= $_SESSION["error"]["errorPasswordMessage"] ?></div>
+                        <?php unset($_SESSION["error"]["errorPasswordMessage"]);
+                        endif; ?>
                     </div>
-                    <?php if (isset($_SESSION["error"]["accountMessage"])) : ?>
-                        <div class="pt-2 text-danger"><?= $_SESSION["error"]["accountMessage"] ?></div>
-                    <?php unset($_SESSION["error"]["accountMessage"]);
-                    endif; ?> -->
-                    <div class="w-75">
-                        <div class="d-flex py-1">
-                        <div class="h3 text-primary w-50"><?= $_SESSION["user"]["account"] ?></div>
-                        <div class="w-75 align-bottom pt-2">LV.<?=$_SESSION["user"]["level"] ?></div>
-                        </div>
-                        <div class="d-flex py-2">
-                        <div class="text-secondary w-50">name</div>
-                        <div class="w-75"><?= $_SESSION["user"]["name"] ?></div>
-                        </div>
-                        <div class="d-flex py-2">
-                        <div class="text-secondary w-50">gender</div>
-                        <div class="w-75"><?= $genderValue ?></div>
-                        </div>
-                        <div class="d-flex py-2">
-                        <div class="text-secondary w-50">birthday</div>
-                        <div class="w-75"><?= $_SESSION["user"]["birthday"] ?></div>
-                        </div>
-                        <div class="d-flex py-2">
-                        <div class="text-secondary w-50">email</div>
-                        <div class="w-75"><?= $_SESSION["user"]["email"] ?></div>
-                        </div>
-                        <div class="d-flex py-2">
-                        <div class="text-secondary w-50">phone</div>
-                        <div class="w-75"><?= $_SESSION["user"]["phone"] ?></div>
-                        </div>
-                        <div class="d-flex py-2">
-                        <div class="text-secondary w-50">address</div>
-                        <div class="w-75"><?= $_SESSION["user"]["address"] ?></div>
-                        </div>
-                    </div>
-                   
                 </div>
-            </div>
-
+                <div class="pt-2 ps-2">
+                    <button class="btn btn-info text-end" type="submit">
+                        修改完成
+                    </button>
+                </div>
+            </form>
+            <!-- <div action="doDelete-test.php" method="POST" class="position-absolute deletemember">
+                <button class="btn btn-danger" type="submit">刪除會員資料</button>
+            </div> -->
         </div>
-    </main>
 
+    </main>
 
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
@@ -214,6 +203,8 @@ if($gender==1){
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
+
+
 </body>
 
 </html>
