@@ -39,8 +39,8 @@ $row = $result->fetch_assoc();
       <nav class="col-auto" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="product-list.php">回產品列表</a></li>
-          <li class="breadcrumb-item active" aria-current="page">目前類別</li>
-          <li class="breadcrumb-item active" aria-current="page">產品名稱</li>
+          <li class="breadcrumb-item active" aria-current="page">類別:<?=$row["category"]?></li>
+          <li class="breadcrumb-item active" aria-current="page">產品名稱:<?=$row["name"]?></li>
         </ol>
       </nav>
       <div class="col">

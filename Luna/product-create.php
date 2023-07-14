@@ -15,61 +15,28 @@
 <body>
     <div class="container">
         <h5 class="py-2">新增產品資訊：</h5>
-
-        <!-- <div class="py-2">
-            <nav class="nav">
-                <a class="nav-link active" aria-current="page" href="#">全部</a>
-                <a class="nav-link" href="#">弓</a>
-                <a class="nav-link" href="#">矢</a>
-                <a class="nav-link">弦</a>
-            </nav>
-        </div> -->
-        <!-- <div class="py-2">
-            <form action="doUpload.php" method="post" enctype="multipart/form-data">
-                <div class="py-2">
-                    <label for="">標題</label>
-                    <input type="text" class="form-control" name="title">
-                </div>
-                <div class="py-2">
-                    <label for="">選取檔案</label>
-                    <input type="file" class="form-control" name="file">
-                </div>
-                <button class="btn btn-info">送出</button>
-            </form>
-        </div> -->
-        <!-- <div class="py-2">
-            <div class="row">
-                <div class="col-auto">
-                    <img class="mx-2 object-fit-cover" src="/images_bow/bow１.jpeg" alt="">
-                    <img class="mx-2 object-fit-cover" src="/images_bow/bow2.jpeg" alt="">
-                </div>
-            </div>
-        </div> -->
-        <!-- <div class="py-2">
-            <form action="" method="post">
-                <label for="">類別：</label>
-                <select class="form-select" name="catagory" id required>
-                    <option value="">弓</option>
-                    <option value="">箭</option>
-                    <option value="">弦</option>
-                    <option value="">配件</option>
-                    <option value="">弓道依</option>
-                </select>
-            </form>
-            <button class="my-2 btn btn-info">新增</button>
-        </div> -->
         <div class="py-2">
             <form action="doCreate.php" method="post">
                 <label for="">name</label>
                 <input type="text" class="form-control" name="name">
                 <label for="">category</label>
-                <input type="text" class="form-control" name="category">
+                <input type="number" class="form-control" name="category">
                 <label for="">price</label>
-                <input type="text" class="form-control" name="price">
-                <label for="">img_s</label>
-                <input type="text" class="form-control" name="img_s">
+                <input type="number" class="form-control" name="price">
+                <label for="">img_s1</label>
+                <input type="text" class="form-control" name="img_s1">
+                <label for="">img_s2</label>
+                <input type="text" class="form-control" name="img_s2">
+                <label for="">img_s3</label>
+                <input type="text" class="form-control" name="img_s3">
+                <label for="">img_s4</label>
+                <input type="text" class="form-control" name="img_s4">
+                <label for="">img_s5</label>
+                <input type="text" class="form-control" name="img_s5">
                 <label for="">img_m</label>
                 <input type="text" class="form-control" name="img_m">
+                <label for="">description</label>
+                <input type="text" class="form-control" name="description">
                 <button class="my-2 btn btn-info" type="submit">送出</button>
             </form>
         </div>

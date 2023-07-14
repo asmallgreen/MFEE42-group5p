@@ -22,7 +22,8 @@ if(!isset($id)){
 
 
 if ($conn->query($sql) === True) {
-    echo "新增資料成功";
+    // echo "新增資料成功";
+    header("location:product-list.php");
 
 } else {
     echo "Error:" . $sql . "<br>" . $conn->error;
