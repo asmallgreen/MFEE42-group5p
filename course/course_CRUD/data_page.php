@@ -18,9 +18,21 @@ $search_keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
 
 // 產生查詢條件的 SQL 片段
 $whereClause = '';
-if ($search_field && $search_keyword) {
-  $whereClause = "WHERE {$search_field} LIKE '%{$search_keyword}%'";
+if ($search_keyword) {
+  if ($search_field === '') {
+    $fields = ['name', 'capacity', 'level', 'price', 'location', 'startDate', 'endDate', 'startTime', 'endTime', 'hours', 'schedule', 'qualification', 'target', 'intro', 'image', 'description', 'valid']; // 需要納入搜尋範圍的欄位必須填入
+    $fieldConditions = [];
+    foreach ($fields as $field) {
+      $fieldConditions[] = "{$field} LIKE '%{$search_keyword}%'";
+    }
+    $whereClause = "WHERE " . implode(" OR ", $fieldConditions);
+  } else {
+    $whereClause = "WHERE {$search_field} LIKE '%{$search_keyword}%'";
+  }
 }
+
+
+
 
 // 未加限制顯示筆數的 SQL 敘述句
 $sql_query = "SELECT * FROM course {$whereClause}";
@@ -59,6 +71,16 @@ $total_pages = ceil($total_records / $pageRow_records);
     }
   </style>
 </head>
+<script>
+  // 檢查總記錄數是否為零
+  var totalRecords = <?php echo $total_records; ?>;
+  if (totalRecords === 0) {
+    // 顯示一個帶有說明的彈出式視窗
+    window.addEventListener('DOMContentLoaded', function() {
+      alert('找不到符合搜尋條件的結果。');
+    });
+  }
+</script>
 
 <body>
   <div class="container-fluid">
@@ -67,39 +89,44 @@ $total_pages = ceil($total_records / $pageRow_records);
       <a href="add.php" class="btn btn-primary">新增課程資料</a>
     </div>
 
-    <!-- 搜尋表單 -->
-    <div class="text-center mb-3 row">
-      <div class="text-center mb-3 col-1">
-        <label for="recordPerPage" class="form-label">每頁顯示筆數：</label>
-        <select name="recordPerPage" id="recordPerPage" class="form-select" onchange="updateRecordPerPage()">
-          <option value="5" <?php if ($pageRow_records == 5) echo 'selected'; ?>>5</option>
-          <option value="10" <?php if ($pageRow_records == 10) echo 'selected'; ?>>10</option>
-          <option value="20" <?php if ($pageRow_records == 20) echo 'selected'; ?>>20</option>
-          <option value="50" <?php if ($pageRow_records == 50) echo 'selected'; ?>>50</option>
-          <option value="100" <?php if ($pageRow_records == 100) echo 'selected'; ?>>100</option>
-        </select>
-      </div>
 
-      <div class="d-flex justify-content-center col-10">
-        <div class="mx-2">
-          <label for="field" class="form-label">選擇欄位：</label>
-          <select name="field" id="field" class="form-select">
-            <option value="">-- 全部 --</option>
-            <option value="name">課程名稱</option>
-            <option value="location">上課地點</option>
-            <option value="teacher_id">教師</option>
+    <!-- 搜尋表單 -->
+    <form method="GET" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+      <div class="text-center mb-3 row">
+        <div class="text-center mb-3 col-1">
+          <label for="recordPerPage" class="form-label">每頁顯示筆數：</label>
+          <select name="recordPerPage" id="recordPerPage" class="form-select" onchange="updateRecordPerPage('<?php echo $search_field; ?>', '<?php echo $search_keyword; ?>')">
+            <option value="5" <?php if ($pageRow_records == 5) echo 'selected'; ?>>5</option>
+            <option value="10" <?php if ($pageRow_records == 10) echo 'selected'; ?>>10</option>
+            <option value="20" <?php if ($pageRow_records == 20) echo 'selected'; ?>>20</option>
+            <option value="50" <?php if ($pageRow_records == 50) echo 'selected'; ?>>50</option>
+            <option value="100" <?php if ($pageRow_records == 100) echo 'selected'; ?>>100</option>
           </select>
         </div>
-        <div class="mx-2">
-          <label for="keyword" class="form-label">關鍵字：</label>
-          <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo $search_keyword; ?>">
+
+        <div class="d-flex justify-content-center col-10">
+          <div class="mx-2">
+            <label for="field" class="form-label">選擇欄位：</label>
+            <select name="field" id="field" class="form-select">
+              <option value="" <?php if ($search_field === '') echo 'selected'; ?>>-- 全部 --</option>
+              <option value="name" <?php if ($search_field === 'name') echo 'selected'; ?>>課程名稱</option>
+              <option value="location" <?php if ($search_field === 'location') echo 'selected'; ?>>上課地點</option>
+              <option value="teacher_id" <?php if ($search_field === 'teacher_id') echo 'selected'; ?>>教師</option>
+            </select>
+          </div>
+          <div class="mx-2">
+            <label for="keyword" class="form-label">關鍵字：</label>
+            <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo $search_keyword; ?>">
+          </div>
+          <div class="mx-2 d-flex">
+            <input type="hidden" name="search" value="true">
+            <button type="submit" class="btn btn-primary align-self-center">搜尋</button>
+          </div>
         </div>
-        <div class="mx-2 d-flex">
-          <button type="submit" class="btn btn-primary align-self-center">搜尋</button>
-        </div>
+        <div class="col-1"></div>
       </div>
-      <div class="col-1"></div>
-    </div>
+    </form>
+
 
 
 
@@ -193,14 +220,14 @@ $total_pages = ceil($total_records / $pageRow_records);
     <div class="row justify-content-center">
       <?php if ($num_pages > 1) : ?>
         <div class="col-auto">
-          <a href="data_page.php?page=1" class="btn btn-primary">第一頁</a>
-          <a href="data_page.php?page=<?php echo $num_pages - 1; ?>" class="btn btn-primary">上一頁</a>
+          <a href="data_page.php?page=1&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true" class="btn btn-primary">第一頁</a>
+          <a href="data_page.php?page=<?php echo $num_pages - 1; ?>&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true" class="btn btn-primary">上一頁</a>
         </div>
       <?php endif; ?>
       <?php if ($num_pages < $total_pages) : ?>
         <div class="col-auto">
-          <a href="data_page.php?page=<?php echo $num_pages + 1; ?>" class="btn btn-primary">下一頁</a>
-          <a href="data_page.php?page=<?php echo $total_pages; ?>" class="btn btn-primary">最後頁</a>
+          <a href="data_page.php?page=<?php echo $num_pages + 1; ?>&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true" class="btn btn-primary">下一頁</a>
+          <a href="data_page.php?page=<?php echo $total_pages; ?>&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true" class="btn btn-primary">最後頁</a>
         </div>
       <?php endif; ?>
     </div>
@@ -215,9 +242,9 @@ $total_pages = ceil($total_records / $pageRow_records);
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    function updateRecordPerPage() {
+    function updateRecordPerPage(field, keyword) {
       var recordPerPage = document.getElementById('recordPerPage').value;
-      location.href = 'data_page.php?page=1&recordPerPage=' + recordPerPage;
+      location.href = 'data_page.php?page=1&recordPerPage=' + recordPerPage + '&field=' + field + '&keyword=' + keyword;
     }
   </script>
 
