@@ -11,11 +11,11 @@
 		//重新導向回到主畫面
 		header("Location: data_page.php");
 	}
-	$sql_select = "SELECT id, name ,capacity ,level ,price ,location ,date, time, hours, schedule, qualification, target, intro, image, description, valid, teacher_id, discount_id FROM course WHERE id = ?";
+	$sql_select = "SELECT id, name ,capacity ,level ,price ,location ,startDate, endDate, startTime, endTime, hours, schedule, qualification, target, intro, image, description, valid, teacher_id, discount_id FROM course WHERE id = ?";
 	$stmt = $db_link -> prepare($sql_select);
 	$stmt -> bind_param("i", $_GET["id"]);
 	$stmt -> execute();
-	$stmt -> bind_result($id, $name ,$capacity ,$level ,$price ,$location ,$date, $time, $hours, $schedule, $qualification, $target, $intro, $image, $description, $valid, $teacher_id, $discount_id);
+  $stmt->bind_result($id, $name, $capacity, $level, $price, $location, $startDate, $endDate, $startTime, $endTime, $hours, $schedule, $qualification, $target, $intro, $image, $description, $valid, $teacher_id, $discount_id);
 	$stmt -> fetch();
 ?>
 <html>
@@ -38,7 +38,7 @@
       <td>課程名稱</td><td><?php echo $name;?></td>
     </tr>
     <tr>
-      <td>開課日期</td><td><?php echo $date;?></td>
+      <td>課程日期</td><td><?php echo $startDate;?> ~ <?php echo $endDate;?></td>
     </tr>
     <tr>
       <td>授課教師</td><td><?php echo $teacher_id;?></td>
