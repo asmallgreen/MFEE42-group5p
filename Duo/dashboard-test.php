@@ -13,7 +13,12 @@ if($gender==1){
     $genderValue="";
 }
 
-
+if(isset($_SESSION["user"]["member_img"])){
+    $memberImg=$_SESSION["user"]["member_img"];
+}
+if(empty($_SESSION["user"]["member_img"])){
+    $memberImg="avatar01.jpg";
+}
 ?>
 
 <!doctype html>
@@ -159,17 +164,15 @@ if($gender==1){
 
             <div class="chart">
                 <div class="p-5">
-                    <!-- <div class="py-2 d-flex">
-                        <div>
-                            <span class="h3 text-primary"><?= $_SESSION["user"]["account"] ?>
-                        </span>
-                        </div>
-                        <div class="px-5 align-bottom">LV.<?=$_SESSION["user"]["level"] ?></div>
+<!-- 會員頭像 -->
+                    <div class="p-2">
+                <div class="col-lg-3 col-md-4">
+                    <div class="ratio ratio-1x1">
+                        <img class="object-fit-cover" src="images/<?= $memberImg; ?>" alt="">
                     </div>
-                    <?php if (isset($_SESSION["error"]["accountMessage"])) : ?>
-                        <div class="pt-2 text-danger"><?= $_SESSION["error"]["accountMessage"] ?></div>
-                    <?php unset($_SESSION["error"]["accountMessage"]);
-                    endif; ?> -->
+                </div>
+                    </div>
+<!-- 會員資料 -->
                     <div class="w-75">
                         <div class="d-flex py-1">
                         <div class="h3 text-primary w-50"><?= $_SESSION["user"]["account"] ?></div>
