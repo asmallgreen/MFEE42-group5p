@@ -49,7 +49,8 @@ try {
     $_SESSION["user"]["email"]=$email;
     $_SESSION["user"]["phone"]=$phone;
     $_SESSION["user"]["address"]=$address;
-    header("location: dashboard-test.php");
+    // header("location: dashboard-test.php");
+    echo "預處理成功 <br/>";
 } catch (PDOException $e) {
     echo "預處理陳述式執行失敗！ <br/>";
     echo "Error: " . $e->getMessage() . "<br/>";
