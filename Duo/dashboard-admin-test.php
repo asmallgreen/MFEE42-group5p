@@ -1,30 +1,30 @@
 <?php
 require_once("../db_connect-test.php");
 // 分頁部分 (取會員數量除以每個分頁要的數量)
-$sqlTotal = "SELECT id FROM membership WHERE valid=1";
-$resultTotal = $conn->query($sqlTotal);
-$totalMember=$resultTotal->num_rows;
-$page=$_GET["page"]?? 1; 
-$perpage = 5;
-$startItem = ($page - 1) * $perpage;
-$totalPage = ceil($totalMember / $perpage);
+$DuosqlTotal = "SELECT id FROM membership WHERE valid=1";
+$DuoresultTotal = $conn->query($DuosqlTotal);
+$DuototalMember = $DuoresultTotal->num_rows;
+$Duopage = $_GET["page"] ?? 1;
+$Duoperpage = 5;
+$DuostartItem = ($Duopage - 1) * $Duoperpage;
+$DuototalPage = ceil($DuototalMember / $Duoperpage);
 
 // 篩選部分 (將ORDER BY條件設定好，放入$sql中選欄位並設定順序)
-$type=$_GET["type"]?? 1;
-if($type==1){
-    $orderBy="ORDER BY id ASC";
-}elseif($type==2){
-    $orderBy="ORDER BY gender ASC";
-}elseif($type==3){
-    $orderBy="ORDER BY birthday ASC";
-}elseif($type==4){
-    $orderBy="ORDER BY level DESC";
+$Duotype = $_GET["type"] ?? 1;
+if ($Duotype == 1) {
+    $orderBy = "ORDER BY id ASC";
+} elseif ($Duotype == 2) {
+    $orderBy = "ORDER BY gender ASC";
+} elseif ($Duotype == 3) {
+    $orderBy = "ORDER BY birthday ASC";
+} elseif ($Duotype == 4) {
+    $orderBy = "ORDER BY level DESC";
 }
 
 
-$sql = "SELECT * FROM membership WHERE valid=1 $orderBy LIMIT $startItem, $perpage";
-$result = $conn->query($sql);
-$rows = $result->fetch_all(MYSQLI_ASSOC);
+$Duosql = "SELECT * FROM membership WHERE valid=1 $orderBy LIMIT $DuostartItem, $Duoperpage";
+$Duoresult = $conn->query($Duosql);
+$Duorows = $Duoresult->fetch_all(MYSQLI_ASSOC);
 
 
 ?>
@@ -69,7 +69,7 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
 
 <body>
     <header class="text-bg-dark d-flex shadow fixed-top justify-content-between align-items-center">
-        <a class="bg-black py-3 px-3 text-decoration-none link-light brand-name" href="/">Admin center</a>
+        <a class="bg-black py-3 px-3 text-decoration-none link-light brand-name" href="/">管理者後臺介面</a>
         <div class="d-flex align-items-center">
             <div class="me-3">
                 hi, 慕朵
@@ -81,65 +81,76 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
     <aside class="main-aside position-fixed bg-light vh-100 border-end">
         <nav class="">
             <ul class="list-unstyled">
+                <div class="my-2 d-flex justify-content-between text-secondary px-3">
+                    <div> 會員</div>
+                    <a role="button" href="">
+                        <i class="fa-regular fa-square-plus text-secondary"></i>
+                    </a>
+                </div>
                 <li>
                     <a class="d-block py-2 px-3 text-decoration-none" href="./dashboard-admin-test.php">
-                        <i class="fa-solid fa-users"></i>會員資料
+                        <i class="fa-solid fa-users fa-fw me-2"></i>會員資料
                     </a>
                 </li>
+                <div class="my-2 d-flex justify-content-between text-secondary px-3">
+                    <div> 產品</div>
+                    <a role="button" href="">
+                        <i class="fa-regular fa-square-plus text-secondary"></i>
+                    </a>
+                </div>
+
                 <li>
                     <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-regular fa-note-sticky fa-fw me-2"></i>Order
+                        <i class="fa-solid fa-cart-shopping fa-fw me-2"></i>產品目錄
                     </a>
                 </li>
+                <div class="my-2 d-flex justify-content-between text-secondary px-3">
+                    <div> 庫存</div>
+                    <a role="button" href="">
+                        <i class="fa-regular fa-square-plus text-secondary"></i>
+                    </a>
+                </div>
                 <li>
                     <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-solid fa-cart-shopping fa-fw me-2"></i>Product
+                    <i class="fa-solid fa-box fa-fw me-2"></i>庫存目錄
                     </a>
                 </li>
+                <div class="my-2 d-flex justify-content-between text-secondary px-3">
+                    <div> 課程</div>
+                    <a role="button" href="">
+                        <i class="fa-regular fa-square-plus text-secondary"></i>
+                    </a>
+                </div>
                 <li>
                     <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-solid fa-user-group fa-fw me-2"></i>Customers
+                    <i class="fa-solid fa-book fa-fw me-2"></i>課程目錄
                     </a>
                 </li>
+                <div class="my-2 d-flex justify-content-between text-secondary px-3">
+                    <div> 師資</div>
+                    <a role="button" href="">
+                        <i class="fa-regular fa-square-plus text-secondary"></i>
+                    </a>
+                </div>
                 <li>
                     <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-solid fa-chart-line fa-fw me-2"></i>Report
+                        <i class="fa-solid fa-user fa-fw me-2"></i>師資目錄
                     </a>
                 </li>
+                <div class="my-2 d-flex justify-content-between text-secondary px-3">
+                    <div> 行銷</div>
+                    <a role="button" href="">
+                        <i class="fa-regular fa-square-plus text-secondary"></i>
+                    </a>
+                </div>
                 <li>
                     <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-solid fa-puzzle-piece fa-fw me-2"></i>Intergrations
+                        <i class="fa-solid fa-comments-dollar fa-fw me-2"></i>行銷目錄
                     </a>
                 </li>
+
             </ul>
-            <div class="my-3 d-flex justify-content-between text-secondary px-3">
-                <div> SAVED REPORTS</div>
-                <a role="button" href="">
-                    <i class="fa-regular fa-square-plus text-secondary"></i>
-                </a>
-            </div>
-            <ul class="list-unstyled">
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-regular fa-file-lines fa-fw me-2"></i>Current month
-                    </a>
-                </li>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-regular fa-file-lines fa-fw me-2"></i> Last quarter
-                    </a>
-                </li>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-regular fa-file-lines fa-fw me-2"></i>Social engagement
-                    </a>
-                </li>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-regular fa-file-lines fa-fw me-2"></i>Year-end sale
-                    </a>
-                </li>
-            </ul>
+
             <hr>
             <!-- <ul class="list-unstyled">
             
@@ -177,16 +188,16 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
                 <h1>會員資料</h1>
                 <div>
                     <div class="btn-group btn-group-sm " role="group" aria-label="">
-                    <a href="http://localhost/practice/dashboard-admin-test.php?page=<?=$page?>&type=1" class="btn btn-outline-secondary <?php if($type==1) echo "active"?>">依id排序</a>
-                        <a href="http://localhost/practice/dashboard-admin-test.php?page=<?=$page?>&type=2" class="btn btn-outline-secondary <?php if($type==2) echo "active"?>">依性別排序</a>
-                        <a href="http://localhost/practice/dashboard-admin-test.php?page=<?=$page?>&type=3" class="btn btn-outline-secondary <?php if($type==3) echo "active"?>">依生日排序</a>
-                        <a href="http://localhost/practice/dashboard-admin-test.php?page=<?=$page?>&type=4" class="btn btn-outline-secondary btn-sm <?php if($type==4) echo "active"?>">依等級排序</a>
+                        <a href="http://localhost/practice/dashboard-admin-test.php?page=<?= $Duopage ?>&type=1" class="btn btn-outline-secondary <?php if ($Duotype == 1) echo "active" ?>">依id排序</a>
+                        <a href="http://localhost/practice/dashboard-admin-test.php?page=<?= $Duopage ?>&type=2" class="btn btn-outline-secondary <?php if ($Duotype == 2) echo "active" ?>">依性別排序</a>
+                        <a href="http://localhost/practice/dashboard-admin-test.php?page=<?= $Duopage ?>&type=3" class="btn btn-outline-secondary <?php if ($Duotype == 3) echo "active" ?>">依生日排序</a>
+                        <a href="http://localhost/practice/dashboard-admin-test.php?=<?= $Duopage ?>&type=4" class="btn btn-outline-secondary btn-sm <?php if ($Duotype == 4) echo "active" ?>">依等級排序</a>
                     </div>
                 </div>
             </div>
             <div class="d-flex justify-content-end">
                 <div class="">
-                    共 <?=$totalMember?> 人, 第 <?=$page?> 頁
+                    共 <?= $DuototalMember ?> 人, 第 <?= $Duopage ?> 頁
                 </div>
             </div>
             <!-- 會員資料列表內容 -->
@@ -204,24 +215,24 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($rows as $row) : ?>
+                        <?php foreach ($Duorows as $Duorow) : ?>
                             <tr>
-                                <td><?= $row["id"] ?></td>
-                                <td><?= $row["name"] ?></td>
-                                <td><?= $row["gender"] ?></td>
-                                <td><?= $row["birthday"] ?></td>
-                                <td><?= $row["email"] ?></td>
-                                <td><?= $row["phone"] ?></td>
-                                <td><?= $row["level"] ?></td>
+                                <td><?= $Duorow["id"] ?></td>
+                                <td><?= $Duorow["name"] ?></td>
+                                <td><?= $Duorow["gender"] ?></td>
+                                <td><?= $Duorow["birthday"] ?></td>
+                                <td><?= $Duorow["email"] ?></td>
+                                <td><?= $Duorow["phone"] ?></td>
+                                <td><?= $Duorow["level"] ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-<!-- 分頁按鈕 -->
+                <!-- 分頁按鈕 -->
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        <?php for ($i = 1; $i <= $totalPage; $i++) : ?>
-                            <li class="page-item <?php if ($i == $page) echo "active"; ?>"><a class="page-link" href="dashboard-admin-test.php?page=<?= $i ?>"><?= $i ?></a></li>
+                        <?php for ($i = 1; $i <= $DuototalPage; $i++) : ?>
+                            <li class="page-item <?php if ($i == $Duopage) echo "active"; ?>"><a class="page-link" href="dashboard-admin-test.php?page=<?= $i ?>"><?= $i ?></a></li>
                         <?php endfor; ?>
                     </ul>
                 </nav>
