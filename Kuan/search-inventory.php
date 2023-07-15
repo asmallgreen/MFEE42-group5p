@@ -11,7 +11,7 @@ $totalInventory = $resultTotal->num_rows;
 
 $page = $_GET["page"] ?? 1;
 
-$perPage = 5;
+$perPage = 10;
 $startItem = ($page - 1) * $perPage;
 $totalPage = ceil($totalInventory / $perPage);
 
@@ -42,6 +42,7 @@ if (isset($_GET["cate"])) {
 
 if (isset($_GET["keyword"])) {
     $keyword = $_GET["keyword"];
+    $keyword = htmlspecialchars($keyword);
 } else {
     $keyword = '';
 }
