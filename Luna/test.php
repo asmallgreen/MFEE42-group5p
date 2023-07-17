@@ -42,6 +42,7 @@ require_once("../db-connect.php");
 $sqlItem = "SELECT * FROM item_bow ";
 $resultItem = $conn->query($sqlItem);
 $rowsItem = $resultItem->fetch_all(MYSQLI_ASSOC);
+$rowitem = $resultItem->fetch_assoc();
 if ($resultItem !== false) {
     // echo "item連線成功";
 } else {
@@ -75,30 +76,46 @@ if ($resultStyleItem !== false) {
 
 
 // 四個資料表結合
-require_once("../db-connect.php");
-$sql = "SELECT category_bow.name AS cateName, item_bow.name AS itemName, style_bow.name AS styleName, styleItem_bow.name FROM item_bow JOIN category_bow ON item_bow.category = category_bow.id JOIN style_bow ON item_bow.style = style_bow.id JOIN styleItem_bow ON style_bow.id = styleItem_bow.style";
+// require_once("../db-connect.php");
+// $sql = "SELECT category_bow.id AS cateKey, item_bow.category AS itemKey, category_bow.name AS cateName, item_bow.name AS itemName, style_bow.name AS styleName, styleItem_bow.name FROM item_bow JOIN category_bow ON item_bow.category = category_bow.id JOIN style_bow ON item_bow.style = style_bow.id JOIN styleItem_bow ON style_bow.id = styleItem_bow.style";
 
-$result = $conn->query($sql);
-$rows = $result->fetch_all(MYSQLI_ASSOC);
-if ($result !== false) {
-    // 查詢成功
-    // 使用 $rows 進行後續處理
-    foreach ($rows as $row) {
-        // echo $row["name"];
+//cate+item
+require_once("../db-connect.php");
+$sqlCI = "SELECT category_bow.id AS cateKey, item_bow.category AS itemKey, category_bow.name AS cateName, item_bow.name AS itemName FROM item_bow JOIN category_bow ON item_bow.category = category_bow.id";
+$resultCI = $conn->query($sqlCI);
+$rowsCI = $resultCI->fetch_all(MYSQLI_ASSOC);
+if ($resultCI !== false) {
+    foreach ($rowsCI as $rowCI) {
     }
 } else {
     // 查詢失敗
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "Error: " . $sqlCI . "<br>" . $conn->error;
 }
+
+
+//style+styleitem
+require_once("../db-connect.php");
+$sqlSI = "SELECT style_bow.id AS styleKey, styleItem_bow.style AS styleItemKey, styleItem_bow.name AS styleItemName, style_bow.name AS styleName FROM style_bow JOIN styleItem_bow ON style_bow.id = styleItem_bow.style";
+$resultSI = $conn->query($sqlSI);
+$rowsSI = $resultSI->fetch_all(MYSQLI_ASSOC);
+if ($resultSI !== false) {
+    foreach ($rowsSI as $rowSI) {
+    }
+} else {
+    // 查詢失敗
+    echo "Error: " . $sqlSI . "<br>" . $conn->error;
+}
+
+
 
 $conn->close();
 ?>
 <?php
 
-$category = $_GET["category"];
-$item = $_GET["item"];
-$style = $_GET["style"];
-$styleItem = $_GET["styleItem"];
+// $category = $_GET["category"];
+// $item = $_GET["item"];
+// $style = $_GET["style"];
+// $styleItem = $_GET["styleItem"];
 
 ?>
 
@@ -114,20 +131,25 @@ $styleItem = $_GET["styleItem"];
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
+    <!-- fontawsome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-    .item {
-      display: none; /* 初始時隱藏項目 */
-    }
-    .expanded .item {
-      display: block; /* 展開時顯示項目 */
-    }
-  </style>
+        .item {
+            display: none;
+            /* 初始時隱藏項目 */
+        }
+
+        .expanded .item {
+            display: block;
+            /* 展開時顯示項目 */
+        }
+    </style>
 
 </head>
 
 <body>
     <div class="container">
-
+    
         <!-- <div class="flex-shrink-0 p-3" style="width: 280px;">
             <a href="/" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
                 <svg class="bi pe-none me-2" width="30" height="24">
@@ -191,8 +213,8 @@ $styleItem = $_GET["styleItem"];
             </ul>
         </div> -->
 
-        <!DOCTYPE html>
 
+        <!-- 
   <a class="linkCate my-3" href="#">點擊展開/收起項目
   <div class="item">項目1</div>
   <div class="item">項目2</div>
@@ -200,18 +222,65 @@ $styleItem = $_GET["styleItem"];
   <div class="item">項目4</div>
   </a>
   <script>
-    // 選擇分類標籤
     const linkCate = document.querySelector(".linkCate");
 
-    // 添加點擊事件監聽器
     linkCate.addEventListener("click", function() {
-      // 切換展開狀態
       this.classList.toggle("expanded");
     });
-  </script>
+  </script> -->
 
 
 
+        <!-- cate+item -->
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col my-5">
+                <i class="fa-solid fa-broom"></i>
+                    <?php foreach ($rowsCate as $rowCate) : ?>
+                        <?php echo $rowCate["name"].":"; ?>
+                        <select name="" id="">
+                            <?php foreach ($rowsCI as $rowCI) : ?>
+                                <?php if ($rowCI["cateKey"] == $rowCate["id"]) : ?>
+
+                                    <option value=""><?= $rowCI["itemName"]; ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </select>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+
+
+        <br>
+        <!-- style+styleItem -->
+
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <?php foreach ($rowsStyle as $rowStyle) : ?>
+                        <?php echo $rowStyle["name"] . ":"; ?>
+                        <select name="" id="">
+                            <?php foreach ($rowsSI as $rowSI) : ?>
+                                <?php if ($rowSI["styleKey"] == $rowStyle["id"]) : ?>
+                                    <option value=""><?= $rowSI["styleItemName"] ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </select>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- <?php foreach ($rowsCate as $rowCate) : ?>
+    <?php echo $rowCate["name"]; ?>
+    <?php endforeach; ?> -->
 
         <!-- <div class="row my-3">
             <form action="test.php" method="">

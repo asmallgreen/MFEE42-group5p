@@ -1,57 +1,99 @@
 <?php
 if (isset($_GET["name"])) {
     $name = $_GET["name"];
-    $whereClouse = "WHERE name LIKE '%$name%' AND valid=1";
+    $whereClouse = "WHERE name LIKE '%$name%'";
 } elseif (isset($_GET["start"]) && isset($_GET["end"])) {
     $start = $_GET["start"];
     if ($start == "") $start = "2023-01-01";
     $end = $_GET["end"];
     if ($end == "") $end = "2023-12-31";
-    $whereClouse = " WHERE DATE(created_at) BETWEEN '$start' AND '$end' AND valid=1";
+    $whereClouse = " WHERE DATE(created_at) BETWEEN '$start' AND '$end'";
 } elseif (isset($_GET["min"]) && isset($_GET["max"])) {
     $min = $_GET["min"];
     if ($min == "") $min = 0;
     $max = $_GET["max"];
     if ($max == "") $max = 9999999;
-    $whereClouse = "WHERE product_bow.price>=$min AND product_bow.price<=$max AND valid=1";
+    $whereClouse = "WHERE product_bow.price>=$min AND product_bow.price<=$max";
+} elseif ($_GET["category"]) {
+    $category = $_GET["category"];
+    $whereClouse = "WHERE product_bow.category=$category";
 } else {
+    $name = "";
+    $page = "";
+    $category = "";
     $product_count = 0;
 }
 
+$type = $_GET["type"] ?? 1;
+if ($type == 1) {
+    $orderBy = "ORDER BY product_bow.id ASC";
+} elseif ($type == 2) {
+    $orderBy = "ORDER BY product_bow.id DESC";
+} elseif ($type == 3) {
+    $orderBy = "ORDER BY product_bow.price ASC";
+} elseif ($type == 4) {
+    $orderBy = "ORDER BY product_bow.price DESC";
+} else {
+    $orderBy = "";
+}
+
 require_once("../db-connect.php");
-$sql = "SELECT id, name, category, price, created_at, img_m, description FROM product_bow $whereClouse";
+$sql = "SELECT id, name, category, price, created_at, img_m, description 
+FROM product_bow 
+$whereClouse 
+AND valid=1
+$orderBy
+";
+
 $result = $conn->query($sql);
 $products = $result->fetch_all(MYSQLI_ASSOC);
 $product_count =  $result->num_rows;
-if (isset($_GET["name"]) || isset($_GET["start"]) && isset($_GET["end"]) || isset($_GET["min"]) && isset($_GET["max"])) {
+if (isset($_GET["name"]) || isset($_GET["start"]) && isset($_GET["end"]) || isset($_GET["min"]) && isset($_GET["max"]) || isset($_GET["category"])) {
     $product_count =  $result->num_rows;
 } else {
     $product_count = 0;
 }
 
 //Category
-require_once("../db-connect.php");
-$sqlCate = "SELECT * FROM category_bow";
+
+if (isset($_GET["category"])) {
+    $category = $_GET["category"];
+    $whereClouse = " WHERE id=$category";
+} else {
+    $category = "";
+    $whereClouse = "";
+}
+$sqlCate = "SELECT * FROM category_bow $whereClouse";
 $resultCate = $conn->query($sqlCate);
-$rowsCate = $resultCate->fetch_all(MYSQLI_ASSOC);
+if (isset($_GET["category"])) {
+
+    $rowcate = $resultCate->fetch_assoc();
+} else {
+    $rowsCate = $resultCate->fetch_all(MYSQLI_ASSOC);
+}
 
 //Item
-require_once("../db-connect.php");
 $sqlItem = "SELECT * FROM item_bow ";
 $resultItem = $conn->query($sqlItem);
 $rowsItem = $resultItem->fetch_all(MYSQLI_ASSOC);
 
 //Style
-require_once("../db-connect.php");
 $sqlStyle = "SELECT * FROM style_bow ";
 $resultStyle = $conn->query($sqlStyle);
 $rowsStyle = $resultStyle->fetch_all(MYSQLI_ASSOC);
 
 //StyleItem
-require_once("../db-connect.php");
 $sqlStyleItem = "SELECT * FROM styleItem_bow ";
 $resultStyleItem = $conn->query($sqlStyleItem);
 $rowsStyleItem = $resultStyleItem->fetch_all(MYSQLI_ASSOC);
+
+//style+styleitem
+$sqlCI = "SELECT category_bow.id AS cateKey, item_bow.category AS itemKey, category_bow.name AS cateName, item_bow.name AS itemName FROM item_bow JOIN category_bow ON item_bow.category = category_bow.id";
+$resultCI = $conn->query($sqlCI);
+$rowsCI = $resultCI->fetch_all(MYSQLI_ASSOC);
+
+$conn->close();
+
 
 ?>
 
@@ -105,18 +147,21 @@ $rowsStyleItem = $resultStyleItem->fetch_all(MYSQLI_ASSOC);
             height: 200px;
         }
 
-        .itemCate {
+        /* .itemCate {
             display: none;
         }
+
         .itemItem {
             display: none;
         }
-        .itemStyle {
-            display: none;
-        }
-        .expand {
+
+        .expand1 {
             display: block;
         }
+
+        .expand2 {
+            display: block;
+        } */
     </style>
 
 </head>
@@ -177,56 +222,42 @@ $rowsStyleItem = $resultStyleItem->fetch_all(MYSQLI_ASSOC);
                 <div class="row ">
                     <div class=" d-flex justify-content-between">
                         <input placeholder="最低價$" type="number" class="form-control ms-2 me-1" name="min" value="<?php if (isset($min)) echo $min ?>">
-                        <input  placeholder="最高價$" type="number" class="form-control ms-1 me-2" name="max" value="<?php if (isset($max)) echo $max ?>">
+                        <input placeholder="最高價$" type="number" class="form-control ms-1 me-2" name="max" value="<?php if (isset($max)) echo $max ?>">
                     </div>
                 </div>
             </form>
             <hr>
             <!-- cate -->
-            <div class="my-2 d-flex justify-content-between text-secondary mx-3">分類</div>
-            <div class="my-2 d-flex justify-content-between text-secondary mx-3">
-                <div class="ms-3">類別</div>
-                <a class="linkCate" href="">
-                <i class="fa-solid fa-caret-down text-secondary"></i>
-                </a>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="my-2 d-flex text-secondary align-items-center">
+                    <i class="fa-solid fa-bars text-secondary ms-3 me-2"></i>
+                    <div class="me-2">類別</div>
+                    <a class="linkCate" href="product-search.php?type=&page=&name="><i class="fa-solid fa-caret-down text-secondary"></i></a>
+                </div>
+                <a href="product-search.php?type=&page=&name="><i class="fa-solid fa-broom text-secondary me-3"></i></a>
             </div>
+
             <div class="itemCate">
                 <?php foreach ($rowsCate as $rowCate) : ?>
-                    <div class="ms-5 text-decoration-none  text-secondary" href="">
-                        <a class="" href=""><i class="fa-solid fa-tag me-2"></i></a>
-                    <?= $rowCate["name"] ?>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-            <!-- item -->
-            <div class="my-2 d-flex justify-content-between text-secondary mx-3">
-                <div class="ms-3">種類</div>
-                <a class="linkItem" role="button" href="">
-                <i class="fa-solid fa-caret-down text-secondary"></i>
-                </a>
-            </div>
-            <div class="itemItem">
-                <?php foreach ($rowsItem as $rowItem) : ?>
-                    <div class="ms-5 text-decoration-none  text-secondary" href="">
-                    <i class="fa-solid fa-tag me-2 "></i><?= $rowItem["name"] ?>
+                    <div class="ms-5 text-decoration-none text-secondary">
+                        <a href="product-search.php?type=&page=&name=&category=<?= $rowCate["id"] ?>" class="text-decoration-none text-secondary"><?= $rowCate["name"] ?></a>
+                        <a class="linkItem" href=""><i class="fa-solid fa-caret-down text-secondary"></i></a>
+                        <div class="ms-5">
+                            <?php foreach ($rowsCI as $rowCI) : ?>
+                                <div class="itemItem">
+                                    <?php if ($rowCI["cateKey"] == $rowCate["id"]) : ?>
+                                        <?= $rowCI["itemName"]; ?>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+
+
                     </div>
                 <?php endforeach; ?>
             </div>
 
-           <!-- style -->
-           <div class="my-2 d-flex justify-content-between text-secondary mx-3">
-                <div class="ms-3">樣式</div>
-                <a class="linkStyle" role="button" href="">
-                <i class="fa-solid fa-caret-down text-secondary"></i>
-                </a>
-            </div>
-            <div class="itemStyle">
-                <?php foreach ($rowsStyle as $rowStyle) : ?>
-                    <div class="ms-5 text-decoration-none  text-secondary" href="">
-                    <i class="fa-solid fa-tag me-2"></i><?= $rowStyle["name"] ?>
-                    </div>
-                <?php endforeach; ?>
-            </div>
+
 
 
 
@@ -239,18 +270,31 @@ $rowsStyleItem = $resultStyleItem->fetch_all(MYSQLI_ASSOC);
             <div class="d-flex align-items-center justify-content-between border-bottom">
                 <div class="d-flex  align-items-center">
                     <h2 class="mx-2 my-4">搜尋產品結果：</h2>
-                    <h5 class="mt-2"> 搜尋『 <?php if (!empty($name)) {
-                                                echo $name;
-                                            } elseif (isset($start) && isset($end)) {
-                                                echo $start . "到" . $end;
-                                            } elseif (isset($min) && isset($max)) {
-                                                echo "$" . $min . "到 $" . $max;
-                                            } else {
-                                                echo "全部";
-                                            } ?>
+                    <h5 class="mt-2"> 搜尋『
+                        <?php if (!empty($name)) {
+                            echo $name;
+                        } elseif (isset($start) && isset($end)) {
+                            echo $start . "到" . $end;
+                        } elseif (isset($min) && isset($max)) {
+                            echo "$" . $min . "到 $" . $max;
+                        } elseif (isset($category)) {
+                            echo $rowcate["name"];
+                        } else {
+                            echo "全部";
+                        } ?>
+
                         』, 共 <?= $product_count ?> 筆符合</h5>
                 </div>
-                <a href="product-list.php" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-rotate-left px-1"></i>產品列表</a>
+                <div class="d-flex">
+                    <div class="btn-group btn-group-sm me-3" role="group" aria-label="">
+                        <a href="product-search.php?type=1&page=<?= $_GET["page"] ?>&name=<?= $_GET["name"] ?>" class="btn btn-outline-secondary">ID升冪</a>
+                        <a href="product-search.php?type=2&page=<?= $_GET["page"] ?>&name=<?= $_GET["name"] ?>" class="btn btn-outline-secondary">ID降冪</a>
+                        <a href="product-search.php?type=3&page=<?= $_GET["page"] ?>&name=<?= $_GET["name"] ?>" class="btn btn-outline-secondary">Price升冪</a>
+                        <a href="product-search.php?type=4&page=<?= $_GET["page"] ?>&name=<?= $_GET["name"] ?>" class="btn btn-outline-secondary">Price降冪</a>
+                    </div>
+                    <a href="product-list.php" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-rotate-left px-1"></i>產品列表</a>
+                </div>
+
             </div>
             <div class="mt-4 chart">
                 <div class="container">
@@ -261,8 +305,8 @@ $rowsStyleItem = $resultStyleItem->fetch_all(MYSQLI_ASSOC);
                                 <div class="card" style="width: 20rem;">
                                     <img src="/images_bow/<?= $product["img_m"] ?>" class="object-fit-cover card-img-top" alt="...">
                                     <div class="card-body">
-                                        <h5 class="card-title">產品名稱<?= $product["name"] ?></h5>
-                                        <p class="card-text">...</p>
+                                        <h5 class="card-title">產品名稱：『 <?= $product["name"] ?> 』</h5>
+                                        <p class="card-text">價錢：</p>
                                         <!-- <a href="#" class="btn btn-primary">商品說明</a> -->
                                     </div>
                                 </div>
@@ -322,32 +366,32 @@ $rowsStyleItem = $resultStyleItem->fetch_all(MYSQLI_ASSOC);
 
     <!-- js click -->
     <script>
-        const linkCate = document.querySelector(".linkCate");
-        const itemCate = document.querySelector(".itemCate");
-        const linkItem = document.querySelector(".linkItem");
-        const itemItem = document.querySelector(".itemItem");
-        const linkStyle = document.querySelector(".linkStyle");
-        const itemStyle = document.querySelector(".itemStyle");
+        // const linkCate = document.querySelector(".linkCate");
+        // const linkCates = document.querySelectorAll(".linkCate");
+        // const itemCate = document.querySelector(".itemCate");
+        // const linkItem = document.querySelector(".linkItem");
+        // const linkItems = document.querySelectorAll(".linkItem");
+        // const itemItem = document.querySelector(".itemItem");
+        // const itemItems = document.querySelectorAll(".itemItem");
 
-        const tagCate = document.querySelector(".tagCate");
 
-        linkCate.addEventListener("click", function(event) {
-            event.preventDefault(); // 阻止連結的默認行為
-            itemCate.classList.toggle("expand");
-        });
-        linkItem.addEventListener("click", function(event) {
-            event.preventDefault(); // 阻止連結的默認行為
-            itemItem.classList.toggle("expand");
-        });
-        linkStyle.addEventListener("click", function(event) {
-            event.preventDefault(); // 阻止連結的默認行為
-            itemStyle.classList.toggle("expand");
-        });
 
-        tagCate.addEventListener("click",function(event){
-            event.preventDefault(); // 阻止連結的默認行為
-            tagCate.classList.toggle("expand");
-        })
+        // const tagCate = document.querySelector(".tagCate");
+        // linkCate.addEventListener("click", function(event) {
+
+        //     event.preventDefault();
+        //     itemCate.classList.toggle("expand1");
+        // });
+
+        // for (let i = 0; i <= linkItems.length; i++) {
+        //     linkItems[i].addEventListener("click", function(event) {
+        //         for (let j = 0; j <= itemItems.length; j++) {
+        //             event.preventDefault();
+        //                     itemItems[j].classList.toggle("expand2");
+        //                     itemItem.classList.toggle("expand2");
+        //         }
+        //     });
+        // }
     </script>
 </body>
 

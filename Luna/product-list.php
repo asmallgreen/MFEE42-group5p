@@ -272,6 +272,7 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
                             </ul>
                             <form class="d-flex" action="product-search.php">
                                 <input class="form-control me-2" type="search" placeholder="搜尋產品名稱" aria-label="Search" name="name" value="<?= $_GET["name"] ?>">
+                                <input type="number" name="page"  hidden >
                                 <button class="btn btn-outline-success" type="submit">search</button>
                             </form>
                         </div>
