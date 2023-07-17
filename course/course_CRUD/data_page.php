@@ -84,7 +84,7 @@ $total_pages = ceil($total_records / $pageRow_records);
 
 <body>
   <div class="container-fluid">
-    <h1 class="text-center">課程管理系統</h1>
+  <a class="text-decoration-none" href="data_page.php"><h1 class="text-center">課程管理系統</h1> </a>
     <div class="text-center mb-3">
       <a href="add.php" class="btn btn-primary">新增課程資料</a>
     </div>
