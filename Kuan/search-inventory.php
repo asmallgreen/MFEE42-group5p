@@ -30,8 +30,6 @@ if ($type == 1) {
 }
 
 
-// $cate = '';
-// $keyword = '';
 
 // 篩選
 if (isset($_GET["cate"])) {
@@ -268,7 +266,7 @@ $cateRows = $resultCate->fetch_all(MYSQLI_ASSOC);
                             <select class="form-select" name="cate">
                                 <option value="">搜尋產品類別</option>
                                 <?php foreach ($cateRows as $cate) : ?>
-                                    <option value="<?= $cate["id"] ?>" <?php if ($cate["id"] == $_GET["cate"]) echo "selected"; ?>><?= $cate["name"] ?></option>
+                                    <option value="<?= $cate["id"] ?>" <?php if (isset($_GET["cate"]) && $cate["id"] == $_GET["cate"]) echo "selected"; ?>><?= $cate["name"] ?></option>
                                 <?php endforeach ?>
                             </select>
                         </div>
