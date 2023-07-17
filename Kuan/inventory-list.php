@@ -57,7 +57,7 @@ $cateRows = $resultCate->fetch_all(MYSQLI_ASSOC);
 <html lang="en">
 
 <head>
-    <title>inventory-list</title>
+    <title>庫存管理</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -67,199 +67,314 @@ $cateRows = $resultCate->fetch_all(MYSQLI_ASSOC);
 
     <!-- Bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- fontawesome icons-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            --aside-width: 300px;
+            --page-spacing-top: 56px;
+        }
 
+        .brand-name {
+            width: var(--aside-width);
+        }
 
+        .main-aside {
+            width: var(--aside-width);
+            padding-top: calc(var(--page-spacing-top) + 10px);
+        }
 
+        .main-content {
+            margin-left: var(--aside-width);
+            padding-top: calc(var(--page-spacing-top) + 10px);
+        }
+
+        .chart {
+            height: 400px;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="py-2 d-flex justify-content-between align-items-center">
-            <a class="btn btn-secondary" href="inventory-list.php">返回庫存首頁</a>
-            <a class="btn btn-success" href="create-inventory.php">新增庫存資料</a>
+    <header class="text-bg-dark d-flex shadow fixed-top justify-content-between align-items-center">
+        <a class="bg-black py-3 px-3 text-decoration-none link-light brand-name" href="/">管理者後臺介面</a>
+        <div class="d-flex align-items-center">
+            <div class="me-3">
+                hi, 慕朵
+            </div>
+
+            <!-- <a href="logout-test.php" class="btn btn-dark me-3"><i class="fa-solid fa-right-from-bracket"></i> Log out</a> -->
         </div>
-        <!-- filter start -->
-        <div class="py-2 d-flex justify-content-between align-items-center">
-            <div class="btn-group">
-                <!-- 多加 & 條件指定  type 1升冪 type2 降冪 -->
-                <a href="inventory-list.php?page=<?= $page ?>&type=1" class="btn btn-secondary <?php if ($type == 1) echo "active"; ?>">
-                    產品編號<i class="bi bi-arrow-down"></i>
+    </header>
+    <aside class="main-aside position-fixed bg-light vh-100 border-end">
+        <nav class="">
+            <ul class="list-unstyled">
+                <div class="my-2 d-flex justify-content-between text-secondary px-3">
+                    <div> 會員</div>
+                    <a role="button" href="">
+                        <i class="fa-regular fa-square-plus text-secondary"></i>
+                    </a>
+                </div>
+                <li>
+                    <a class="d-block py-2 px-3 text-decoration-none" href="./dashboard-admin-test.php">
+                        <i class="fa-solid fa-users fa-fw me-2"></i>會員資料
+                    </a>
+                </li>
+                <div class="my-2 d-flex justify-content-between text-secondary px-3">
+                    <div> 產品</div>
+                    <a role="button" href="">
+                        <i class="fa-regular fa-square-plus text-secondary"></i>
+                    </a>
+                </div>
+
+                <li>
+                    <a class="d-block py-2 px-3 text-decoration-none" href="">
+                        <i class="fa-solid fa-cart-shopping fa-fw me-2"></i>產品目錄
+                    </a>
+                </li>
+                <div class="my-2 d-flex justify-content-between text-secondary px-3">
+                    <div> 庫存</div>
+                    <a role="button" href="">
+                        <i class="fa-regular fa-square-plus text-secondary"></i>
+                    </a>
+                </div>
+                <li>
+                    <a class="d-block py-2 px-3 text-decoration-none" href="">
+                        <i class="fa-solid fa-box fa-fw me-2"></i>庫存目錄
+                    </a>
+                </li>
+                <div class="my-2 d-flex justify-content-between text-secondary px-3">
+                    <div> 課程</div>
+                    <a role="button" href="">
+                        <i class="fa-regular fa-square-plus text-secondary"></i>
+                    </a>
+                </div>
+                <li>
+                    <a class="d-block py-2 px-3 text-decoration-none" href="">
+                        <i class="fa-solid fa-book fa-fw me-2"></i>課程目錄
+                    </a>
+                </li>
+                <div class="my-2 d-flex justify-content-between text-secondary px-3">
+                    <div> 師資</div>
+                    <a role="button" href="">
+                        <i class="fa-regular fa-square-plus text-secondary"></i>
+                    </a>
+                </div>
+                <li>
+                    <a class="d-block py-2 px-3 text-decoration-none" href="">
+                        <i class="fa-solid fa-user fa-fw me-2"></i>師資目錄
+                    </a>
+                </li>
+                <div class="my-2 d-flex justify-content-between text-secondary px-3">
+                    <div> 行銷</div>
+                    <a role="button" href="">
+                        <i class="fa-regular fa-square-plus text-secondary"></i>
+                    </a>
+                </div>
+                <li>
+                    <a class="d-block py-2 px-3 text-decoration-none" href="">
+                        <i class="fa-solid fa-comments-dollar fa-fw me-2"></i>行銷目錄
+                    </a>
+                </li>
+
+            </ul>
+
+            <hr>
+            <!-- <ul class="list-unstyled">
+            
+            <li>
+                <a class="d-block py-2 px-3 text-decoration-none" href="./member-edit.php">
+                    <i class="fa-solid fa-gear fa-fw me-2"></i>Setting
                 </a>
-                <a href="inventory-list.php?page=<?= $page ?>&type=2" class="btn btn-secondary <?php if ($type == 2) echo "active"; ?>">
-                    產品編號<i class="bi bi-arrow-up"></i>
+            </li>
+            
+            <li>
+                <a class="d-block py-2 px-3 text-decoration-none" href="logout-test.php">
+                    <i class="fa-solid fa-right-from-bracket fa-fw me-2"></i>Sign out
                 </a>
-                <a href="inventory-list.php?page=<?= $page ?>&type=3" class="btn btn-secondary <?php if ($type == 3) echo "active"; ?>">
-                    產品類別<i class="bi bi-arrow-down"></i>
-                </a>
-                <a href="inventory-list.php?page=<?= $page ?>&type=4" class="btn btn-secondary <?php if ($type == 4) echo "active"; ?>">
-                    產品類別<i class="bi bi-arrow-up"></i>
-                </a>
+            </li>
+        </ul> -->
+        </nav>
+    </aside>
+    <main class="main-content">
+        <div class="container">
+            <div class="py-2 d-flex justify-content-between align-items-center">
+                <a class="btn btn-secondary" href="inventory-list.php">返回庫存首頁</a>
+                <a class="btn btn-success" href="create-inventory.php">新增庫存資料</a>
             </div>
             <!-- filter start -->
-            <form action="search-inventory.php">
-                <div class="row justify-content-end p-2">
-                    <div class="col-auto">
-                        <select class="form-select" name="cate">
-                            <option value="">搜尋產品類別</option>
-                            <?php foreach ($cateRows as $cate) : ?>
-                                <option value="<?= $cate["id"] ?>"><?= $cate["name"] ?></option>
-                            <?php endforeach ?>
-                        </select>
-                    </div>
-                    <div class="col-auto">
-                        <input class="form-control" type="text" name="keyword" placeholder="搜尋產品">
-                    </div>
-                    <div class="col-auto">
-                        <button class="btn btn-secondary" type="submit">搜尋</button>
-                    </div>
+            <div class="py-2 d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    <!-- 多加 & 條件指定  type 1升冪 type2 降冪 -->
+                    <a href="inventory-list.php?page=<?= $page ?>&type=1" class="btn btn-secondary <?php if ($type == 1) echo "active"; ?>">
+                        產品編號<i class="bi bi-arrow-down"></i>
+                    </a>
+                    <a href="inventory-list.php?page=<?= $page ?>&type=2" class="btn btn-secondary <?php if ($type == 2) echo "active"; ?>">
+                        產品編號<i class="bi bi-arrow-up"></i>
+                    </a>
+                    <a href="inventory-list.php?page=<?= $page ?>&type=3" class="btn btn-secondary <?php if ($type == 3) echo "active"; ?>">
+                        產品類別<i class="bi bi-arrow-down"></i>
+                    </a>
+                    <a href="inventory-list.php?page=<?= $page ?>&type=4" class="btn btn-secondary <?php if ($type == 4) echo "active"; ?>">
+                        產品類別<i class="bi bi-arrow-up"></i>
+                    </a>
                 </div>
-            </form>
-        </div>
-        <!-- table start -->
-        <table class="table table-bordered">
-            <thead>
-                <tr class="text-center">
-                    <th>產品編號</th>
-                    <th>產品類別</th>
-                    <th>產品名稱</th>
-                    <th>現有庫存</th>
-                    <th>最低數量</th>
-                    <th>編輯</th>
-                    <th>刪除</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($rows as $invertory) : ?>
+                <!-- filter start -->
+                <form action="search-inventory.php">
+                    <div class="row justify-content-end p-2">
+                        <div class="col-auto">
+                            <select class="form-select" name="cate">
+                                <option value="">搜尋產品類別</option>
+                                <?php foreach ($cateRows as $cate) : ?>
+                                    <option value="<?= $cate["id"] ?>"><?= $cate["name"] ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <input class="form-control" type="text" name="keyword" placeholder="搜尋產品">
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-secondary" type="submit">搜尋</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- table start -->
+            <table class="table table-bordered">
+                <thead>
                     <tr class="text-center">
-                        <td><?= $invertory["id"] ?></td>
-                        <td><?= $invertory["category_name"] ?></td>
-                        <td><?= $invertory["product_name"] ?></td>
-                        <td><?= $invertory["amount"] ?></td>
-                        <td><?= $invertory["min_amount"] ?></td>
-                        <td>
-                            <button class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#updateModal<?= $invertory['id'] ?>">編輯庫存</button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $invertory['id'] ?>">刪除</button>
-                        </td>
+                        <th>產品編號</th>
+                        <th>產品類別</th>
+                        <th>產品名稱</th>
+                        <th>現有庫存</th>
+                        <th>最低數量</th>
+                        <th>編輯</th>
+                        <th>刪除</th>
                     </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($rows as $invertory) : ?>
+                        <tr class="text-center">
+                            <td><?= $invertory["id"] ?></td>
+                            <td><?= $invertory["category_name"] ?></td>
+                            <td><?= $invertory["product_name"] ?></td>
+                            <td><?= $invertory["amount"] ?></td>
+                            <td><?= $invertory["min_amount"] ?></td>
+                            <td>
+                                <button class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#updateModal<?= $invertory['id'] ?>">編輯庫存</button>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $invertory['id'] ?>">刪除</button>
+                            </td>
+                        </tr>
 
-                    <!-- 刪除Modal Start-->
-                    <div class="modal fade" id="deleteModal<?= $invertory['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h2 class="modal-title text-danger" id="exampleModalLabel">警告</h2>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <h5>是否刪除產品：<?= $invertory["product_name"] ?> ？</h5>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                    <a href="doDelete.php?id=<?= $invertory['id'] ?>" class="btn btn-danger">確認刪除</a>
+                        <!-- 刪除Modal Start-->
+                        <div class="modal fade" id="deleteModal<?= $invertory['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2 class="modal-title text-danger" id="exampleModalLabel">警告</h2>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h5>是否刪除產品：<?= $invertory["product_name"] ?> ？</h5>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                        <a href="doDelete.php?id=<?= $invertory['id'] ?>" class="btn btn-danger">確認刪除</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- 編輯Modal Start-->
-                    <div class="modal fade" id="updateModal<?= $invertory['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h3 class="modal-title" id="exampleModalLabel">編輯庫存：<br><?= $invertory["product_name"] ?></h3>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="doUpdate-inventory.php" method="post" id="updateForm<?= $invertory['id'] ?>">
-                                        <div class="mb-2">
-                                            <label for="">產品編號</label>
-                                            <input type="number" class="form-control" min="0" name="id" value="<?= $invertory["id"] ?>" readonly>
-                                        </div>
-                                        <div class="mb-2">
-                                            <label for="">產品名稱</label>
-                                            <input type="text" class="form-control" name="name" value="<?= $invertory["product_name"] ?>" placeholder="請輸入產品名稱(必填)" required>
-                                        </div>
-                                        <div class="mb-2">
-                                            <label for="">產品類別</label>
-                                            <select class="form-select" name="category" required>
-                                                <option value="">請選擇產品類別(必選)</option>
-                                                <?php foreach ($cateRows as $cate) : ?>
-                                                    <option value="<?= $cate["id"] ?>" <?= ($cate["id"] == $invertory["category"]) ? "selected" : "" ?>><?= $cate["name"] ?></option>
-                                                <?php endforeach ?>
-                                            </select>
-                                        </div>
-                                        <div class="mb-2">
-                                            <label for="">產品數量</label>
-                                            <input type="number" class="form-control" value="<?= $invertory["amount"] ?>" min="0" name="amount">
-                                        </div>
-                                        <div class="mb-2">
-                                            <label for="">庫存最低數量</label>
-                                            <input type="number" class="form-control" value="<?= $invertory["min_amount"] ?>" min="0" name="min_amount">
-                                        </div>
-                                        <div class="text-end">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                            <button type="submit" class="btn btn-info" form="updateForm<?= $invertory['id'] ?>">確認編輯</button>
-                                        </div>
-                                    </form>
+                        <!-- 編輯Modal Start-->
+                        <div class="modal fade" id="updateModal<?= $invertory['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title" id="exampleModalLabel">編輯庫存：<br><?= $invertory["product_name"] ?></h3>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="doUpdate-inventory.php" method="post" id="updateForm<?= $invertory['id'] ?>">
+                                            <div class="mb-2">
+                                                <label for="">產品編號</label>
+                                                <input type="number" class="form-control" min="0" name="id" value="<?= $invertory["id"] ?>" readonly>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="">產品名稱</label>
+                                                <input type="text" class="form-control" name="name" value="<?= $invertory["product_name"] ?>" placeholder="請輸入產品名稱(必填)" required>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="">產品類別</label>
+                                                <select class="form-select" 
+                                                 required>
+                                                    <option value="">請選擇產品類別(必選)</option>
+                                                    <?php foreach ($cateRows as $cate) : ?>
+                                                        <option value="<?= $cate["id"] ?>" <?= ($cate["id"] == $invertory["category"]) ? "selected" : "" ?>><?= $cate["name"] ?></option>
+                                                    <?php endforeach ?>
+                                                </select>
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="">產品數量</label>
+                                                <input type="number" class="form-control" value="<?= $invertory["amount"] ?>" min="0" name="amount">
+                                            </div>
+                                            <div class="mb-2">
+                                                <label for="">庫存最低數量</label>
+                                                <input type="number" class="form-control" value="<?= $invertory["min_amount"] ?>" min="0" name="min_amount">
+                                            </div>
+                                            <div class="text-end">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                                <button type="submit" class="btn btn-info" form="updateForm<?= $invertory['id'] ?>">確認編輯</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-        <!-- PageNavigationstart -->
-        <nav aria-label="Page navigation" class="d-flex justify-content-center">
-            <ul class="pagination">
-                <li class="page-item <?php if ($page == 1) echo 'disabled'; ?>">
-                    <a class="page-link" href="inventory-list.php?page=1&type=<?= $type ?>" aria-label="First">
-                        <span aria-hidden="true"><i class="bi bi-chevron-double-left"></i></span>
-                    </a>
-                </li>
-                <?php
-                $visiblePages = 3; // 可見的頁碼
-                $startPage = max(1, $page - floor($visiblePages / 2)); // 起始頁
-                $endPage = min($startPage + $visiblePages - 1, $totalPage); // 結束頁
-
-                if ($endPage - $startPage + 1 < $visiblePages) {
-                    $startPage = max(1, $endPage - $visiblePages + 1);
-                }
-
-                for ($i = $startPage; $i <= $endPage; $i++) :
-                ?>
-                    <li class="page-item <?php if ($i == $page) echo "active"; ?>">
-                        <a class="page-link" href="inventory-list.php?page=<?= $i ?>&type=<?= $type ?>"><?= $i ?></a>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+            <!-- PageNavigationstart -->
+            <nav aria-label="Page navigation" class="d-flex justify-content-center">
+                <ul class="pagination">
+                    <li class="page-item <?php if ($page == 1) echo 'disabled'; ?>">
+                        <a class="page-link" href="inventory-list.php?page=1&type=<?= $type ?>" aria-label="First">
+                            <span aria-hidden="true"><i class="bi bi-chevron-double-left"></i></span>
+                        </a>
                     </li>
-                <?php endfor; ?>
-                <li class="page-item <?php if ($page == $totalPage) echo 'disabled'; ?>">
-                    <a class="page-link" href="inventory-list.php?page=<?= $totalPage ?>&type=<?= $type ?>" aria-label="Last">
-                        <span aria-hidden="true"><i class="bi bi-chevron-double-right"></i></span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+                    <?php
+                    $visiblePages = 3; // 可見的頁碼
+                    $startPage = max(1, $page - floor($visiblePages / 2)); // 起始頁
+                    $endPage = min($startPage + $visiblePages - 1, $totalPage); // 結束頁
 
+                    if ($endPage - $startPage + 1 < $visiblePages) {
+                        $startPage = max(1, $endPage - $visiblePages + 1);
+                    }
 
+                    for ($i = $startPage; $i <= $endPage; $i++) :
+                    ?>
+                        <li class="page-item <?php if ($i == $page) echo "active"; ?>">
+                            <a class="page-link" href="inventory-list.php?page=<?= $i ?>&type=<?= $type ?>"><?= $i ?></a>
+                        </li>
+                    <?php endfor; ?>
+                    <li class="page-item <?php if ($page == $totalPage) echo 'disabled'; ?>">
+                        <a class="page-link" href="inventory-list.php?page=<?= $totalPage ?>&type=<?= $type ?>" aria-label="Last">
+                            <span aria-hidden="true"><i class="bi bi-chevron-double-right"></i></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
-
+    </main>
 
 
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-
-    <!-- Jquery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
-
-    <!-- script -->
-    <script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
-
 </body>
 
 </html>

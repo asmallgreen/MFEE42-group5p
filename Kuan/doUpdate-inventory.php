@@ -23,8 +23,6 @@ inventory.amount='$amount',
 inventory.min_amount='$min_amount'
 WHERE product.id='$id' AND inventory.id='$id'";
 
-// 還要update商品庫
-
 if ($conn->query($sql) === TRUE ) {
     header("location: inventory-list.php");
 } else {
