@@ -102,7 +102,10 @@ $stmt->fetch();
       </tr>
       <tr>
         <td>開放報名</td>
-        <td><input name="valid" type="text" id="valid" value="<?php echo $valid; ?>"></td>
+        <td>
+          <input type="radio" name="valid" id="radio" value="0" <?php if ($valid == "0") echo "checked"; ?>>未開放
+          <input type="radio" name="valid" id="radio" value="1" <?php if ($valid == "1") echo "checked"; ?>>已開放
+        </td>
       </tr>
       <tr>
         <td>授課教師</td>

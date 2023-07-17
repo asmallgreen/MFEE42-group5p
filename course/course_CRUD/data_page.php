@@ -20,7 +20,7 @@ $search_keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
 $whereClause = 'WHERE is_deleted = 1';
 if ($search_keyword) {
   if ($search_field === '') {
-    $fields = ['name', 'capacity', 'level', 'price', 'location', 'startDate', 'endDate', 'startTime', 'endTime', 'hours', 'schedule', 'qualification', 'target', 'intro', 'image', 'description', 'valid']; // 需要納入搜尋範圍的欄位必須填入
+    $fields = ['name', 'location', 'schedule', 'qualification', 'target', 'intro', 'description']; // 需要納入搜尋範圍的欄位必須填入(以文字型別為主，數值類交由篩選處理)
     $fieldConditions = [];
     foreach ($fields as $field) {
       $fieldConditions[] = "{$field} LIKE '%{$search_keyword}%'";
@@ -105,15 +105,6 @@ $total_pages = ceil($total_records / $pageRow_records);
         </div>
 
         <div class="d-flex justify-content-center col-10">
-          <div class="mx-2">
-            <label for="field" class="form-label">選擇欄位：</label>
-            <select name="field" id="field" class="form-select">
-              <option value="" <?php if ($search_field === '') echo 'selected'; ?>>-- 全部 --</option>
-              <option value="name" <?php if ($search_field === 'name') echo 'selected'; ?>>課程名稱</option>
-              <option value="location" <?php if ($search_field === 'location') echo 'selected'; ?>>上課地點</option>
-              <option value="teacher_id" <?php if ($search_field === 'teacher_id') echo 'selected'; ?>>教師</option>
-            </select>
-          </div>
           <div class="mx-2">
             <label for="keyword" class="form-label">關鍵字：</label>
             <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo $search_keyword; ?>">
