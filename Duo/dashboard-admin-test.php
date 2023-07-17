@@ -68,7 +68,9 @@ $Duorows = $Duoresult->fetch_all(MYSQLI_ASSOC);
         .tab-content li {
             display: none;
         }
-
+        .tabs li a{
+            border-bottom: 5px solid transparent;
+        }
         .tabs li a.active {
             border-bottom: 5px solid rgb(245, 82, 53);
         }
@@ -93,7 +95,7 @@ $Duorows = $Duoresult->fetch_all(MYSQLI_ASSOC);
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav tabs">
                         <li class="nav-item px-2">
-                            <a class="nav-link active" aria-current="page" href="#">會員</a>
+                            <a class="nav-link" aria-current="page" href="#">會員</a>
                         </li>
                         <li class="nav-item px-2">
                             <a class="nav-link" href="#">產品</a>
