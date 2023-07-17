@@ -2,21 +2,14 @@
 <html lang="en">
 
 <head>
-    <title>Created</title>
+    <title>Admin center</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS v5.3.0 -->
+    <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-
-    <!-- font awsome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <style>
         :root {
             --aside-width: 300px;
@@ -41,17 +34,17 @@
             height: 400px;
         }
     </style>
-
 </head>
 
 <body>
-
     <header class="text-bg-dark d-flex shadow fixed-top justify-content-between align-items-center">
-        <a class="bg-black py-3 px-3 text-decoration-none link-light brand-name" href="/">Product management</a>
+        <a class="bg-black py-3 px-3 text-decoration-none link-light brand-name" href="/">管理者後臺介面</a>
         <div class="d-flex align-items-center">
-            <div class="me-3">管理者使用後台</div>
+            <div class="me-3">
+                hi, 慕朵
+            </div>
 
-            <a href="logout-test.php" class="btn btn-dark me-3"><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
+            <!-- <a href="logout-test.php" class="btn btn-dark me-3"><i class="fa-solid fa-right-from-bracket"></i> Log out</a> -->
         </div>
     </header>
     <aside class="main-aside position-fixed bg-light vh-100 border-end">
@@ -76,7 +69,7 @@
                 </div>
 
                 <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="product-list.php">
+                    <a class="d-block py-2 px-3 text-decoration-none" href="">
                         <i class="fa-solid fa-cart-shopping fa-fw me-2"></i>產品目錄
                     </a>
                 </li>
@@ -88,7 +81,7 @@
                 </div>
                 <li>
                     <a class="d-block py-2 px-3 text-decoration-none" href="">
-                    <i class="fa-solid fa-box fa-fw me-2"></i>庫存目錄
+                        <i class="fa-solid fa-box fa-fw me-2"></i>庫存目錄
                     </a>
                 </li>
                 <div class="my-2 d-flex justify-content-between text-secondary px-3">
@@ -99,7 +92,7 @@
                 </div>
                 <li>
                     <a class="d-block py-2 px-3 text-decoration-none" href="">
-                    <i class="fa-solid fa-book fa-fw me-2"></i>課程目錄
+                        <i class="fa-solid fa-book fa-fw me-2"></i>課程目錄
                     </a>
                 </li>
                 <div class="my-2 d-flex justify-content-between text-secondary px-3">
@@ -146,62 +139,89 @@
     </aside>
     <main class="main-content">
         <div class="px-3">
-            <div class="d-flex justify-content-between align-items-center border-bottom">
-                <h1>新增產品資訊</h1>
-                <div>
-                    <div class="btn-group btn-group-sm " role="group" aria-label="">
-                        <button class="btn btn-outline-secondary">Share</button>
-                        <button class="btn btn-outline-secondary">Export</button>
-                    </div>
-                    <a href="product-list.php" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-rotate-left px-1"></i>產品列表</a>
-                </div>
-            </div>
-
-            <div class="chart">
-                <div class="container">
-                    <div class="row my-3">
-                        <div class="col-6">
-                            <form action="doCreate.php" method="post">
-                            <label for="">name</label>
-                            <input type="text" class="form-control" name="name">
-                            <label for="">category</label>
-                            <select class="form-select" name="category">
-                                <option value="1">Bow</option>
-                                <option value="2">Arrow</option>
-                                <option value="3">String</option>
-                                <option value="4">Other</option>
-                                <option value="4">Suit</option>
-                            </select>
-                            <label for="">price</label>
-                            <input type="number" class="form-control" name="price">
-                            <label for="">img_s1</label>
-                            <input type="file" class="form-control" name="img_s1">
-                            <label for="">img_s2</label>
-                            <input type="file" class="form-control" name="img_s2">
-                            <label for="">img_s3</label>
-                            <input type="file" class="form-control" name="img_s3">
-                            <label for="">img_s4</label>
-                            <input type="file" class="form-control" name="img_s4">
-                            <label for="">img_s5</label>
-                            <input type="file" class="form-control" name="img_s5">
-                            <label for="">img_m</label>
-                            <input type="file" class="form-control" name="img_m">
-                            <label for="">description</label>
-                            <input type="text" class="form-control" name="description">
-                            <button class="my-2 btn btn-info" type="submit">送出</button>
-                        </form>
+            <!-- 搜尋使用者 -->
+            <div class="py-2">
+                <form action="search-test.php">
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="搜尋使用者" name="name">
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn btn-info" type="submit">搜尋</button>
                         </div>
                     </div>
+                </form>
+            </div>
+            <!-- 會員資料 -->
+            <div class="d-flex justify-content-between align-items-center border-bottom">
+                <h1>會員資料</h1>
+                <div>
+                    <div class="btn-group btn-group-sm " role="group" aria-label="">
+                        <a href="http://localhost/practice/dashboard-admin-test.php?page=<?= $Duopage ?>&type=1" class="btn btn-outline-secondary <?php if ($Duotype == 1) echo "active" ?>">依id排序</a>
+                        <a href="http://localhost/practice/dashboard-admin-test.php?page=<?= $Duopage ?>&type=2" class="btn btn-outline-secondary <?php if ($Duotype == 2) echo "active" ?>">依性別排序</a>
+                        <a href="http://localhost/practice/dashboard-admin-test.php?page=<?= $Duopage ?>&type=3" class="btn btn-outline-secondary <?php if ($Duotype == 3) echo "active" ?>">依生日排序</a>
+                        <a href="http://localhost/practice/dashboard-admin-test.php?=<?= $Duopage ?>&type=4" class="btn btn-outline-secondary btn-sm <?php if ($Duotype == 4) echo "active" ?>">依等級排序</a>
+                    </div>
                 </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <div class="">
+                    共 <?= $DuototalMember ?> 人, 第 <?= $Duopage ?> 頁
+                </div>
+            </div>
+            <!-- 會員資料列表內容 -->
+            <div class="chart">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>name</th>
+                            <th>gender</th>
+                            <th>birthday</th>
+                            <th>email</th>
+                            <th>phone</th>
+                            <th>level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($Duorows as $Duorow) : ?>
+                            <tr>
+                                <td><?= $Duorow["id"] ?></td>
+                                <td><?= $Duorow["name"] ?></td>
+                                <td><?= $Duorow["gender"] ?></td>
+                                <td><?= $Duorow["birthday"] ?></td>
+                                <td><?= $Duorow["email"] ?></td>
+                                <td><?= $Duorow["phone"] ?></td>
+                                <td><?= $Duorow["level"] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <!-- 分頁按鈕 -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <?php for ($i = 1; $i <= $DuototalPage; $i++) : ?>
+                            <li class="page-item <?php if ($i == $Duopage) echo "active"; ?>"><a class="page-link" href="dashboard-admin-test.php?page=<?= $i ?>"><?= $i ?></a></li>
+                        <?php endfor; ?>
+                    </ul>
+                </nav>
             </div>
 
         </div>
     </main>
 
 
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+    </script>
 
-
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+    </script>
+    <!-- dropdown -->
+    <script>
+        const dropdownElementList = document.querySelectorAll('.dropdown-toggle')
+        const dropdownList = [...dropdownElementList].map(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl))
+    </script>
 </body>
 
 </html>

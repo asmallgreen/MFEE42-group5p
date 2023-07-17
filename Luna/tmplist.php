@@ -94,19 +94,12 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
         .chart {
             height: 400px;
         }
-
         /* dropdwon */
-        .dropdown-menu {
+        .dropdown-menu{
             display: none;
         }
-
-        .dropdown-menu:hover .dropdown-menu {
+        .dropdown-menu:hover .dropdown-menu{
             display: block;
-        }
-
-        .listImg {
-            width: 100px;
-            height: 100px;
         }
     </style>
 </head>
@@ -212,27 +205,14 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
     </aside>
     <main class="main-content">
         <div class="px-3">
-            <div class="d-flex align-items-center border-bottom justify-content-between">
-                <div class="d-flex  align-items-center">
-                    <h1 class="mx-2 my-3">產品管理</h1>
-                    <a class="navbar-brand fs-4 ms-2" href="product-list.php">Product
-                        <i class="mx-2 fa-solid fa-circle-chevron-right"></i>
-                        <?php if (!isset($_GET["category"])) {
-                            echo "全部";
-                        } ?>
-                        <?php foreach ($cateRows as $cate) : ?>
-                            <?php if (isset($_GET["category"]) && $_GET["category"] == $cate["id"]) {
-                                echo $cate["name"];
-                            } ?>
-                        <?php endforeach; ?>
-                    </a>
-                </div>
-
-                <div class="d-flex align-items-center me-5">
-                    <a href="product-create.php" class="btn"><i class="fa-solid fa-circle-plus">新增</i></a>
-                    <button class="btn"><i class="fa-solid fa-trash">刪除</i></button>
-                    <div class="d-flex justify-content-end align-middle">
-                        共 <?= $numProduct ?> 筆, 第 <?= $page ?> 頁</div>
+            <div class="d-flex justify-content-between align-items-center border-bottom">
+                <h1>產品管理</h1>
+                <div>
+                    <div class="btn-group btn-group-sm " role="group" aria-label="">
+                        <button class="btn btn-outline-secondary">Share</button>
+                        <button class="btn btn-outline-secondary">Export</button>
+                    </div>
+                    <button class="btn btn-outline-secondary btn-sm">This week</button>
                 </div>
             </div>
             <!-- ========================================== -->
@@ -240,7 +220,17 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
                 <!-- nav -->
                 <nav class="navbar navbar-expand-lg bg-body-tertiary">
                     <div class="container-fluid">
-
+                        <a class="navbar-brand" href="product-list.php">Product
+                            <i class="mx-2 fa-solid fa-circle-chevron-right"></i>
+                            <?php if (!isset($_GET["category"])) {
+                                echo "全部";
+                            } ?>
+                            <?php foreach ($cateRows as $cate) : ?>
+                                <?php if (isset($_GET["category"]) && $_GET["category"] == $cate["id"]) {
+                                    echo $cate["name"];
+                                } ?>
+                            <?php endforeach; ?>
+                        </a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
@@ -280,12 +270,22 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
                 <!-- list -->
                 <form class="mx-3" action="doDelete.php">
 
-                    <table class="table text-center align-middle">
-                        <thead class="">
-                            <tr class=" table-bordered ">
+                    <div class="d-flex justify-content-end">
+                        <a href="product-create.php" class="btn"><i class="fa-solid fa-circle-plus">新增</i></a>
+                        <button class="btn"><i class="fa-solid fa-trash">刪除</i></button>
+                    </div>
+
+
+                    <div class="d-flex justify-content-end">
+                        共 <?= $numProduct ?> 筆, 第 <?= $page ?> 頁
+
+                    </div>
+                    <table class="table table-bordered">
+
+                        <thead>
+                            <tr>
                                 <th class=""></th>
                                 <th>ID</th>
-                                <th>Image</th>
                                 <th>Name</th>
                                 <th>Category</th>
                                 <th>Price</th>
@@ -294,11 +294,11 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
                             </tr>
                         </thead>
                         <?php foreach ($productRows as $product) : ?>
-                            <tbody class="">
-                                <tr class="">
+                            <tbody>
+                                <tr>
                                     <td class=""><input class="form-check-input" type="checkbox" value="<?= $product["id"] ?>" name="id[]"></td>
-                                    <td><?= $product["id"] ?></td>
-                                    <td><img class="listImg" src="/images_bow/<?= $product["img_s1"] ?>" alt=""></td>
+                                    <td><?= $product["id"] ?>
+                                    </td>
                                     <td><?= $product["name"] ?></td>
                                     <td><?= $product["cateName"] ?></td>
                                     <td><?= $product["price"] ?></td>
