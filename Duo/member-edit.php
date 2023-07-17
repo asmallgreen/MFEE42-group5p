@@ -165,7 +165,7 @@ $sql = "SELECT * FROM membership WHERE id='{$_SESSION['user']['id']}'";
                         <!-- 更改會員頭像 -->
                         <div class="py-2">
                             <label for="">更改會員頭像</label>
-                            <input type="file" class="form-control" value="" name="file">
+                            <input type="file" class="form-control" value="" name="file" id="file">
                         </div>
                         <!-- 修改會員資料 -->
                         <div class="py-2">
