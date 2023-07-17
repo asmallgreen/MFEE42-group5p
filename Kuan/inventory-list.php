@@ -306,8 +306,7 @@ $cateRows = $resultCate->fetch_all(MYSQLI_ASSOC);
                                             </div>
                                             <div class="mb-2">
                                                 <label for="">產品類別</label>
-                                                <select class="form-select" 
-                                                 required>
+                                                <select class="form-select" name="category" required>
                                                     <option value="">請選擇產品類別(必選)</option>
                                                     <?php foreach ($cateRows as $cate) : ?>
                                                         <option value="<?= $cate["id"] ?>" <?= ($cate["id"] == $invertory["category"]) ? "selected" : "" ?>><?= $cate["name"] ?></option>
