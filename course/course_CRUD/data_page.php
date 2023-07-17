@@ -17,7 +17,7 @@ $search_field = isset($_GET['field']) ? $_GET['field'] : '';
 $search_keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
 
 // 產生查詢條件的 SQL 片段
-$whereClause = '';
+$whereClause = 'WHERE is_deleted = 1';
 if ($search_keyword) {
   if ($search_field === '') {
     $fields = ['name', 'capacity', 'level', 'price', 'location', 'startDate', 'endDate', 'startTime', 'endTime', 'hours', 'schedule', 'qualification', 'target', 'intro', 'image', 'description', 'valid']; // 需要納入搜尋範圍的欄位必須填入
