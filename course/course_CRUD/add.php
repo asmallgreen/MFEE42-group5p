@@ -45,6 +45,10 @@ if (isset($_POST["action"]) && ($_POST["action"] == "add")) {
         </td>
       </tr>
       <tr>
+        <td>授課教師</td>
+        <td><input name="teacher_id" type="text" id="teacher_id"></td>
+      </tr>
+      <tr>
         <td>課程價格</td>
         <td><input name="price" type="text" id="price"></td>
       </tr>
@@ -65,22 +69,6 @@ if (isset($_POST["action"]) && ($_POST["action"] == "add")) {
         <td><input name="hours" type="text" id="hours"></td>
       </tr>
       <tr>
-        <td>課程綱要</td>
-        <td><input name="schedule" type="text" id="schedule"></td>
-      </tr>
-      <tr>
-        <td>報名資格</td>
-        <td><input name="qualification" type="text" id="qualification"></td>
-      </tr>
-      <tr>
-        <td>課程目標</td>
-        <td><input name="target" type="text" id="target"></td>
-      </tr>
-      <tr>
-        <td>課程介紹</td>
-        <td><input name="intro" type="text" id="intro"></td>
-      </tr>
-      <tr>
         <td>上傳圖片</td>
         <td><input name="image" type="text" id="image"></td>
       </tr>
@@ -92,14 +80,7 @@ if (isset($_POST["action"]) && ($_POST["action"] == "add")) {
         <td>開放報名</td>
         <td><input name="valid" type="text" id="valid"></td>
       </tr>
-      <tr>
-        <td>授課教師</td>
-        <td><input name="teacher_id" type="text" id="teacher_id"></td>
-      </tr>
-      <tr>
-        <td>適用優惠</td>
-        <td><input name="discount_id" type="text" id="discount_id"></td>
-      </tr>
+
       <tr>
         <td colspan="2" align="center">
           <input name="action" type="hidden" value="add">

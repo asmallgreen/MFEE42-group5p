@@ -27,7 +27,7 @@ $stmt->fetch();
 
 <body>
   <h1 align="center">課程 管理系統 - 修改資料</h1>
-  <p align="center"><a href="data_page.php">回主畫面</a></p>
+  <p align="center"><a href="javascript:history.go(-1)">回主畫面</a></p>
   <form action="" method="post" name="formFix" id="formFix">
     <table border="1" align="center" cellpadding="4">
       <tr>
@@ -49,6 +49,10 @@ $stmt->fetch();
           <input type="radio" name="level" id="radio" value="2" <?php if ($level == "2") echo "checked"; ?>>入門
           <input type="radio" name="level" id="radio" value="3" <?php if ($level == "3") echo "checked"; ?>>進階
         </td>
+      </tr>
+      <tr>
+        <td>授課教師</td>
+        <td><input name="teacher_id" type="text" id="teacher_id" value="<?php echo $teacher_id; ?>"></td>
       </tr>
       <tr>
         <td>課程價格</td>
@@ -77,22 +81,6 @@ $stmt->fetch();
         <td><input name="hours" type="text" id="hours" value="<?php echo $hours; ?>"></td>
       </tr>
       <tr>
-        <td>課程綱要</td>
-        <td><input name="schedule" type="text" id="schedule" value="<?php echo $schedule; ?>"></td>
-      </tr>
-      <tr>
-        <td>報名資格</td>
-        <td><input name="qualification" type="text" id="qualification" value="<?php echo $qualification; ?>"></td>
-      </tr>
-      <tr>
-        <td>課程目標</td>
-        <td><input name="target" type="text" id="target" value="<?php echo $target; ?>"></td>
-      </tr>
-      <tr>
-        <td>課程介紹</td>
-        <td><input name="intro" type="text" id="intro" value="<?php echo $intro; ?>"></td>
-      </tr>
-      <tr>
         <td>上傳圖片</td>
         <td><input name="image" type="text" id="image" value="<?php echo $image; ?>"></td>
       </tr>
@@ -106,14 +94,6 @@ $stmt->fetch();
           <input type="radio" name="valid" id="radio" value="0" <?php if ($valid == "0") echo "checked"; ?>>未開放
           <input type="radio" name="valid" id="radio" value="1" <?php if ($valid == "1") echo "checked"; ?>>已開放
         </td>
-      </tr>
-      <tr>
-        <td>授課教師</td>
-        <td><input name="teacher_id" type="text" id="teacher_id" value="<?php echo $teacher_id; ?>"></td>
-      </tr>
-      <tr>
-        <td>適用優惠</td>
-        <td><input name="discount_id" type="text" id="discount_id" value="<?php echo $discount_id; ?>"></td>
       </tr>
       <tr>
         <td colspan="2" align="center">

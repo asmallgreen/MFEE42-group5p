@@ -118,10 +118,6 @@ $total_pages = ceil($total_records / $pageRow_records);
       </div>
     </form>
 
-
-
-
-
     <div class="table-responsive">
       <table class="table table-bordered table-striped align-middle">
         <!-- 表格表頭 -->
@@ -135,20 +131,15 @@ $total_pages = ceil($total_records / $pageRow_records);
           <th>課程日期</th>
           <th>上課時間</th>
           <th>課程時數</th>
-          <th>課程綱要</th>
-          <th>報名資格</th>
-          <th>課程目標</th>
-          <th>課程介紹</th>
           <th>相關影音</th>
           <th>課程敘述</th>
           <th>開放報名</th>
-          <th>教師</th>
-          <th>適用優惠</th>
+          <th>授課教師</th>
           <th>操作</th>
         </tr>
         <!-- 資料內容 -->
         <?php while ($row_result = $result->fetch_assoc()) : ?>
-          <tr>
+          <tr align="center">
             <td><?php echo $row_result["id"]; ?></td>
             <td><?php echo $row_result["name"]; ?></td>
             <td><?php echo $row_result["capacity"]; ?></td>
@@ -184,10 +175,6 @@ $total_pages = ceil($total_records / $pageRow_records);
               <div><?php echo $row_result["endTime"]; ?></div>
             </td>
             <td><?php echo $row_result["hours"]; ?></td>
-            <td><?php echo $row_result["schedule"]; ?></td>
-            <td><?php echo $row_result["qualification"]; ?></td>
-            <td><?php echo $row_result["target"]; ?></td>
-            <td><?php echo $row_result["intro"]; ?></td>
             <td><?php echo $row_result["image"]; ?></td>
             <td><?php echo $row_result["description"]; ?></td>
             <td>
@@ -198,7 +185,6 @@ $total_pages = ceil($total_records / $pageRow_records);
               ?>
             </td>
             <td><?php echo $row_result["teacher_id"]; ?></td>
-            <td><?php echo $row_result["discount_id"]; ?></td>
             <td>
               <a href="update.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-primary">修改</a>
               <a href="delete.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-danger">刪除</a>
