@@ -52,10 +52,10 @@ if(isset($_GET["name"])){
 
 <body>
     <header class="text-bg-dark d-flex shadow fixed-top justify-content-between align-items-center">
-        <a class="bg-black py-3 px-3 text-decoration-none link-light brand-name" href="/">Admin center</a>
+        <a class="bg-black py-3 px-3 text-decoration-none link-light brand-name" href="dashboard-admin-test.php">管理者後臺介面</a>
         <div class="d-flex align-items-center">
             <div class="me-3">
-                hi, Muduo
+                hi, 慕朵
             </div>
 
             <!-- <a href="logout-test.php" class="btn btn-dark me-3"><i class="fa-solid fa-right-from-bracket"></i> Log out</a> -->

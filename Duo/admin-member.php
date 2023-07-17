@@ -73,9 +73,13 @@ $Duorows = $Duoresult->fetch_all(MYSQLI_ASSOC);
             border-bottom: 5px solid rgb(245, 82, 53);
         }
 
-        main {
-            display: none;
+        .tab-content li:first-child {
+            display: block;
         }
+
+        /* main{
+            display: none;
+        } */
     </style>
 </head>
 
@@ -86,7 +90,7 @@ $Duorows = $Duoresult->fetch_all(MYSQLI_ASSOC);
                 <!-- <a class="navbar-brand" href="#">
       <img src="/images/bow_icon.jpg" alt="Bootstrap" width="30" height="24">
     </a> -->
-                <a class="navbar-brand" href="#">管理者後臺介面</a>
+                <a class="navbar-brand" href="dashboard-admin-test.php">管理者後臺介面</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -268,7 +272,7 @@ $Duorows = $Duoresult->fetch_all(MYSQLI_ASSOC);
             </ul>
 
             <hr>
-   
+
         </nav>
     </aside>
     <main class="main-content">
@@ -350,8 +354,9 @@ $Duorows = $Duoresult->fetch_all(MYSQLI_ASSOC);
 
 
         for (let i = 0; i < buttons.length; i++) {
-            buttons[i].addEventListener("click", function() {
+            buttons[i].addEventListener("click", function(event) {
                 for (let j = 0; j < buttons.length; j++) {
+                    event.preventDefault();
                     buttons[j].classList.remove("active")
                     contents[j].style.display = "none";
                 }
