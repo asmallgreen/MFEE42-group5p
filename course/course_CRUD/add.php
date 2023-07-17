@@ -2,9 +2,9 @@
 require_once("connMysql.php");
 
 if (isset($_POST["action"]) && ($_POST["action"] == "add")) {
-  $sql_query = "INSERT INTO course (name ,capacity ,level ,price ,location ,startDate, endDate, startTime, endTime, hours, schedule, qualification, target, intro, image, description, valid, teacher_id, discount_id) VALUES (?, ?, ?, ? ,? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  $sql_query = "INSERT INTO course (name ,capacity ,level, teacher_id,price ,location ,startDate, endDate, startTime, endTime, hours, image, description) VALUES (?, ?, ?, ? ,? ,?, ?, ?, ?, ?, ?, ?, ?)";
   $stmt = $db_link->prepare($sql_query);
-  $stmt->bind_param("sssssssssssssssssss", $_POST["name"], $_POST["capacity"], $_POST["level"], $_POST["price"], $_POST["location"], $_POST["startDate"], $_POST["endDate"], $_POST["startTime"], $_POST["endTime"], $_POST["hours"], $_POST["schedule"], $_POST["qualification"], $_POST["target"], $_POST["intro"], $_POST["image"], $_POST["description"], $_POST["valid"], $_POST["teacher_id"], $_POST["discount_id"]);
+  $stmt->bind_param("sssssssssssss", $_POST["name"], $_POST["capacity"], $_POST["level"], $_POST["teacher_id"], $_POST["price"], $_POST["location"], $_POST["startDate"], $_POST["endDate"], $_POST["startTime"], $_POST["endTime"], $_POST["hours"], $_POST["image"], $_POST["description"]);
   $stmt->execute();
   $stmt->close();
   $db_link->close();
@@ -76,10 +76,7 @@ if (isset($_POST["action"]) && ($_POST["action"] == "add")) {
         <td>課程敘述</td>
         <td><input name="description" type="text" id="description"></td>
       </tr>
-      <tr>
-        <td>開放報名</td>
-        <td><input name="valid" type="text" id="valid"></td>
-      </tr>
+
 
       <tr>
         <td colspan="2" align="center">
