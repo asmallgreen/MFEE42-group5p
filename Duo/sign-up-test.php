@@ -43,7 +43,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="">選取圖片</label>
-                    <input type="file" name="file" class="form-control" required>
+                    <input type="file" name="file" class="form-control">
                 </div>
                 <div class="mb-2">
                     <label for="">性別</label>

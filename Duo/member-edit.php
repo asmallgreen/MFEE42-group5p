@@ -77,7 +77,7 @@ $sql = "SELECT * FROM membership WHERE id='{$_SESSION['user']['id']}'";
                 </li>
                 <li>
                     <a class="d-block py-2 px-3 text-decoration-none" href="password-edit.php">
-                    <i class="fa-solid fa-key"></i>  修改密碼
+                        <i class="fa-solid fa-key"></i> 修改密碼
                     </a>
                 </li>
                 <li>
@@ -159,9 +159,15 @@ $sql = "SELECT * FROM membership WHERE id='{$_SESSION['user']['id']}'";
                 </div>
             </div>
 
-            <form action="doEdit-test.php" method="POST">
+            <form action="doEdit-test.php" method="POST" enctype="multipart/form-data">
                 <div class="container d-flex justify-content-start py-3">
                     <div>
+                        <!-- 更改會員頭像 -->
+                        <div class="py-2">
+                            <label for="">更改會員頭像</label>
+                            <input type="file" class="form-control" value="" name="file">
+                        </div>
+                        <!-- 修改會員資料 -->
                         <div class="py-2">
                             <label for="">account</label>
                             <input type="disabled" class="form-control" value="<?= $_SESSION["user"]["account"] ?>" disabled>
@@ -180,10 +186,10 @@ $sql = "SELECT * FROM membership WHERE id='{$_SESSION['user']['id']}'";
                         endif; ?>
                         <div class="py-2">
                             <label for="">gender</label>
-                            <select class="form-control" name="gender" id="gender" value="<?= $_SESSION["user"]["gender"] ?>" >
-                                <option value="0" <?= $_SESSION["user"]["gender"]==="0"? "selected":""?>>請選擇</option>
-                                <option value="1"<?= $_SESSION["user"]["gender"]==="1"? "selected":""?>>男</option>
-                                <option value="2" <?= $_SESSION["user"]["gender"]==="2"? "selected":""?>>女</option>
+                            <select class="form-control" name="gender" id="gender" value="<?= $_SESSION["user"]["gender"] ?>">
+                                <option value="0" <?= $_SESSION["user"]["gender"] === "0" ? "selected" : "" ?>>請選擇</option>
+                                <option value="1" <?= $_SESSION["user"]["gender"] === "1" ? "selected" : "" ?>>男</option>
+                                <option value="2" <?= $_SESSION["user"]["gender"] === "2" ? "selected" : "" ?>>女</option>
                             </select>
                         </div>
                         <div class="py-2">
@@ -219,16 +225,33 @@ $sql = "SELECT * FROM membership WHERE id='{$_SESSION['user']['id']}'";
                 <?php unset($_SESSION["error"]["addressMessage"]);
                 endif; ?>
                 <div class="pt-2 ps-2">
-                    <button class="btn btn-info text-end" type="submit">
+                    <button class="btn btn-info text-end " id="editBtn"  data-bs-toggle="modal1" data-bs-target="#exampleModal1" type="submit">
                         修改完成
                     </button>
                 </div>
 
 
             </form>
-            <!-- <div action="doDelete-test.php" method="POST" class="position-absolute deletemember">
-                <button class="btn btn-danger" type="submit">刪除會員資料</button>
-            </div> -->
+
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel1">會員資料修改</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal1" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        您的會員資料已修改完成
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal1">Close</button>
+                        <button type="button" class="btn btn-primary">關閉</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </main>
@@ -261,9 +284,15 @@ $sql = "SELECT * FROM membership WHERE id='{$_SESSION['user']['id']}'";
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 
+    <!-- <script>
+        const myModal = new bootstrap.Modal(document.getElementById('myModal'), options)
+        const editBtn=document.querySelector("#editBtn")
+        editBtn.addEventListener("click", function(){
+            myModal.modal("show");
+        })  
+          </script> -->
 
 </body>
 

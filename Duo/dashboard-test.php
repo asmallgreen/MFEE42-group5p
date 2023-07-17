@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION["user"])) {
-    header("location: sign-in.php");
+    header("location: sign-in-test.php");
 }
 $gender=$_SESSION["user"]["gender"];
 
@@ -61,7 +61,7 @@ if(empty($_SESSION["user"]["member_img"])){
 
 <body>
     <header class="text-bg-dark d-flex shadow fixed-top justify-content-between align-items-center">
-        <a class="bg-black py-3 px-3 text-decoration-none link-light brand-name" href="/">Membership center</a>
+        <a class="bg-black py-3 px-3 text-decoration-none link-light brand-name" href="dashboard-test.php">Membership center</a>
         <div class="d-flex align-items-center">
             <div class="me-3">
                 hi, <?= $_SESSION["user"]["name"] ?>
