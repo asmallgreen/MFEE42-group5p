@@ -31,11 +31,17 @@ if ($search_keyword) {
   }
 }
 
-
-
+// 排序方式
+$sortField = isset($_GET['sortField']) ? $_GET['sortField'] : '';
+$sortOrder = isset($_GET['sortOrder']) ? $_GET['sortOrder'] : 'ASC';
 
 // 未加限制顯示筆數的 SQL 敘述句
 $sql_query = "SELECT * FROM course {$whereClause}";
+
+// 加上排序條件
+if ($sortField) {
+  $sql_query .= " ORDER BY {$sortField} {$sortOrder}";
+}
 
 // 加上限制顯示筆數的 SQL 敘述句，由本頁開始記錄筆數開始，每頁顯示預設筆數
 $sql_query_limit = $sql_query . " LIMIT {$startRow_records}, {$pageRow_records}";
@@ -69,6 +75,10 @@ $total_pages = ceil($total_records / $pageRow_records);
       overflow: hidden;
       text-overflow: ellipsis;
     }
+    .table-responsive table tr th a{
+      color: black;
+      text-decoration: none;
+    }
   </style>
 </head>
 <script>
@@ -84,7 +94,9 @@ $total_pages = ceil($total_records / $pageRow_records);
 
 <body>
   <div class="container-fluid">
-  <a class="text-decoration-none" href="data_page.php"><h1 class="text-center">課程管理系統</h1> </a>
+    <a class="text-decoration-none" href="data_page.php">
+      <h1 class="text-center">課程管理系統</h1>
+    </a>
     <div class="text-center mb-3">
       <a href="add.php" class="btn btn-primary">新增課程資料</a>
     </div>
@@ -122,21 +134,74 @@ $total_pages = ceil($total_records / $pageRow_records);
       <table class="table table-bordered table-striped align-middle">
         <!-- 表格表頭 -->
         <tr align="center">
-          <th>課程編號</th>
-          <th>課程名稱</th>
-          <th>人數限制</th>
-          <th>難易分級</th>
-          <th>課程價格</th>
-          <th>上課地點</th>
-          <th>課程日期</th>
-          <th>上課時間</th>
-          <th>課程時數</th>
-          <th>相關影音</th>
-          <th>課程敘述</th>
-          <th>開放報名</th>
-          <th>授課教師</th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'id', 'sortOrder' => $sortField === 'id' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              課程編號 <?php if ($sortField === 'id') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'name', 'sortOrder' => $sortField === 'name' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              課程名稱 <?php if ($sortField === 'name') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'capacity', 'sortOrder' => $sortField === 'capacity' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              人數限制 <?php if ($sortField === 'capacity') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'level', 'sortOrder' => $sortField === 'level' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              難易分級 <?php if ($sortField === 'level') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'price', 'sortOrder' => $sortField === 'price' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              課程價格 <?php if ($sortField === 'price') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'location', 'sortOrder' => $sortField === 'location' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              上課地點 <?php if ($sortField === 'location') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'startDate', 'sortOrder' => $sortField === 'startDate' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              課程日期 <?php if ($sortField === 'startDate') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'startTime', 'sortOrder' => $sortField === 'startTime' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              上課時間 <?php if ($sortField === 'startTime') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'hours', 'sortOrder' => $sortField === 'hours' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              課程時數 <?php if ($sortField === 'hours') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'image', 'sortOrder' => $sortField === 'image' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              相關影音 <?php if ($sortField === 'image') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'description', 'sortOrder' => $sortField === 'description' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              課程敘述 <?php if ($sortField === 'description') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'valid', 'sortOrder' => $sortField === 'valid' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              開放報名 <?php if ($sortField === 'valid') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'teacher_id', 'sortOrder' => $sortField === 'teacher_id' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              授課教師 <?php if ($sortField === 'teacher_id') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
           <th>操作</th>
         </tr>
+
         <!-- 資料內容 -->
         <?php while ($row_result = $result->fetch_assoc()) : ?>
           <tr align="center">
@@ -197,14 +262,14 @@ $total_pages = ceil($total_records / $pageRow_records);
     <div class="row justify-content-center">
       <?php if ($num_pages > 1) : ?>
         <div class="col-auto">
-          <a href="data_page.php?page=1&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true" class="btn btn-primary">第一頁</a>
-          <a href="data_page.php?page=<?php echo $num_pages - 1; ?>&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true" class="btn btn-primary">上一頁</a>
+          <a href="data_page.php?page=1&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&sortField=<?php echo $sortField; ?>&sortOrder=<?php echo $sortOrder; ?>&search=true" class="btn btn-primary">第一頁</a>
+          <a href="data_page.php?page=<?php echo $num_pages - 1; ?>&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&sortField=<?php echo $sortField; ?>&sortOrder=<?php echo $sortOrder; ?>&search=true" class="btn btn-primary">上一頁</a>
         </div>
       <?php endif; ?>
       <?php if ($num_pages < $total_pages) : ?>
         <div class="col-auto">
-          <a href="data_page.php?page=<?php echo $num_pages + 1; ?>&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true" class="btn btn-primary">下一頁</a>
-          <a href="data_page.php?page=<?php echo $total_pages; ?>&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true" class="btn btn-primary">最後頁</a>
+          <a href="data_page.php?page=<?php echo $num_pages + 1; ?>&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&sortField=<?php echo $sortField; ?>&sortOrder=<?php echo $sortOrder; ?>&search=true" class="btn btn-primary">下一頁</a>
+          <a href="data_page.php?page=<?php echo $total_pages; ?>&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&sortField=<?php echo $sortField; ?>&sortOrder=<?php echo $sortOrder; ?>&search=true" class="btn btn-primary">最後頁</a>
         </div>
       <?php endif; ?>
     </div>
