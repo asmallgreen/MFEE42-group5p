@@ -70,7 +70,7 @@ if (isset($_POST["action"]) && ($_POST["action"] == "add")) {
       </tr>
       <tr>
         <td>上傳圖片</td>
-        <td><input name="image" type="text" id="image" placeholder="輸入圖片 URL"></td>
+        <td><input name="image" type="file" id="image" placeholder=""></td>
       </tr>
       <tr>
         <td>課程敘述</td>
