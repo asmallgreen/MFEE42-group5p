@@ -37,8 +37,79 @@ if (empty($address)) {
     exit;
 }
 
-//使用PDO預處理來預防SQL injection
 require_once("pdo-connect-test.php");
+
+// 檢查是否有文件上傳
+if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
+    // 有文件上傳時的處理邏輯
+    if (move_uploaded_file($_FILES["file"]["tmp_name"], "images/" . $_FILES["file"]["name"])) {
+        $filename = $_FILES["file"]["name"];
+        echo "上傳成功，檔名為" . $filename . "<br>";
+    } else {
+        // echo "上傳照片失敗" . "<br>";
+        // 可以選擇在這裡停止執行或採取其他適當的操作
+        // return; // 停止執行
+        $data=[
+            "status"=>0,
+            "message"=>"新增資料錯誤",
+            $conn->error
+        ];
+        echo json_encode($data);
+    }
+} else {
+    // 沒有文件上傳時的處理邏輯
+    $filename = "avatar01.jpg"; // 設定默認文件
+}
+
+// 更新語句
+$sql = "UPDATE membership SET name='$name', gender='$gender', email='$email', phone='$phone', address='$address', member_img='$filename' WHERE id=$id";
+
+$stmt = $db_host->prepare($sql);
+
+if ($stmt->execute()) {
+    // echo "會員資料修改成功";
+
+
+ 
+    if (!empty($filename)) {
+        // echo "，且照片已上傳並保存";
+        $_SESSION["user"]["member_img"] = $filename;
+        $data=[
+            "status"=>1,
+            "message"=>"會員資料修改成功"
+        ];
+        echo json_encode($data);
+    }
+    // echo "<br>";
+
+    // 更新暫存中的會員資料
+    $_SESSION["user"]["name"] = $name;
+    $_SESSION["user"]["gender"] = $gender;
+    $_SESSION["user"]["email"] = $email;
+    $_SESSION["user"]["phone"] = $phone;
+    $_SESSION["user"]["address"] = $address;
+    $_SESSION["user"]["member_img"] = $filename;
+    
+         // 顯示Modal對話框
+    // echo '<script>$("#exampleModal1").modal("show");</script>';
+
+    // 自動跳轉頁面
+    // echo '<script>setTimeout(function() { window.location.href = "dashboard-test.php"; }, 2000);</script>';
+    // echo '<script>$(document).ready(function() {
+    //     $("#exampleModal1").modal("show");
+    //     setTimeout(function() {
+    //         window.location.href = "dashboard-test.php";
+    //     }, 2000);
+    // });</script>';
+
+    // header("location: dashboard-test.php");
+} else {
+    echo "修改會員資料錯誤: " . $stmt->errorInfo()[2] . "<br>";
+}
+
+
+//使用PDO預處理來預防SQL injection
+
 // $sql = "UPDATE membership SET name='$name', gender='$gender', email='$email', phone='$phone', address='$address', member_img='$filename' WHERE id=$id";
 
 // $stmt = $db_host->prepare($sql);
@@ -103,62 +174,6 @@ require_once("pdo-connect-test.php");
 // }
 
 // $conn = null;
-
-// 檢查是否有文件上傳
-if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
-    // 有文件上傳時的處理邏輯
-    if (move_uploaded_file($_FILES["file"]["tmp_name"], "images/" . $_FILES["file"]["name"])) {
-        $filename = $_FILES["file"]["name"];
-        echo "上傳成功，檔名為" . $filename . "<br>";
-    } else {
-        echo "上傳照片失敗" . "<br>";
-        // 可以選擇在這裡停止執行或採取其他適當的操作
-        // return; // 停止執行
-    }
-} else {
-    // 沒有文件上傳時的處理邏輯
-    $filename = "avatar01.jpg"; // 設定默認文件
-}
-
-// 更新語句
-$sql = "UPDATE membership SET name='$name', gender='$gender', email='$email', phone='$phone', address='$address', member_img='$filename' WHERE id=$id";
-
-$stmt = $db_host->prepare($sql);
-
-if ($stmt->execute()) {
-    echo "會員資料修改成功";
-     // 顯示Modal對話框
-
- 
-    if (!empty($filename)) {
-        echo "，且照片已上傳並保存";
-        $_SESSION["user"]["member_img"] = $filename;
-    }
-    echo "<br>";
-
-    // 更新暫存中的會員資料
-    $_SESSION["user"]["name"] = $name;
-    $_SESSION["user"]["gender"] = $gender;
-    $_SESSION["user"]["email"] = $email;
-    $_SESSION["user"]["phone"] = $phone;
-    $_SESSION["user"]["address"] = $address;
-    $_SESSION["user"]["member_img"] = $filename;
-    
-    echo '<script>$("#exampleModal1").modal("show");</script>';
-
-    // 自動跳轉頁面
-    echo '<script>setTimeout(function() { window.location.href = "dashboard-test.php"; }, 2000);</script>';
-    // echo '<script>$(document).ready(function() {
-    //     $("#exampleModal1").modal("show");
-    //     setTimeout(function() {
-    //         window.location.href = "dashboard-test.php";
-    //     }, 2000);
-    // });</script>';
-
-    header("location: dashboard-test.php");
-} else {
-    echo "修改會員資料錯誤: " . $stmt->errorInfo()[2] . "<br>";
-}
 
 
 
