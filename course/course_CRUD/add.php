@@ -30,11 +30,11 @@ if (isset($_POST["action"]) && ($_POST["action"] == "add")) {
       </tr>
       <tr>
         <td>課程名稱</td>
-        <td><input type="text" name="name" id="name"></td>
+        <td><input type="text" name="name" id="name" placeholder="輸入課程名稱"></td>
       </tr>
       <tr>
         <td>人數限制</td>
-        <td><input type="text" name="capacity" id="capacity"></td>
+        <td><input type="text" name="capacity" id="capacity" placeholder="輸入人數限制"></td>
       </tr>
       <tr>
         <td>難易分級</td>
@@ -46,15 +46,15 @@ if (isset($_POST["action"]) && ($_POST["action"] == "add")) {
       </tr>
       <tr>
         <td>授課教師</td>
-        <td><input name="teacher_id" type="text" id="teacher_id"></td>
+        <td><input name="teacher_id" type="text" id="teacher_id" placeholder="輸入授課教師"></td>
       </tr>
       <tr>
         <td>課程價格</td>
-        <td><input name="price" type="text" id="price"></td>
+        <td><input name="price" type="text" id="price" placeholder="輸入課程價格"></td>
       </tr>
       <tr>
         <td>上課地點</td>
-        <td><input name="location" type="text" id="location"></td>
+        <td><input name="location" type="text" id="location" placeholder="輸入上課地點"></td>
       </tr>
       <tr>
         <td>課程日期</td>
@@ -66,15 +66,15 @@ if (isset($_POST["action"]) && ($_POST["action"] == "add")) {
       </tr>
       <tr>
         <td>課程時數</td>
-        <td><input name="hours" type="text" id="hours"></td>
+        <td><input name="hours" type="text" id="hours" placeholder="輸入課程時數"></td>
       </tr>
       <tr>
         <td>上傳圖片</td>
-        <td><input name="image" type="text" id="image"></td>
+        <td><input name="image" type="text" id="image" placeholder="輸入圖片 URL"></td>
       </tr>
       <tr>
         <td>課程敘述</td>
-        <td><input name="description" type="text" id="description"></td>
+        <td><input name="description" type="text" id="description" placeholder="輸入課程敘述"></td>
       </tr>
 
 
