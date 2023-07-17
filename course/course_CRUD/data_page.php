@@ -31,11 +31,23 @@ if ($search_keyword) {
   }
 }
 
+// 检查是否有排序参数
+$sort_field = isset($_GET['field']) ? $_GET['field'] : '';
+$sort_direction = isset($_GET['sort']) ? $_GET['sort'] : '';
+
+// 根据排序参数添加 ORDER BY 子句到 SQL 查询
+$orderClause = '';
+if ($sort_field && $sort_direction) {
+  $orderClause = "ORDER BY {$sort_field} {$sort_direction}";
+}
+
+// 未加限制显示笔数的 SQL 敘述句
+
 
 
 
 // 未加限制顯示筆數的 SQL 敘述句
-$sql_query = "SELECT * FROM course {$whereClause}";
+$sql_query = "SELECT * FROM course {$whereClause} {$orderClause}";
 
 // 加上限制顯示筆數的 SQL 敘述句，由本頁開始記錄筆數開始，每頁顯示預設筆數
 $sql_query_limit = $sql_query . " LIMIT {$startRow_records}, {$pageRow_records}";
@@ -84,7 +96,9 @@ $total_pages = ceil($total_records / $pageRow_records);
 
 <body>
   <div class="container-fluid">
-    <h1 class="text-center">課程管理系統</h1>
+    <a class="text-decoration-none" href="data_page.php">
+      <h1 class="text-center ">課程管理系統</h1>
+    </a>
     <div class="text-center mb-3">
       <a href="add.php" class="btn btn-primary">新增課程資料</a>
     </div>
@@ -122,19 +136,31 @@ $total_pages = ceil($total_records / $pageRow_records);
       <table class="table table-bordered table-striped align-middle">
         <!-- 表格表頭 -->
         <tr align="center">
-          <th>課程編號</th>
-          <th>課程名稱</th>
-          <th>人數限制</th>
-          <th>難易分級</th>
-          <th>課程價格</th>
-          <th>上課地點</th>
-          <th>課程日期</th>
-          <th>上課時間</th>
-          <th>課程時數</th>
+          <th><a href="data_page.php?page=<?php echo $num_pages + 1; ?>&field=id&sort=<?php echo (isset($_GET['sort']) && $search_field === 'id' && $_GET['sort'] === 'asc') ? 'desc' : 'asc'; ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true">課程編號</a></th>
+
+          <th><a href="data_page.php?page=<?php echo $num_pages; ?>&field=name&sort=<?php echo ($search_field === 'name' && $_GET['sort'] === 'asc') ? 'desc' : 'asc'; ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true">課程名稱</a></th>
+          <th><a href="data_page.php?page=<?php echo $num_pages; ?>&field=capacity&sort=<?php echo ($search_field === 'capacity' && $_GET['sort'] === 'asc') ? 'desc' : 'asc'; ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true">人數限制</a></th>
+
+          <th><a href="data_page.php?page=<?php echo $num_pages; ?>&field=level&sort=<?php echo ($search_field === 'level' && $_GET['sort'] === 'asc') ? 'desc' : 'asc'; ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true">難易分級</a></th>
+
+          <th><a href="data_page.php?page=<?php echo $num_pages; ?>&field=price&sort=<?php echo ($search_field === 'price' && $_GET['sort'] === 'asc') ? 'desc' : 'asc'; ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true">課程價格</a></th>
+
+          <th><a href="data_page.php?page=<?php echo $num_pages; ?>&field=location&sort=<?php echo ($search_field === 'location' && $_GET['sort'] === 'asc') ? 'desc' : 'asc'; ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true">上課地點</a></th>
+
+          <th><a href="data_page.php?page=<?php echo $num_pages; ?>&field=startDate&sort=<?php echo ($search_field === 'startDate' && $_GET['sort'] === 'asc') ? 'desc' : 'asc'; ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true">課程日期</a></th>
+
+          <th><a href="data_page.php?page=<?php echo $num_pages; ?>&field=startTime&sort=<?php echo ($search_field === 'startTime' && $_GET['sort'] === 'asc') ? 'desc' : 'asc'; ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true">上課時間</a></th>
+
+          <th><a href="data_page.php?page=<?php echo $num_pages; ?>&field=hours&sort=<?php echo ($search_field === 'hours' && $_GET['sort'] === 'asc') ? 'desc' : 'asc'; ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true">課程時數</a></th>
+
           <th>相關影音</th>
+
           <th>課程敘述</th>
-          <th>開放報名</th>
-          <th>授課教師</th>
+
+          <th><a href="data_page.php?page=<?php echo $num_pages; ?>&field=valid&sort=<?php echo ($search_field === 'valid' && $_GET['sort'] === 'asc') ? 'desc' : 'asc'; ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true">開放報名</a></th>
+
+          <th><a href="data_page.php?page=<?php echo $num_pages; ?>&field=teacher_id&sort=<?php echo ($search_field === 'teacher_id' && $_GET['sort'] === 'asc') ? 'desc' : 'asc'; ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true">授課教師</a></th>
+
           <th>操作</th>
         </tr>
         <!-- 資料內容 -->
@@ -185,7 +211,7 @@ $total_pages = ceil($total_records / $pageRow_records);
               ?>
             </td>
             <td><?php echo $row_result["teacher_id"]; ?></td>
-            <td>
+            <td align="center">
               <a href="update.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-primary">修改</a>
               <a href="delete.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-danger">刪除</a>
             </td>
