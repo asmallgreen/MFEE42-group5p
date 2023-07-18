@@ -217,9 +217,6 @@ $total_pages = ceil($total_records / $pageRow_records);
                   case 3:
                     $level_text = '進階';
                     break;
-                  default:
-                    $level_text = '未定義';
-                    break;
                 }
                 echo $level_text;
                 ?>
