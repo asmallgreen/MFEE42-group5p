@@ -22,7 +22,7 @@ if (isset($_POST["action"]) && ($_POST["action"] == "update")) {
   $stmt->close();
   $conn->close();
   //重新導向回到主畫面
-  header("Location: data_page.php");
+  echo "<script>alert('更新完成!');location.href=history.go(-1)</script>"; 
 }
 $sql_select = "SELECT id, name ,capacity ,level ,price ,location ,startDate, endDate, startTime, endTime, hours, schedule, qualification, target, intro, image, description, valid, teacher_id, discount_id FROM course WHERE id = ?";
 $stmt = $conn->prepare($sql_select);
