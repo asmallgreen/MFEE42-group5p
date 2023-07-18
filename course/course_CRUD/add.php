@@ -1,6 +1,20 @@
 <?php
 require_once("../db_connect.php");
 
+// 處理圖片上傳的程式
+if (isset($_FILES["image"]) && $_FILES["image"]["error"] == UPLOAD_ERR_OK) {
+  $target_dir = "../images/"; //文件存放目錄
+  $file_name = basename($_FILES["image"]["name"]);
+  $target_file = $target_dir . $file_name;
+
+
+  if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+    $_POST["image"] = $target_file;
+  } else {
+    echo "圖片上傳失敗。";
+  }
+}
+
 if (isset($_POST["action"]) && ($_POST["action"] == "add")) {
   $sql_query = "INSERT INTO course (name ,capacity ,level, teacher_id,price ,location ,startDate, endDate, startTime, endTime, hours, image, description) VALUES (?, ?, ?, ? ,? ,?, ?, ?, ?, ?, ?, ?, ?)";
   $stmt = $conn->prepare($sql_query);
@@ -17,13 +31,25 @@ if (isset($_POST["action"]) && ($_POST["action"] == "add")) {
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>課程管理系統</title>
+  <script>
+    function previewImage(event) {
+      var reader = new FileReader();
+      reader.onload = function () {
+        var output = document.getElementById('imagePreview');
+        output.src = reader.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  </script>
 </head>
 
 <body>
   <h1 align="center">課程管理系統 - 新增課程</h1>
   <p align="center"><a href="data_page.php">回主畫面</a></p>
-  <form action="" method="post" name="formAdd" id="formAdd">
+  <form action="" method="post" name="formAdd" id="formAdd" enctype="multipart/form-data">
+
     <table border="1" align="center" cellpadding="4">
+
       <tr>
         <th>欄位</th>
         <th>資料</th>
@@ -70,7 +96,11 @@ if (isset($_POST["action"]) && ($_POST["action"] == "add")) {
       </tr>
       <tr>
         <td>上傳圖片</td>
-        <td><input name="image" type="file" id="image" placeholder=""></td>
+        <td><input name="image" type="file" id="image" accept="image/*" onchange="previewImage(event)"></td>
+      </tr>
+      <tr>
+        <td>圖片預覽</td>
+        <td><img id="imagePreview" width="200"></td>
       </tr>
       <tr>
         <td>課程敘述</td>

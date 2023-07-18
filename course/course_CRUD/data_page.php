@@ -83,7 +83,7 @@ $total_pages = ceil($total_records / $pageRow_records);
 </head>
 
 <body>
-  <div class="container-fluid">
+  <div class="container">
     <a class="text-decoration-none" href="data_page.php">
       <h1 class="text-center">課程管理系統</h1>
     </a>
