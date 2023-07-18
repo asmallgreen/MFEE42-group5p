@@ -7,20 +7,26 @@ $type=$_GET["type"] ?? 1;
 
 if($type==1){    
     $orderBy = "ORDER BY startdate ASC";
+    $available = "";
 }elseif($type==2){    
     $orderBy = "ORDER BY startdate DESC";
+    $available = "";
 }elseif($type==3){
     $orderBy = "ORDER BY coupon_code ASC";
+    $available = "";
 }elseif($type==4){
     $orderBy = "ORDER BY coupon_code DESC";
+    $available = "";
 }elseif($type==5){
     $orderBy = "ORDER BY deadline ASC";
+    $available = "";
 }elseif($type==6){
     $orderBy = "ORDER BY deadline DESC";
+    $available = "";
 }elseif($type==7){
     $available = "AND NOW() >= startdate AND NOW() <= deadline";
 }elseif($type==8){
-    $available = " ";
+    $available = "";
 }else{
     header("location:../404.php");
 }

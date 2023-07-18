@@ -1,15 +1,19 @@
 <?php
 if(isset($_GET["coupon_code"])){
 $couponcode=$_GET["coupon_code"];
-require_once("coupon_db_connect.php");
+$likeCoupon="LIKE '%$couponcode%'";
 
-$sql="SELECT coupon_id, coupon_code, discount, deadline FROM coupon WHERE coupon_code LIKE '%$couponcode%' AND valid=1";
-$result=$conn->query($sql);
-$rows = $result->fetch_all(MYSQLI_ASSOC);
-$code_count = $result->num_rows;
 }else{
+
     $user_count=0;
+    $likeCoupon="";
+
 }
+    require_once("coupon_db_connect.php");
+    $sql="SELECT coupon_id, coupon_code, discount, deadline FROM coupon WHERE coupon_code  $likeCoupon AND valid=1";
+    $result=$conn->query($sql);
+    $rows = $result->fetch_all(MYSQLI_ASSOC);
+    $code_count = $result->num_rows;
 ?>
 
 <!doctype html>
@@ -174,7 +178,9 @@ $code_count = $result->num_rows;
             ?>
             <div class="py-2 d-flex justify-content-between align-items-center">
                 <div class="">
-                    搜尋 <?=$couponcode?> 的結果,
+                    <?php if(isset($couponcode)):?>
+                     搜尋 <?=$couponcode?> 的結果,
+                     <?php  endif;?>
                     共有<?=$code_count?> 筆符合資料
                 </div>
             </div>

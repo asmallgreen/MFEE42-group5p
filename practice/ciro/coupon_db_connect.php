@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "admin";
 $password = "12345";
-$dbname = "bow";
+$dbname = "project";
 
 // 建立連線物件
 $conn = new mysqli($servername , $username, $password ,$dbname);

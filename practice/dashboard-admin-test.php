@@ -222,12 +222,12 @@ $Duorows = $Duoresult->fetch_all(MYSQLI_ASSOC);
                         </button>
                     </h2>
                     <div class="">
-                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="admin-member.php">
+                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="/ciro/coupon-list.php">
                             <i class="fa-solid fa-users fa-fw me-2"></i>優惠列表
                         </a>
                     </div>
                     <div class="">
-                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="sign-up-test.php">
+                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="/ciro/newcoupon-ajax.php">
                             <i class="fa-solid fa-users fa-fw me-2"></i>新增優惠券
                         </a>
                     </div>
