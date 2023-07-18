@@ -65,8 +65,8 @@ $row = $result->fetch_assoc();
         }
         /* product */
         .editImg{
-            width: 400px;
-            height: 400px;
+            width: 350px;
+            height: 350px;
         }
     </style>
 
@@ -176,56 +176,52 @@ $row = $result->fetch_assoc();
             <div class="d-flex justify-content-between align-items-center border-bottom">
                 <h1>修改產品資訊</h1>
                 <div>
-                    <div class="btn-group btn-group-sm " role="group" aria-label="">
-                        <button class="btn btn-outline-secondary">Share</button>
-                        <button class="btn btn-outline-secondary">Export</button>
-                    </div>
                     <a href="product-list.php" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-rotate-left px-1"></i>產品列表</a>
                 </div>
             </div>
             <div class="chart">
                 <div class="container">
-                    <div class="row my-2">
-                        <div class="col-auto">
+                    <div class="row my-2 d-flex">
+                        <div class="col-auto my-2 mx-2">
                             <img class="editImg" src="/images_bow/<?= $row["img_m"] ?>" alt="">
                         </div>
                         <div class="col-8">
                             <form class="py-2" action="product-doEdit.php" method="post">
                                 <table class="table table-bordered">
                                     <tr>
-                                        <th class="col-2">ID</th>
+                                        <th class="col-2">商品編號：</th>
                                         <td class="col-8"><input type="hidden" name="id" value="<?= $id ?>"><?= $id ?></td>
                                     </tr>
                                     <tr>
-                                        <th class="col-2">Image_m</th>
+                                        <th class="col-2">封面圖：</th>
                                         <td class="col-8 form-control"><input type="file" name="img_m" value="<?= $row["img_m"] ?>"></td>
                                     </tr>
                                     <tr>
-                                        <th class="col-2">Image_s1</th>
+                                        <th class="col-2">圖1：</th>
                                         <td class="col-8 form-control"><input type="file" name="img_s1" value="<?= $row["img_s1"] ?>"></td>
                                     </tr>
                                     <tr>
-                                        <th class="col-2">Image_s2</th>
+                                        <th class="col-2">圖2：</th>
                                         <td class="col-8 form-control"><input type="file" name="img_s2" value="<?= $row["img_s2"] ?>"></td>
                                     </tr>
                                     <tr>
-                                        <th class="col-2">Image_s3</th>
+                                        <th class="col-2">圖3：</th>
                                         <td class="col-8 form-control"><input type="file" name="img_s3" value="<?= $row["img_s3"] ?>"></td>
                                     </tr>
                                     <tr>
-                                        <th class="col-2">Image_s4</th>
+                                        <th class="col-2">圖4：</th>
                                         <td class="col-8 form-control"><input type="file" name="img_s4" value="<?= $row["img_s4"] ?>"></td>
                                     </tr>
                                     <tr>
-                                        <th class="col-2">Image_s5</th>
+                                        <th class="col-2">圖5：</th>
                                         <td class="col-8 form-control"><input type="file" name="img_s5" value="<?= $row["img_s5"] ?>"></td>
                                     </tr>
                                     <tr>
-                                        <th>Name</th>
+                                        <th>商品名稱：</th>
                                         <td><input type="text" name="name" value="<?= $row["name"]; ?>"></td>
                                     </tr>
                                     <tr>
-                                        <th>Category</th>
+                                        <th>類別：</th>
                                         <td>
                                         <select class="form-select" name="category">
                                 <option value="1">Bow</option>
@@ -236,21 +232,21 @@ $row = $result->fetch_assoc();
                             </select></td>
                                     </tr>
                                     <tr>
-                                        <th>Price</th>
+                                        <th>價格：</th>
                                         <td><input type="text" name="price" value="<?= $row["price"]; ?>"></td>
                                     </tr>
                                     <tr>
-                                        <th>商品說明</th>
+                                        <th>商品說明：</th>
                                         <td>
                                         <textarea class="form-control" rows="6" name="description" placeholder=""><?=$row["description"]?></textarea>
                                     </tr>
                                     <tr>
-                                        <th>上架狀態</th>
+                                        <th>上架狀態：</th>
                                         <td><input type="hidden" name="valid" value="<?=$row["valid"]?>">
                                         <?php if($row["valid"]==1){echo "上架中";}else{echo "未上架";} ?></td>
                                     </tr>
                                     <tr>
-                                        <th>更新狀態</th>
+                                        <th>更新狀態：</th>
                                         <td><input type="hidden"><?php if($row["updated_at"]== "" || $row["updated_at"]== "0000-00-00 00:00:00"){
                                             echo "新商品";
                                         }else{
@@ -258,7 +254,7 @@ $row = $result->fetch_assoc();
                                         }?></td>
                                     </tr>
                                     <tr>
-                                        <th>最後一次更新日期</th>
+                                        <th>最後更新日期：</th>
                                         <td><input type="hidden" name="update" value="<?= $now ?>">
                                         <?php if($row["updated_at"]== "" || $row["updated_at"]== "0000-00-00 00:00:00"){
                                             echo $row["created_at"];

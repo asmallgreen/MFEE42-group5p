@@ -53,8 +53,8 @@ if (isset($img_m)) {
 
         /* img */
         .object-fit-cover {
-            width: 200px;
-            height: 200px;
+            width: 400px;
+            height: 400px;
         }
     </style>
 
@@ -165,10 +165,7 @@ if (isset($img_m)) {
             <div class="d-flex justify-content-between align-items-center border-bottom">
                 <h1>新增產品資訊</h1>
                 <div>
-                    <div class="btn-group btn-group-sm " role="group" aria-label="">
-                        <button class="btn btn-outline-secondary">Share</button>
-                        <button class="btn btn-outline-secondary">Export</button>
-                    </div>
+                    
                     <a href="product-list.php" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-rotate-left px-1"></i>產品列表</a>
                 </div>
             </div>
@@ -178,12 +175,12 @@ if (isset($img_m)) {
                     <div class="row my-3">
                         <div class="col-6">
                             <form id="subForm" action="product-doCreate.php" method="post">
-                                <div class="d-flex my-2 align-items-center">
-                                    <label class="mx-2 col-4" for="">產品名稱：</label>
-                                    <input type="text" class="form-control" name="name">
+                                <div class="d-flex my-2 align-items-center text-end">
+                                    <label class="mx-2 col-3" for="">產品名稱：</label>
+                                    <input type="text" class="form-control" name="name" placeholder="請輸入產品名稱">
                                 </div>
                                 <div class="d-flex my-2 align-items-center">
-                                    <label class="mx-2 col-4" for="">類別</label>
+                                    <label class="mx-2 col-3 text-end" for="" >類別</label>
                                     <select class="form-select" name="category">
                                         <option value="1">弓</option>
                                         <option value="2">箭</option>
@@ -193,46 +190,46 @@ if (isset($img_m)) {
                                     </select>
                                 </div>
                                 <div class="d-flex my-2 align-items-center">
-                                    <label class="mx-2 col-4" for="">價格：</label>
-                                    <input type="number" class="form-control" name="price">
+                                    <label class="mx-2 col-3 text-end" for="">價格：</label>
+                                    <input type="number" class="form-control" name="price" placeholder="新台幣$">
                                 </div>
 
 
                                 <!-- <div class="d-flex my-2 align-items-center">
-                                    <label class="mx-2 col-4" for="">圖1：</label>
+                                    <label class="mx-2 col-3" for="">圖1：</label>
                                     <input type="file" class="form-control" name="img_s1">
                                 </div>
                                 <div class="d-flex my-2 align-items-center">
-                                    <label class="mx-2 col-4" for="">圖2：</label>
+                                    <label class="mx-2 col-3" for="">圖2：</label>
                                     <input type="file" class="form-control" name="img_s2">
                                 </div>
                                 <div class="d-flex my-2 align-items-center">
-                                    <label class="mx-2 col-4" for="">圖3：</label>
+                                    <label class="mx-2 col-3" for="">圖3：</label>
                                     <input type="file" class="form-control" name="img_s3">
                                 </div>
                                 <div class="d-flex my-2 align-items-center">
-                                    <label class="mx-2 col-4" for="">圖4：</label>
+                                    <label class="mx-2 col-3" for="">圖4：</label>
                                     <input type="file" class="form-control" name="img_s4">
                                 </div>
                                 <div class="d-flex my-2 align-items-center">
-                                    <label class="mx-2 col-4" for="">圖5：</label>
+                                    <label class="mx-2 col-3" for="">圖5：</label>
                                     <input type="file" class="form-control" name="img_s5">
                                 </div> -->
 
                                 <div class="d-flex my-2 align-items-center">
-                                    <label class="mx-2 col-4" for="">上架數量：</label>
-                                    <input type="number" class="form-control" name="">
+                                    <label class="mx-2 col-3 text-end" for="">上架數量：</label>
+                                    <input type="number" class="form-control" name=""placeholder="庫存數量">
                                 </div>
                                 <div class="d-flex my-2 align-items-center">
-                                    <label class="mx-2 col-4" for="">商品描述：</label>
-                                    <textarea role="4" class="form-control" name="description"></textarea>
+                                    <label class="mx-2 col-3 text-end" for="">商品描述：</label>
+                                    <textarea role="4" class="form-control" name="description" placeholder="請簡單說明產品內容(限50字內)"></textarea>
                                 </div>
                             </form>
 
                             <!-- group btn -->
                             <form id="showForm" class="" action="product-create.php" method="post">
                                 <div class="d-flex my-2 align-items-center">
-                                    <label class="mx-2 col-4" for="">封面圖：</label>
+                                    <label class="mx-2 col-3 text-end" for="">封面圖：</label>
                                     <div class="input-group mb-3">
                                         <input type="file" class="form-control" value="<?= $_SESSION["img_m"] ?>" class="form-control" name="img_m">
                                         <button class="btn btn-outline-secondary" type="submit" id="showBtn">預覽</button>
@@ -241,7 +238,7 @@ if (isset($img_m)) {
                             </form>
                             <form id="showForm" class="" action="product-create.php" method="post">
                                 <div class="d-flex my-2 align-items-center">
-                                    <label class="mx-2 col-4" for="">圖1：</label>
+                                    <label class="mx-2 col-3 text-end" for="">圖1：</label>
                                     <div class="input-group mb-3">
                                         <input type="file" class="form-control" value="<?= $_SESSION["img_m"] ?>" class="form-control" name="img_m">
                                         <button class="btn btn-outline-secondary" type="submit" id="showBtn">預覽</button>
@@ -250,7 +247,7 @@ if (isset($img_m)) {
                             </form>
                             <form id="showForm" class="" action="product-create.php" method="post">
                                 <div class="d-flex my-2 align-items-center">
-                                    <label class="mx-2 col-4" for="">圖2：</label>
+                                    <label class="mx-2 col-3 text-end" for="">圖2：</label>
                                     <div class="input-group mb-3">
                                         <input type="file" class="form-control" value="<?= $_SESSION["img_m"] ?>" class="form-control" name="img_m">
                                         <button class="btn btn-outline-secondary" type="submit" id="showBtn">預覽</button>
@@ -259,7 +256,7 @@ if (isset($img_m)) {
                             </form>
                             <form id="showForm" class="" action="product-create.php" method="post">
                                 <div class="d-flex my-2 align-items-center">
-                                    <label class="mx-2 col-4" for="">圖3：</label>
+                                    <label class="mx-2 col-3 text-end" for="">圖3：</label>
                                     <div class="input-group mb-3">
                                         <input type="file" class="form-control" value="<?= $_SESSION["img_m"] ?>" class="form-control" name="img_m">
                                         <button class="btn btn-outline-secondary" type="submit" id="showBtn">預覽</button>
@@ -268,7 +265,7 @@ if (isset($img_m)) {
                             </form>
                             <form id="showForm" class="" action="product-create.php" method="post">
                                 <div class="d-flex my-2 align-items-center">
-                                    <label class="mx-2 col-4" for="">圖4：</label>
+                                    <label class="mx-2 col-3 text-end" for="">圖4：</label>
                                     <div class="input-group mb-3">
                                         <input type="file" class="form-control" value="<?= $_SESSION["img_m"] ?>" class="form-control" name="img_m">
                                         <button class="btn btn-outline-secondary" type="submit" id="showBtn">預覽</button>
@@ -277,7 +274,7 @@ if (isset($img_m)) {
                             </form>
                             <form id="showForm" class="" action="product-create.php" method="post">
                                 <div class="d-flex my-2 align-items-center">
-                                    <label class="mx-2 col-4" for="">圖5：</label>
+                                    <label class="mx-2 col-3 text-end" for="">圖5：</label>
                                     <div class="input-group mb-3">
                                         <input type="file" class="form-control" value="<?= $_SESSION["img_m"] ?>" class="form-control" name="img_m">
                                         <button class="btn btn-outline-secondary" type="submit" id="showBtn">預覽</button>
