@@ -69,11 +69,16 @@ $total_pages = ceil($total_records / $pageRow_records);
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <style>
     /* Truncate table cell text with ellipsis (...) */
+    table {
+      table-layout: fixed;
+    }
+
     .table-responsive td,
     .table-responsive th {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+
     }
 
     .table-responsive table tr th a {
@@ -84,7 +89,7 @@ $total_pages = ceil($total_records / $pageRow_records);
 </head>
 
 <body>
-  <div class="container">
+  <div class="container-fluid">
     <a class="text-decoration-none" href="data_page.php">
       <h1 class="text-center mb-5">課程管理清單</h1>
     </a>
@@ -94,7 +99,7 @@ $total_pages = ceil($total_records / $pageRow_records);
       <div class="text-center mb-3 d-flex justify-content-between">
         <div class="text-center mb-3">
           <label for="recordPerPage" class="form-label"></label>
-          <select name="recordPerPage" id="recordPerPage" class="form-select" onchange="updateRecordPerPage('<?php echo $search_field; ?>', '<?php echo $search_keyword; ?>')" >
+          <select name="recordPerPage" id="recordPerPage" class="form-select" onchange="updateRecordPerPage('<?php echo $search_field; ?>', '<?php echo $search_keyword; ?>')">
             <option value="5" <?php if ($pageRow_records == 5) echo 'selected'; ?>>5</option>
             <option value="10" <?php if ($pageRow_records == 10) echo 'selected'; ?>>10</option>
             <option value="20" <?php if ($pageRow_records == 20) echo 'selected'; ?>>20</option>
@@ -231,7 +236,9 @@ $total_pages = ceil($total_records / $pageRow_records);
                 <div><?php echo $row_result["endTime"]; ?></div>
               </td>
               <td><?php echo $row_result["hours"]; ?></td>
-              <td><img class="img my-2" width="100" src="<?php echo $row_result["image"]; ?>" alt=""></td>
+              <td>
+                <img class="img my-2" width="100" src="<?php echo $row_result["image"]; ?>" alt="">
+              </td>
               <td><?php echo $row_result["description"]; ?></td>
               <td>
                 <?php
@@ -240,7 +247,7 @@ $total_pages = ceil($total_records / $pageRow_records);
                 echo $valid_text;
                 ?>
               </td>
-      
+
               <td align="center">
                 <a href="update.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-primary">修改</a>
                 <a href="delete.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-danger">刪除</a>

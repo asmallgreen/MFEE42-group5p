@@ -68,23 +68,27 @@ $total_pages = ceil($total_records / $pageRow_records);
     <title>已刪除課程管理</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
-        /* Truncate table cell text with ellipsis (...) */
-        .table-responsive td,
-        .table-responsive th {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+    /* Truncate table cell text with ellipsis (...) */
+    table{
+      table-layout: fixed;
+    }
+    .table-responsive td,
+    .table-responsive th {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+  
+    }
 
-        .table-responsive table tr th a {
-            color: black;
-            text-decoration: none;
-        }
-    </style>
+    .table-responsive table tr th a {
+      color: black;
+      text-decoration: none;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <a class="text-decoration-none" href="deleted_data_page.php">
             <h1 class="text-center mb-5">課程刪除暫存清單</h1>
         </a>
@@ -227,7 +231,9 @@ $total_pages = ceil($total_records / $pageRow_records);
                 <div><?php echo $row_result["endTime"]; ?></div>
               </td>
               <td><?php echo $row_result["hours"]; ?></td>
-              <td><?php echo $row_result["image"]; ?></td>
+              <td>
+                <img class="img my-2" width="100" src="<?php echo $row_result["image"]; ?>" alt="">
+              </td>
               <td><?php echo $row_result["description"]; ?></td>
               <td align="center">
                 <a href="restore.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-success">還原</a>
