@@ -1,5 +1,5 @@
 <?php
-require_once("../db_connect-test.php");
+require_once("db_connect-test.php");
 // 分頁部分 (取會員數量除以每個分頁要的數量)
 $DuosqlTotal = "SELECT id FROM membership WHERE valid=1";
 $DuoresultTotal = $conn->query($DuosqlTotal);
