@@ -171,33 +171,37 @@ $row = $result->fetch_assoc();
     <main class="main-content">
         <div class="px-3">
            <form action="coupon-doUpdate.php" method="post">
-        <table class= "table table-bordered">
-            <input type="hidden" name="coupon_id" value="<?=$row["coupon_id"]?>">
-            <tr>
-                <th>Code</th>
-                <td><input type="text" class="form-control" value="<?=$row["coupon_code"]?>" name="coupon_code"></td>
-            </tr>
-            <tr>
-                <th>discount</th>
-                <td><input type="text" class="form-control" value="<?=$row["discount"]?>" name="discount"></td>
-            </tr>
-            <tr>
-                <th>deadline</th>
-                <td><input type="date" class="form-control" value="<?=$row["deadline"]?>" name="deadline"></td>
-            </tr>
-            <tr>
-                <th>level</th>
-                <td><input type="number" min="0" max="10" class="form-control" value="<?=$row["level"]?>" name="level"></td>
-            </tr>
-        </table>
-        <div class="py-2 d-flex justify-content-between">
-        <div >
-            <button class="btn btn-primary" type="submit"  id="send">儲存</button>
-            <a href="coupon-list.php" class="btn btn-primary">取消</a>
-        </div>
-        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" type="button">刪除</button>
-        </div>
-        </form>
+                <table class= "table table-bordered">
+                    <input type="hidden" name="coupon_id" value="<?=$row["coupon_id"]?>">
+                    <tr>
+                        <th>Code</th>
+                        <td><input type="text" class="form-control" value="<?=$row["coupon_code"]?>" name="coupon_code"></td>
+                    </tr>
+                    <tr>
+                        <th>discount</th>
+                        <td><input type="text" class="form-control" value="<?=$row["discount"]?>" name="discount"></td>
+                    </tr>
+                    <tr>
+                        <th>startdate</th>
+                        <td><input type="date" class="form-control" value="<?=$row["startdate"]?>" name="startdate"></td>
+                    </tr>
+                    <tr>
+                        <th>deadline</th>
+                        <td><input type="date" class="form-control" value="<?=$row["deadline"]?>" name="deadline"></td>
+                    </tr>
+                    <tr>
+                        <th>level</th>
+                        <td><input type="number" min="0" max="10" class="form-control" value="<?=$row["level"]?>" name="level"></td>
+                    </tr>
+                </table>
+                <div class="py-2 d-flex justify-content-between">
+                    <div>
+                        <button class="btn btn-primary" type="submit"  id="send">儲存</button>
+                        <a href="coupon-list.php" class="btn btn-primary">取消</a>
+                    </div>
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" type="button">刪除</button>
+                </div>
+            </form>
 
         </div>
     </main>
