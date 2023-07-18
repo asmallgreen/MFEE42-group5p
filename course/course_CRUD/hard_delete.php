@@ -33,7 +33,7 @@ $stmt->fetch();
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-6">
-        <a href="deleted_data_page.php" class="btn btn-primary">回上一頁</a>
+        <a href="javascript:history.go(-1)" class="btn btn-primary ">回上一頁</a>
         <br><br>
         <form action="" method="post" name="formDel" id="formDel">
           <table class="table table-bordered">

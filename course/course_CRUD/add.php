@@ -166,7 +166,7 @@ if (isset($_POST["action"]) && ($_POST["action"] == "add")) {
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-6">
-        <a href="data_page.php" class="btn btn-primary">回主畫面</a>
+        <a href="javascript:history.go(-1)" class="btn btn-primary ">回上一頁</a>
         <br><br>
         <div id="errorContainer" class="alert alert-danger" style="display: none;">
           <ul id="errorMessages"></ul>
