@@ -237,7 +237,13 @@ $conn->close();
         <div class="container">
             <div class="row">
                 <div class="col my-5">
-                <i class="fa-solid fa-broom"></i>
+                <?php
+                    $a="";
+                    if(empty($a)){echo "a is  empty";}
+                    else{
+                        "a is not empty";
+                    };
+                ?>
                     <?php foreach ($rowsCate as $rowCate) : ?>
                         <?php echo $rowCate["name"].":"; ?>
                         <select name="" id="">

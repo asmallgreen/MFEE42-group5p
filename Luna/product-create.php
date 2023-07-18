@@ -161,7 +161,7 @@
                 <div class="container">
                     <div class="row my-3">
                         <div class="col-6">
-                            <form action="doCreate.php" method="post">
+                            <form action="product-doCreate.php" method="post">
                             <label for="">name</label>
                             <input type="text" class="form-control" name="name">
                             <label for="">category</label>

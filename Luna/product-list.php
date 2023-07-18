@@ -279,7 +279,7 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
                     </div>
                 </nav>
                 <!-- list -->
-                <form class="mx-3" action="doDelete.php">
+                <form class="mx-3" action="product-doDelete.php">
 
                     <table class="table text-center align-middle">
                         <thead class="">

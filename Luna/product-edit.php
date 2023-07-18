@@ -190,7 +190,7 @@ $row = $result->fetch_assoc();
                             <img class="editImg" src="/images_bow/<?= $row["img_m"] ?>" alt="">
                         </div>
                         <div class="col-8">
-                            <form class="py-2" action="doEdit.php" method="post">
+                            <form class="py-2" action="product-doEdit.php" method="post">
                                 <table class="table table-bordered">
                                     <tr>
                                         <th class="col-2">ID</th>
