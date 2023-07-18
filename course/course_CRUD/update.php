@@ -58,7 +58,7 @@ $stmt->fetch();
       imagePreview.src = '';
     }
   </script>
-   <script>
+  <script>
     function validateForm() {
       var formElements = [{
           id: 'name',
@@ -177,8 +177,8 @@ $stmt->fetch();
         <a href="javascript:history.go(-1)" class="btn btn-primary ">回主畫面</a>
         <br><br>
         <div id="errorContainer" class="alert alert-danger" style="display: none;">
-            <ul id="errorMessages"></ul>
-          </div>
+          <ul id="errorMessages"></ul>
+        </div>
         <form action="" method="post" name="formAdd" id="formAdd" enctype="multipart/form-data" onsubmit="return validateForm()">
 
           <table class="table table-bordered">
@@ -249,18 +249,19 @@ $stmt->fetch();
               <td><input name="hours" type="text" id="hours" value="<?php echo $hours; ?>" class="form-control"></td>
             </tr>
             <tr>
-            <td>課程圖片</td>
-            <td>
-              <div class="row">
-                <div class="col-9">
-                  <input name="image" type="file" id="image" accept="image/*" onchange="previewImage(event)" class="form-control">
+              <td>課程圖片</td>
+              <td>
+                <div class="row">
+                  <div class="col-9">
+                    <input name="image" type="hidden" id="image" class="form-control" value="<?php echo $image; ?>">
+                    <input name="image" type="file" id="image" accept="image/*" onchange="previewImage(event)" class="form-control">
+                  </div>
+                  <div class="col-2">
+                    <input type="button" value="取消上傳" class="btn" onclick="cancelUpload()">
+                  </div>
                 </div>
-                <div class="col-2">
-                  <input type="button" value="取消上傳" class="btn" onclick="cancelUpload()">
-                </div>
-              </div>
-              <img id="imagePreview" width="200" class="mt-2" src="<?php echo $image; ?>">
-            </td>
+                <img id="imagePreview" width="200" class="mt-2" src="<?php echo $image; ?>">
+              </td>
             </tr>
             <tr>
               <td>課程敘述</td>

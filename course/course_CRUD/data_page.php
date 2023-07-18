@@ -231,7 +231,7 @@ $total_pages = ceil($total_records / $pageRow_records);
                 <div><?php echo $row_result["endTime"]; ?></div>
               </td>
               <td><?php echo $row_result["hours"]; ?></td>
-              <td><?php echo $row_result["image"]; ?></td>
+              <td><img class="img my-2" width="100" src="<?php echo $row_result["image"]; ?>" alt=""></td>
               <td><?php echo $row_result["description"]; ?></td>
               <td>
                 <?php
