@@ -3,7 +3,7 @@
 if(!isset($_GET["coupon_id"])){
     die("無法作業");
 }
-require_once("db_connect.php");
+require_once("coupon_db_connect.php");
 
 
 

@@ -8,7 +8,7 @@ $level=$_POST["level"];
 
 // echo "$name,$phone,$email";
 
-require_once("db_connect.php");
+require_once("coupon_db_connect.php");
 
 $sql = "UPDATE coupon SET coupon_code = '$code', discount = '$discount', deadline='$deadline' , level = '$level' WHERE coupon_id =$couponid ";
 
@@ -16,7 +16,7 @@ $sql = "UPDATE coupon SET coupon_code = '$code', discount = '$discount', deadlin
 // exit;
 if ($conn->query($sql) === TRUE ){
 
-    header("location: dashboard-coupon-list.php?");
+    header("location: coupon-list.php?");
 
 } else {
     echo "修改資料錯誤" .$conn->error;  

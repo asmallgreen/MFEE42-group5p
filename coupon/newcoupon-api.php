@@ -1,6 +1,6 @@
 <?php
 
-require_once("db_connect.php");
+require_once("coupon_db_connect.php");
 
 if(!isset($_POST["couponcode"])){
     // echo "請依正常管道進入此頁";

@@ -1,7 +1,7 @@
 <?php
 if(isset($_GET["coupon_code"])){
 $couponcode=$_GET["coupon_code"];
-require_once("db_connect.php");
+require_once("coupon_db_connect.php");
 
 $sql="SELECT coupon_id, coupon_code, discount, deadline FROM coupon WHERE coupon_code LIKE '%$couponcode%' AND valid=1";
 $result=$conn->query($sql);
@@ -154,8 +154,8 @@ $code_count = $result->num_rows;
     <main class="main-content">
         <div class="px-3">
             <div class="py-2">
-                <a href="dashboard-coupon-list.php" class="btn btn-info my-2">回優惠碼列表</a>
-                <form action="dashboard-coupon-search.php">
+                <a href="coupon-list.php" class="btn btn-info my-2">回優惠碼列表</a>
+                <form action="coupon-search.php">
                 <div class="row gx-2">
                     <div class="col">
                         <input type="text" class="form-control" 
@@ -180,7 +180,7 @@ $code_count = $result->num_rows;
             </div>
             <?php if($code_count!=0): ?>
             <div class="py-2 d-flex justify-content-between align-items-center">
-                <a class="btn btn-info" href="dashboard-newcoupon-ajax.php">新增</a>
+                <a class="btn btn-info" href="newcoupon-ajax.php">新增</a>
                 <div>
                 共 <?= $code_count ?> 筆
                 </div>
@@ -188,7 +188,7 @@ $code_count = $result->num_rows;
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>id</th>
+                        
                         <th>code</th>
                         <th>discount</th>
                         <th>deadline</th>
@@ -198,12 +198,12 @@ $code_count = $result->num_rows;
                 <tbody>
                     <?php foreach($rows as $row): ?>
                     <tr>
-                        <td><?=$row["coupon_id"]?></td>
+                        
                         <td><?=$row["coupon_code"]?></td>
                         <td><?=$row["discount"]?></td>
                         <td><?=$row["deadline"]?></td>
                         <td>
-                            <a href="dashboard-coupon-edit.php?id=<?=$row["coupon_id"]?>" class="btn btn-info">編輯</a>
+                            <a href="coupon-edit.php?coupon_id=<?=$row["coupon_id"]?>" class="btn btn-info">編輯</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>
