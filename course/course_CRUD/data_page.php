@@ -75,7 +75,8 @@ $total_pages = ceil($total_records / $pageRow_records);
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .table-responsive table tr th a{
+
+    .table-responsive table tr th a {
       color: black;
       text-decoration: none;
     }
@@ -85,19 +86,15 @@ $total_pages = ceil($total_records / $pageRow_records);
 <body>
   <div class="container">
     <a class="text-decoration-none" href="data_page.php">
-      <h1 class="text-center">課程管理系統</h1>
+      <h1 class="text-center mb-5">課程管理清單</h1>
     </a>
-    <div class="text-center mb-3">
-      <a href="add.php" class="btn btn-primary">新增課程資料</a>
-    </div>
-
 
     <!-- 搜尋表單 -->
     <form method="GET" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-      <div class="text-center mb-3 row">
-        <div class="text-center mb-3 col-1">
-          <label for="recordPerPage" class="form-label">每頁顯示筆數：</label>
-          <select name="recordPerPage" id="recordPerPage" class="form-select" onchange="updateRecordPerPage('<?php echo $search_field; ?>', '<?php echo $search_keyword; ?>')">
+      <div class="text-center mb-3 d-flex justify-content-between">
+        <div class="text-center mb-3">
+          <label for="recordPerPage" class="form-label"></label>
+          <select name="recordPerPage" id="recordPerPage" class="form-select" onchange="updateRecordPerPage('<?php echo $search_field; ?>', '<?php echo $search_keyword; ?>')" >
             <option value="5" <?php if ($pageRow_records == 5) echo 'selected'; ?>>5</option>
             <option value="10" <?php if ($pageRow_records == 10) echo 'selected'; ?>>10</option>
             <option value="20" <?php if ($pageRow_records == 20) echo 'selected'; ?>>20</option>
@@ -106,21 +103,22 @@ $total_pages = ceil($total_records / $pageRow_records);
           </select>
         </div>
 
-        <div class="d-flex justify-content-center col-10">
+        <div class="d-flex justify-content-center">
           <div class="mx-2">
-            <label for="keyword" class="form-label">關鍵字：</label>
-            <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo $search_keyword; ?>">
+            <label for="keyword" class="form-label"></label>
+            <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo $search_keyword; ?>" placeholder="請輸入關鍵字">
           </div>
           <div class="mx-2 d-flex">
             <input type="hidden" name="search" value="true">
-            <button type="submit" class="btn btn-primary align-self-center">搜尋</button>
+            <button type="submit" class="btn btn-primary align-self-center mt-2">搜尋</button>
           </div>
         </div>
-        <div class="col-1"></div>
+
+        <div class="text-center mb-3">
+          <a href="add.php" class="btn btn-warning mt-4">新增課程</a>
+        </div>
       </div>
     </form>
-
-
     <div class="table-responsive">
       <table class="table table-bordered table-striped align-middle">
         <!-- 表格表頭 -->
@@ -143,6 +141,11 @@ $total_pages = ceil($total_records / $pageRow_records);
           <th>
             <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'level', 'sortOrder' => $sortField === 'level' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
               難易分級 <?php if ($sortField === 'level') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'teacher_id', 'sortOrder' => $sortField === 'teacher_id' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              授課教師 <?php if ($sortField === 'teacher_id') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
             </a>
           </th>
           <th>
@@ -172,7 +175,7 @@ $total_pages = ceil($total_records / $pageRow_records);
           </th>
           <th>
             <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'image', 'sortOrder' => $sortField === 'image' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
-              相關影音 <?php if ($sortField === 'image') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+              課程圖片 <?php if ($sortField === 'image') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
             </a>
           </th>
           <th>
@@ -183,11 +186,6 @@ $total_pages = ceil($total_records / $pageRow_records);
           <th>
             <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'valid', 'sortOrder' => $sortField === 'valid' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
               開放報名 <?php if ($sortField === 'valid') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
-            </a>
-          </th>
-          <th>
-            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'teacher_id', 'sortOrder' => $sortField === 'teacher_id' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
-              授課教師 <?php if ($sortField === 'teacher_id') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
             </a>
           </th>
           <th>操作</th>
@@ -221,6 +219,7 @@ $total_pages = ceil($total_records / $pageRow_records);
                 echo $level_text;
                 ?>
               </td>
+              <td><?php echo $row_result["teacher_id"]; ?></td>
               <td><?php echo $row_result["price"]; ?></td>
               <td><?php echo $row_result["location"]; ?></td>
               <td>
@@ -241,7 +240,7 @@ $total_pages = ceil($total_records / $pageRow_records);
                 echo $valid_text;
                 ?>
               </td>
-              <td><?php echo $row_result["teacher_id"]; ?></td>
+      
               <td align="center">
                 <a href="update.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-primary">修改</a>
                 <a href="delete.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-danger">刪除</a>

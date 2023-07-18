@@ -21,41 +21,60 @@ $stmt->bind_result($id, $name, $capacity, $level, $price, $location, $startDate,
 $stmt->fetch();
 ?>
 
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>課程管理系統</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>課程管理系統</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
-<h1 align="center">課程管理系統 - 還原資料</h1>
-<p align="center"><a href="deleted_data_page.php">已刪除課程管理</a></p>
-<form action="" method="post" name="formDel" id="formDel">
-  <table border="1" align="center" cellpadding="4">
-    <tr>
-      <th>欄位</th><th>資料</th>
-    </tr>
-    <tr>
-      <td>課程編號</td><td><?php echo $id;?></td>
-    </tr>
-    <tr>
-      <td>課程名稱</td><td><?php echo $name;?></td>
-    </tr>
-    <tr>
-      <td>課程日期</td><td><?php echo $startDate;?> ~ <?php echo $endDate;?></td>
-    </tr>
-    <tr>
-      <td>授課教師</td><td><?php echo $teacher_id;?></td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-      <input name="id" type="hidden" value="<?php echo $id;?>">
-      <input name="action" type="hidden" value="delete">
-      <input type="submit" name="button" id="button" value="確定還原這筆資料嗎？">
-      </td>
-    </tr>
-  </table>
-</form>
+  <h1 class="text-center">課程管理系統 - 還原資料</h1>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <a href="deleted_data_page.php" class="btn btn-primary">回上一頁</a>
+        <br><br>
+        <form action="" method="post" name="formDel" id="formDel">
+          <table class="table table-bordered">
+            <tr>
+              <th>欄位</th>
+              <th>資料</th>
+            </tr>
+            <tr>
+              <td>課程編號</td>
+              <td><?php echo $id; ?></td>
+            </tr>
+            <tr>
+              <td>課程名稱</td>
+              <td><?php echo $name; ?></td>
+            </tr>
+            <tr>
+              <td>課程日期</td>
+              <td><?php echo $startDate; ?> ~ <?php echo $endDate; ?></td>
+            </tr>
+            <tr>
+              <td>授課教師</td>
+              <td><?php echo $teacher_id; ?></td>
+            </tr>
+            <tr>
+              <td colspan="2" align="center">
+                <input name="id" type="hidden" value="<?php echo $id; ?>">
+                <input name="action" type="hidden" value="delete">
+                <h4>此資料將還原</h4>
+                <input type="submit" name="button" id="button" value="確定還原" class="btn btn-success">
+              </td>
+            </tr>
+          </table>
+        </form>
+      </div>
+    </div>
+  </div>
 </body>
+
 </html>
 
 <?php

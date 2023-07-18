@@ -31,11 +31,17 @@ if ($search_keyword) {
     }
 }
 
-
-
+// 排序方式
+$sortField = isset($_GET['sortField']) ? $_GET['sortField'] : '';
+$sortOrder = isset($_GET['sortOrder']) ? $_GET['sortOrder'] : 'ASC';
 
 // 未加限制顯示筆數的 SQL 敘述句
 $sql_query = "SELECT * FROM course {$whereClause}";
+
+// 加上排序條件
+if ($sortField) {
+    $sql_query .= " ORDER BY {$sortField} {$sortOrder}";
+}
 
 // 加上限制顯示筆數的 SQL 敘述句，由本頁開始記錄筆數開始，每頁顯示預設筆數
 $sql_query_limit = $sql_query . " LIMIT {$startRow_records}, {$pageRow_records}";
@@ -69,19 +75,29 @@ $total_pages = ceil($total_records / $pageRow_records);
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        .table-responsive table tr th a {
+            color: black;
+            text-decoration: none;
+        }
     </style>
 </head>
 
 <body>
-    <div class="container-fluid">
-        <h1 class="text-center">已刪除課程管理</h1>
+    <div class="container">
+        <a class="text-decoration-none" href="deleted_data_page.php">
+            <h1 class="text-center mb-5">課程刪除暫存清單</h1>
+        </a>
+
+
+
 
 
         <!-- 搜尋表單 -->
         <form method="GET" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <div class="text-center mb-3 row">
                 <div class="text-center mb-3 col-1">
-                    <label for="recordPerPage" class="form-label">每頁顯示筆數：</label>
+                    <label for="recordPerPage" class="form-label"></label>
                     <select name="recordPerPage" id="recordPerPage" class="form-select" onchange="updateRecordPerPage('<?php echo $search_field; ?>', '<?php echo $search_keyword; ?>')">
                         <option value="5" <?php if ($pageRow_records == 5) echo 'selected'; ?>>5</option>
                         <option value="10" <?php if ($pageRow_records == 10) echo 'selected'; ?>>10</option>
@@ -93,8 +109,8 @@ $total_pages = ceil($total_records / $pageRow_records);
 
                 <div class="d-flex justify-content-center col-10">
                     <div class="mx-2">
-                        <label for="keyword" class="form-label">關鍵字：</label>
-                        <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo $search_keyword; ?>">
+                        <label for="keyword" class="form-label"></label>
+                        <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo $search_keyword; ?>" placeholder="請輸入關鍵字">
                     </div>
                     <div class="mx-2 d-flex">
                         <input type="hidden" name="search" value="true">
@@ -104,127 +120,159 @@ $total_pages = ceil($total_records / $pageRow_records);
                 <div class="col-1"></div>
             </div>
         </form>
-
-
-
-
-
         <div class="table-responsive">
             <table class="table table-bordered table-striped align-middle">
-                <!-- 表格表頭 -->
-                <tr align="center">
-                    <th>課程編號</th>
-                    <th>課程名稱</th>
-                    <th>人數限制</th>
-                    <th>難易分級</th>
-                    <th>課程價格</th>
-                    <th>上課地點</th>
-                    <th>課程日期</th>
-                    <th>上課時間</th>
-                    <th>課程時數</th>
-                    <th>課程綱要</th>
-                    <th>報名資格</th>
-                    <th>課程目標</th>
-                    <th>課程介紹</th>
-                    <th>相關影音</th>
-                    <th>課程敘述</th>
-                    <th>開放報名</th>
-                    <th>教師</th>
-                    <th>適用優惠</th>
-                    <th>操作</th>
-                </tr>
+<!-- 表格表頭 -->
+<tr align="center">
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'id', 'sortOrder' => $sortField === 'id' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              課程編號 <?php if ($sortField === 'id') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'name', 'sortOrder' => $sortField === 'name' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              課程名稱 <?php if ($sortField === 'name') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'capacity', 'sortOrder' => $sortField === 'capacity' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              人數限制 <?php if ($sortField === 'capacity') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'level', 'sortOrder' => $sortField === 'level' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              難易分級 <?php if ($sortField === 'level') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'teacher_id', 'sortOrder' => $sortField === 'teacher_id' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              授課教師 <?php if ($sortField === 'teacher_id') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'price', 'sortOrder' => $sortField === 'price' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              課程價格 <?php if ($sortField === 'price') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'location', 'sortOrder' => $sortField === 'location' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              上課地點 <?php if ($sortField === 'location') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'startDate', 'sortOrder' => $sortField === 'startDate' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              課程日期 <?php if ($sortField === 'startDate') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'startTime', 'sortOrder' => $sortField === 'startTime' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              上課時間 <?php if ($sortField === 'startTime') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'hours', 'sortOrder' => $sortField === 'hours' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              課程時數 <?php if ($sortField === 'hours') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'image', 'sortOrder' => $sortField === 'image' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              課程圖片 <?php if ($sortField === 'image') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'description', 'sortOrder' => $sortField === 'description' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              課程敘述 <?php if ($sortField === 'description') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>操作</th>
+        </tr>
+
                 <!-- 資料內容 -->
-                <?php while ($row_result = $result->fetch_assoc()) : ?>
-                    <tr>
-                        <td><?php echo $row_result["id"]; ?></td>
-                        <td><?php echo $row_result["name"]; ?></td>
-                        <td><?php echo $row_result["capacity"]; ?></td>
-                        <td>
-                            <?php
-                            $level = $row_result["level"];
-                            $level_text = '';
-                            switch ($level) {
-                                case 1:
-                                    $level_text = '初學';
-                                    break;
-                                case 2:
-                                    $level_text = '入門';
-                                    break;
-                                case 3:
-                                    $level_text = '進階';
-                                    break;
-                                default:
-                                    $level_text = '未定義';
-                                    break;
-                            }
-                            echo $level_text;
-                            ?>
-                        </td>
-                        <td><?php echo $row_result["price"]; ?></td>
-                        <td><?php echo $row_result["location"]; ?></td>
-                        <td>
-                            <div><?php echo $row_result["startDate"]; ?></div>
-                            <div><?php echo $row_result["endDate"]; ?></div>
-                        </td>
-                        <td>
-                            <div><?php echo $row_result["startTime"]; ?></div>
-                            <div><?php echo $row_result["endTime"]; ?></div>
-                        </td>
-                        <td><?php echo $row_result["hours"]; ?></td>
-                        <td><?php echo $row_result["schedule"]; ?></td>
-                        <td><?php echo $row_result["qualification"]; ?></td>
-                        <td><?php echo $row_result["target"]; ?></td>
-                        <td><?php echo $row_result["intro"]; ?></td>
-                        <td><?php echo $row_result["image"]; ?></td>
-                        <td><?php echo $row_result["description"]; ?></td>
-                        <td>
-                            <?php
-                            $valid = $row_result["valid"];
-                            $valid_text = ($valid == 1) ? '已開放' : '未開放';
-                            echo $valid_text;
-                            ?>
-                        </td>
-                        <td><?php echo $row_result["teacher_id"]; ?></td>
-                        <td><?php echo $row_result["discount_id"]; ?></td>
-                        <td>
-                            <a href="restore.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-info">還原</a>
-                            <a href="hard_delete.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-danger">刪除</a>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            </table>
-        </div>
-
-        <div class="row justify-content-center">
-            <?php if ($num_pages > 1) : ?>
-                <div class="col-auto">
-                    <a href="data_page.php?page=1&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true" class="btn btn-primary">第一頁</a>
-                    <a href="data_page.php?page=<?php echo $num_pages - 1; ?>&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true" class="btn btn-primary">上一頁</a>
-                </div>
-            <?php endif; ?>
-            <?php if ($num_pages < $total_pages) : ?>
-                <div class="col-auto">
-                    <a href="data_page.php?page=<?php echo $num_pages + 1; ?>&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true" class="btn btn-primary">下一頁</a>
-                    <a href="data_page.php?page=<?php echo $total_pages; ?>&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&search=true" class="btn btn-primary">最後頁</a>
-                </div>
-            <?php endif; ?>
-        </div>
-
-        <div class="row justify-content-center mt-3">
-            <div class="col-auto">
-                <p>目前資料筆數：<?php echo $total_records; ?></p>
-            </div>
-        </div>
-
+        <?php if ($result->num_rows > 0) : ?>
+          <?php while ($row_result = $result->fetch_assoc()) : ?>
+            <tr align="center">
+              <td><?php echo $row_result["id"]; ?></td>
+              <td><?php echo $row_result["name"]; ?></td>
+              <td><?php echo $row_result["capacity"]; ?></td>
+              <td>
+                <?php
+                $level = $row_result["level"];
+                $level_text = '';
+                switch ($level) {
+                  case 1:
+                    $level_text = '初學';
+                    break;
+                  case 2:
+                    $level_text = '入門';
+                    break;
+                  case 3:
+                    $level_text = '進階';
+                    break;
+                  default:
+                    $level_text = '未定義';
+                    break;
+                }
+                echo $level_text;
+                ?>
+              </td>
+              <td><?php echo $row_result["teacher_id"]; ?></td>
+              <td><?php echo $row_result["price"]; ?></td>
+              <td><?php echo $row_result["location"]; ?></td>
+              <td>
+                <div><?php echo $row_result["startDate"]; ?></div>
+                <div><?php echo $row_result["endDate"]; ?></div>
+              </td>
+              <td>
+                <div><?php echo $row_result["startTime"]; ?></div>
+                <div><?php echo $row_result["endTime"]; ?></div>
+              </td>
+              <td><?php echo $row_result["hours"]; ?></td>
+              <td><?php echo $row_result["image"]; ?></td>
+              <td><?php echo $row_result["description"]; ?></td>
+              <td align="center">
+                <a href="restore.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-success">還原</a>
+                <a href="hard_delete.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-danger">刪除</a>
+              </td>
+            </tr>
+          <?php endwhile; ?>
+        <?php else : ?>
+          <tr>
+            <td colspan="14" align="center">查無符合條件的資料</td>
+          </tr>
+        <?php endif; ?>
+      </table>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function updateRecordPerPage(field, keyword) {
-            var recordPerPage = document.getElementById('recordPerPage').value;
-            location.href = 'data_page.php?page=1&recordPerPage=' + recordPerPage + '&field=' + field + '&keyword=' + keyword;
-        }
-    </script>
+    <div class="row justify-content-center">
+      <?php if ($num_pages > 1) : ?>
+        <div class="col-auto">
+          <a href="data_page.php?page=1&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&sortField=<?php echo $sortField; ?>&sortOrder=<?php echo $sortOrder; ?>&search=true" class="btn btn-primary">第一頁</a>
+          <a href="data_page.php?page=<?php echo $num_pages - 1; ?>&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&sortField=<?php echo $sortField; ?>&sortOrder=<?php echo $sortOrder; ?>&search=true" class="btn btn-primary">上一頁</a>
+        </div>
+      <?php endif; ?>
+      <?php if ($num_pages < $total_pages) : ?>
+        <div class="col-auto">
+          <a href="data_page.php?page=<?php echo $num_pages + 1; ?>&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&sortField=<?php echo $sortField; ?>&sortOrder=<?php echo $sortOrder; ?>&search=true" class="btn btn-primary">下一頁</a>
+          <a href="data_page.php?page=<?php echo $total_pages; ?>&field=<?php echo urlencode($search_field); ?>&keyword=<?php echo urlencode($search_keyword); ?>&recordPerPage=<?php echo $pageRow_records; ?>&sortField=<?php echo $sortField; ?>&sortOrder=<?php echo $sortOrder; ?>&search=true" class="btn btn-primary">最後頁</a>
+        </div>
+      <?php endif; ?>
+    </div>
+
+    <div class="row justify-content-center mt-3">
+      <div class="col-auto">
+        <p>目前資料筆數：<?php echo $total_records; ?></p>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function updateRecordPerPage(field, keyword) {
+      var recordPerPage = document.getElementById('recordPerPage').value;
+      location.href = 'data_page.php?page=1&recordPerPage=' + recordPerPage + '&field=' + field + '&keyword=' + keyword;
+    }
+  </script>
 
 </body>
 
