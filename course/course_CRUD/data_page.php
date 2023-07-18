@@ -81,16 +81,6 @@ $total_pages = ceil($total_records / $pageRow_records);
     }
   </style>
 </head>
-<script>
-  // 檢查總記錄數是否為零
-  var totalRecords = <?php echo $total_records; ?>;
-  if (totalRecords === 0) {
-    // 顯示一個帶有說明的彈出式視窗
-    window.addEventListener('DOMContentLoaded', function() {
-      alert('找不到符合搜尋條件的結果。');
-    });
-  }
-</script>
 
 <body>
   <div class="container-fluid">
@@ -129,6 +119,7 @@ $total_pages = ceil($total_records / $pageRow_records);
         <div class="col-1"></div>
       </div>
     </form>
+
 
     <div class="table-responsive">
       <table class="table table-bordered table-striped align-middle">
@@ -203,59 +194,65 @@ $total_pages = ceil($total_records / $pageRow_records);
         </tr>
 
         <!-- 資料內容 -->
-        <?php while ($row_result = $result->fetch_assoc()) : ?>
-          <tr align="center">
-            <td><?php echo $row_result["id"]; ?></td>
-            <td><?php echo $row_result["name"]; ?></td>
-            <td><?php echo $row_result["capacity"]; ?></td>
-            <td>
-              <?php
-              $level = $row_result["level"];
-              $level_text = '';
-              switch ($level) {
-                case 1:
-                  $level_text = '初學';
-                  break;
-                case 2:
-                  $level_text = '入門';
-                  break;
-                case 3:
-                  $level_text = '進階';
-                  break;
-                default:
-                  $level_text = '未定義';
-                  break;
-              }
-              echo $level_text;
-              ?>
-            </td>
-            <td><?php echo $row_result["price"]; ?></td>
-            <td><?php echo $row_result["location"]; ?></td>
-            <td>
-              <div><?php echo $row_result["startDate"]; ?></div>
-              <div><?php echo $row_result["endDate"]; ?></div>
-            </td>
-            <td>
-              <div><?php echo $row_result["startTime"]; ?></div>
-              <div><?php echo $row_result["endTime"]; ?></div>
-            </td>
-            <td><?php echo $row_result["hours"]; ?></td>
-            <td><?php echo $row_result["image"]; ?></td>
-            <td><?php echo $row_result["description"]; ?></td>
-            <td>
-              <?php
-              $valid = $row_result["valid"];
-              $valid_text = ($valid == 1) ? '已開放' : '未開放';
-              echo $valid_text;
-              ?>
-            </td>
-            <td><?php echo $row_result["teacher_id"]; ?></td>
-            <td align="center">
-              <a href="update.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-primary">修改</a>
-              <a href="delete.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-danger">刪除</a>
-            </td>
+        <?php if ($result->num_rows > 0) : ?>
+          <?php while ($row_result = $result->fetch_assoc()) : ?>
+            <tr align="center">
+              <td><?php echo $row_result["id"]; ?></td>
+              <td><?php echo $row_result["name"]; ?></td>
+              <td><?php echo $row_result["capacity"]; ?></td>
+              <td>
+                <?php
+                $level = $row_result["level"];
+                $level_text = '';
+                switch ($level) {
+                  case 1:
+                    $level_text = '初學';
+                    break;
+                  case 2:
+                    $level_text = '入門';
+                    break;
+                  case 3:
+                    $level_text = '進階';
+                    break;
+                  default:
+                    $level_text = '未定義';
+                    break;
+                }
+                echo $level_text;
+                ?>
+              </td>
+              <td><?php echo $row_result["price"]; ?></td>
+              <td><?php echo $row_result["location"]; ?></td>
+              <td>
+                <div><?php echo $row_result["startDate"]; ?></div>
+                <div><?php echo $row_result["endDate"]; ?></div>
+              </td>
+              <td>
+                <div><?php echo $row_result["startTime"]; ?></div>
+                <div><?php echo $row_result["endTime"]; ?></div>
+              </td>
+              <td><?php echo $row_result["hours"]; ?></td>
+              <td><?php echo $row_result["image"]; ?></td>
+              <td><?php echo $row_result["description"]; ?></td>
+              <td>
+                <?php
+                $valid = $row_result["valid"];
+                $valid_text = ($valid == 1) ? '已開放' : '未開放';
+                echo $valid_text;
+                ?>
+              </td>
+              <td><?php echo $row_result["teacher_id"]; ?></td>
+              <td align="center">
+                <a href="update.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-primary">修改</a>
+                <a href="delete.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-danger">刪除</a>
+              </td>
+            </tr>
+          <?php endwhile; ?>
+        <?php else : ?>
+          <tr>
+            <td colspan="14" align="center">查無符合條件的資料</td>
           </tr>
-        <?php endwhile; ?>
+        <?php endif; ?>
       </table>
     </div>
 
