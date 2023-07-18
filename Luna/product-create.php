@@ -1,3 +1,13 @@
+<?php
+
+session_start();
+$img_m = $_POST["img_m"];
+if (isset($img_m)) {
+    $_SESSION["img_m"] = $img_m;
+}
+
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -39,6 +49,12 @@
 
         .chart {
             height: 400px;
+        }
+
+        /* img */
+        .object-fit-cover {
+            width: 200px;
+            height: 200px;
         }
     </style>
 
@@ -88,7 +104,7 @@
                 </div>
                 <li>
                     <a class="d-block py-2 px-3 text-decoration-none" href="">
-                    <i class="fa-solid fa-box fa-fw me-2"></i>庫存目錄
+                        <i class="fa-solid fa-box fa-fw me-2"></i>庫存目錄
                     </a>
                 </li>
                 <div class="my-2 d-flex justify-content-between text-secondary px-3">
@@ -99,7 +115,7 @@
                 </div>
                 <li>
                     <a class="d-block py-2 px-3 text-decoration-none" href="">
-                    <i class="fa-solid fa-book fa-fw me-2"></i>課程目錄
+                        <i class="fa-solid fa-book fa-fw me-2"></i>課程目錄
                     </a>
                 </li>
                 <div class="my-2 d-flex justify-content-between text-secondary px-3">
@@ -161,35 +177,122 @@
                 <div class="container">
                     <div class="row my-3">
                         <div class="col-6">
-                            <form action="product-doCreate.php" method="post">
-                            <label for="">name</label>
-                            <input type="text" class="form-control" name="name">
-                            <label for="">category</label>
-                            <select class="form-select" name="category">
-                                <option value="1">Bow</option>
-                                <option value="2">Arrow</option>
-                                <option value="3">String</option>
-                                <option value="4">Other</option>
-                                <option value="4">Suit</option>
-                            </select>
-                            <label for="">price</label>
-                            <input type="number" class="form-control" name="price">
-                            <label for="">img_s1</label>
-                            <input type="file" class="form-control" name="img_s1">
-                            <label for="">img_s2</label>
-                            <input type="file" class="form-control" name="img_s2">
-                            <label for="">img_s3</label>
-                            <input type="file" class="form-control" name="img_s3">
-                            <label for="">img_s4</label>
-                            <input type="file" class="form-control" name="img_s4">
-                            <label for="">img_s5</label>
-                            <input type="file" class="form-control" name="img_s5">
-                            <label for="">img_m</label>
-                            <input type="file" class="form-control" name="img_m">
-                            <label for="">description</label>
-                            <input type="text" class="form-control" name="description">
-                            <button class="my-2 btn btn-info" type="submit">送出</button>
-                        </form>
+                            <form id="subForm" action="product-doCreate.php" method="post">
+                                <div class="d-flex my-2 align-items-center">
+                                    <label class="mx-2 col-4" for="">產品名稱：</label>
+                                    <input type="text" class="form-control" name="name">
+                                </div>
+                                <div class="d-flex my-2 align-items-center">
+                                    <label class="mx-2 col-4" for="">類別</label>
+                                    <select class="form-select" name="category">
+                                        <option value="1">弓</option>
+                                        <option value="2">箭</option>
+                                        <option value="3">弦</option>
+                                        <option value="4">服裝</option>
+                                        <option value="5">其他</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex my-2 align-items-center">
+                                    <label class="mx-2 col-4" for="">價格：</label>
+                                    <input type="number" class="form-control" name="price">
+                                </div>
+
+
+                                <!-- <div class="d-flex my-2 align-items-center">
+                                    <label class="mx-2 col-4" for="">圖1：</label>
+                                    <input type="file" class="form-control" name="img_s1">
+                                </div>
+                                <div class="d-flex my-2 align-items-center">
+                                    <label class="mx-2 col-4" for="">圖2：</label>
+                                    <input type="file" class="form-control" name="img_s2">
+                                </div>
+                                <div class="d-flex my-2 align-items-center">
+                                    <label class="mx-2 col-4" for="">圖3：</label>
+                                    <input type="file" class="form-control" name="img_s3">
+                                </div>
+                                <div class="d-flex my-2 align-items-center">
+                                    <label class="mx-2 col-4" for="">圖4：</label>
+                                    <input type="file" class="form-control" name="img_s4">
+                                </div>
+                                <div class="d-flex my-2 align-items-center">
+                                    <label class="mx-2 col-4" for="">圖5：</label>
+                                    <input type="file" class="form-control" name="img_s5">
+                                </div> -->
+
+                                <div class="d-flex my-2 align-items-center">
+                                    <label class="mx-2 col-4" for="">上架數量：</label>
+                                    <input type="number" class="form-control" name="">
+                                </div>
+                                <div class="d-flex my-2 align-items-center">
+                                    <label class="mx-2 col-4" for="">商品描述：</label>
+                                    <textarea role="4" class="form-control" name="description"></textarea>
+                                </div>
+                            </form>
+
+                            <!-- group btn -->
+                            <form id="showForm" class="" action="product-create.php" method="post">
+                                <div class="d-flex my-2 align-items-center">
+                                    <label class="mx-2 col-4" for="">封面圖：</label>
+                                    <div class="input-group mb-3">
+                                        <input type="file" class="form-control" value="<?= $_SESSION["img_m"] ?>" class="form-control" name="img_m">
+                                        <button class="btn btn-outline-secondary" type="submit" id="showBtn">預覽</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <form id="showForm" class="" action="product-create.php" method="post">
+                                <div class="d-flex my-2 align-items-center">
+                                    <label class="mx-2 col-4" for="">圖1：</label>
+                                    <div class="input-group mb-3">
+                                        <input type="file" class="form-control" value="<?= $_SESSION["img_m"] ?>" class="form-control" name="img_m">
+                                        <button class="btn btn-outline-secondary" type="submit" id="showBtn">預覽</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <form id="showForm" class="" action="product-create.php" method="post">
+                                <div class="d-flex my-2 align-items-center">
+                                    <label class="mx-2 col-4" for="">圖2：</label>
+                                    <div class="input-group mb-3">
+                                        <input type="file" class="form-control" value="<?= $_SESSION["img_m"] ?>" class="form-control" name="img_m">
+                                        <button class="btn btn-outline-secondary" type="submit" id="showBtn">預覽</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <form id="showForm" class="" action="product-create.php" method="post">
+                                <div class="d-flex my-2 align-items-center">
+                                    <label class="mx-2 col-4" for="">圖3：</label>
+                                    <div class="input-group mb-3">
+                                        <input type="file" class="form-control" value="<?= $_SESSION["img_m"] ?>" class="form-control" name="img_m">
+                                        <button class="btn btn-outline-secondary" type="submit" id="showBtn">預覽</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <form id="showForm" class="" action="product-create.php" method="post">
+                                <div class="d-flex my-2 align-items-center">
+                                    <label class="mx-2 col-4" for="">圖4：</label>
+                                    <div class="input-group mb-3">
+                                        <input type="file" class="form-control" value="<?= $_SESSION["img_m"] ?>" class="form-control" name="img_m">
+                                        <button class="btn btn-outline-secondary" type="submit" id="showBtn">預覽</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <form id="showForm" class="" action="product-create.php" method="post">
+                                <div class="d-flex my-2 align-items-center">
+                                    <label class="mx-2 col-4" for="">圖5：</label>
+                                    <div class="input-group mb-3">
+                                        <input type="file" class="form-control" value="<?= $_SESSION["img_m"] ?>" class="form-control" name="img_m">
+                                        <button class="btn btn-outline-secondary" type="submit" id="showBtn">預覽</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <button class="my-2 btn btn-info" type="submit" id="subBtn">送出</button>
+
+                        </div>
+                        <div class="col-4">
+                            <?php if(($_POST["img_m"])!=""):?>
+                            <div class="col-auto box object-fit-cover">
+                                <img class="object-fit-cover" src="/images_bow/<?= $_POST["img_m"] ?>" alt="">
+                            </div>
+                            <?php endif?>
                         </div>
                     </div>
                 </div>
@@ -198,7 +301,22 @@
         </div>
     </main>
 
-
+    <script>
+        // 在按鈕點擊時觸發表單提交
+        const showBtn = document.getElementById("showBtn");
+        showBtn.addEventListener("click", function() {
+            let showForm = document.getElementById("showForm");
+            showForm.submit();
+        });
+    </script>
+    <script>
+        // 在按鈕點擊時觸發表單提交
+        const subBtn = document.getElementById("subBtn");
+        subBtn.addEventListener("click", function() {
+            let subForm = document.getElementById("subForm");
+            subForm.submit();
+        });
+    </script>
 
 
 
