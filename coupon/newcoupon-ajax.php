@@ -113,7 +113,7 @@
                             infoModal.show();
 
                         }else{ //成功
-                            location.href="coupon-list.php";
+                            location.href="dashboard-coupon-list.php";
                         }
                     }).fail(function(jqXHR, textStatus) {
                         console.log("Request failed: " + textStatus);

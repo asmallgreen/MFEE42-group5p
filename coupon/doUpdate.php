@@ -16,7 +16,7 @@ $sql = "UPDATE coupon SET coupon_code = '$code', discount = '$discount', deadlin
 // exit;
 if ($conn->query($sql) === TRUE ){
 
-    header("location: coupon-list.php?");
+    header("location: dashboard-coupon-list.php?");
 
 } else {
     echo "修改資料錯誤" .$conn->error;  

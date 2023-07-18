@@ -29,7 +29,7 @@ $code_count = $result->num_rows;
 <body>
 <div class="container">
         <div class="py-2">
-            <a href="coupon-list.php" class="btn btn-info my-2">回優惠碼列表</a>
+            <a href="dashboard-coupon-list.php" class="btn btn-info my-2">回優惠碼列表</a>
             <form action="search.php">
             <div class="row gx-2">
                 <div class="col">
@@ -55,7 +55,7 @@ $code_count = $result->num_rows;
         </div>
         <?php if($code_count!=0): ?>
         <div class="py-2 d-flex justify-content-between align-items-center">
-            <a class="btn btn-info" href="newcooupon-ajax.php">新增</a>
+            <a class="btn btn-info" href="dashboard-newcooupon-ajax.php">新增</a>
             <div>
             共 <?= $code_count ?> 筆
             </div>
@@ -78,7 +78,7 @@ $code_count = $result->num_rows;
                     <td><?=$row["discount"]?></td>
                     <td><?=$row["deadline"]?></td>
                     <td>
-                        <a href="coupon-edit.php?id=<?=$row["coupon_id"]?>" class="btn btn-info">編輯</a>
+                        <a href="dashboard-coupon-edit.php?id=<?=$row["coupon_id"]?>" class="btn btn-info">編輯</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>
