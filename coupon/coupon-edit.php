@@ -5,7 +5,7 @@ if(!isset($_GET["coupon_id"])){
 $couponid=$_GET["coupon_id"];
 
 require_once("coupon_db_connect.php");
-$sql ="SELECT * FROM coupon WHERE coupon_id =$couponid AND valid=1 AND NOW() >= startdate AND NOW() <= deadline";
+$sql ="SELECT * FROM coupon WHERE coupon_id =$couponid AND valid=1 ";
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 // var_dump($rows);
