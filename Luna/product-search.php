@@ -1,4 +1,6 @@
 <?php
+// ini_set('display_errors', 1);
+// error_reporting(E_ALL);
 if (isset($_GET["name"])) {
     $name = $_GET["name"];
     $whereClouse = "WHERE name LIKE '%$name%'";
@@ -17,11 +19,15 @@ if (isset($_GET["name"])) {
 } elseif ($_GET["category"]) {
     $category = $_GET["category"];
     $whereClouse = "WHERE product_bow.category=$category";
+} elseif ($_GET["item"]) {
+    $item = $_GET["item"];
+    $whereClouse = "WHERE product_bow.item=$item";
 } else {
     $name = "";
     $page = "";
     $category = "";
-    $product_count = 0;
+    $product_count = "";
+    $item="";
 }
 
 $type = $_GET["type"] ?? 1;
@@ -37,6 +43,7 @@ if ($type == 1) {
     $orderBy = "";
 }
 
+// 資料庫
 require_once("../db-connect.php");
 $sql = "SELECT id, name, category, price, created_at, img_m, description 
 FROM product_bow 
@@ -48,14 +55,14 @@ $orderBy
 $result = $conn->query($sql);
 $products = $result->fetch_all(MYSQLI_ASSOC);
 $product_count =  $result->num_rows;
-if (isset($_GET["name"]) || isset($_GET["start"]) && isset($_GET["end"]) || isset($_GET["min"]) && isset($_GET["max"]) || isset($_GET["category"])) {
+if (isset($_GET["name"]) || isset($_GET["start"]) && isset($_GET["end"]) || isset($_GET["min"]) && isset($_GET["max"]) || isset($_GET["category"]) || isset($_GET["item"])) {
     $product_count =  $result->num_rows;
 } else {
     $product_count = 0;
 }
 
 //Category
-
+// 資料庫
 if (isset($_GET["category"])) {
     $category = $_GET["category"];
     $whereClouse = " WHERE id=$category";
@@ -66,31 +73,37 @@ if (isset($_GET["category"])) {
 $sqlCate = "SELECT * FROM category_bow $whereClouse";
 $resultCate = $conn->query($sqlCate);
 if (isset($_GET["category"])) {
-
     $rowcate = $resultCate->fetch_assoc();
 } else {
     $rowsCate = $resultCate->fetch_all(MYSQLI_ASSOC);
 }
 
-//Item
-$sqlItem = "SELECT * FROM item_bow ";
-$resultItem = $conn->query($sqlItem);
-$rowsItem = $resultItem->fetch_all(MYSQLI_ASSOC);
+// Item
+// $item=$_GET["item"];
+if($_GET["item"]){
+    $sqlItem = "SELECT * FROM item_bow WHERE id=$item";
+    $resultItem = $conn->query($sqlItem);
+    $rowItem = $resultItem->fetch_assoc();
+    // echo $rowItem["name"];
+}
 
-//Style
-$sqlStyle = "SELECT * FROM style_bow ";
-$resultStyle = $conn->query($sqlStyle);
-$rowsStyle = $resultStyle->fetch_all(MYSQLI_ASSOC);
 
-//StyleItem
-$sqlStyleItem = "SELECT * FROM styleItem_bow ";
-$resultStyleItem = $conn->query($sqlStyleItem);
-$rowsStyleItem = $resultStyleItem->fetch_all(MYSQLI_ASSOC);
+// Style
+// $sqlStyle = "SELECT * FROM style_bow ";
+// $resultStyle = $conn->query($sqlStyle);
+// $rowsStyle = $resultStyle->fetch_all(MYSQLI_ASSOC);
+
+// StyleItem
+// $sqlStyleItem = "SELECT * FROM styleItem_bow ";
+// $resultStyleItem = $conn->query($sqlStyleItem);
+// $rowsStyleItem = $resultStyleItem->fetch_all(MYSQLI_ASSOC);
 
 //style+styleitem
-$sqlCI = "SELECT category_bow.id AS cateKey, item_bow.category AS itemKey, category_bow.name AS cateName, item_bow.name AS itemName FROM item_bow JOIN category_bow ON item_bow.category = category_bow.id";
+// 資料庫
+$sqlCI = "SELECT item_bow.id, category_bow.id AS cateKey, item_bow.category AS itemKey, category_bow.name AS cateName, item_bow.name AS itemName FROM item_bow JOIN category_bow ON item_bow.category = category_bow.id ";
 $resultCI = $conn->query($sqlCI);
 $rowsCI = $resultCI->fetch_all(MYSQLI_ASSOC);
+
 
 $conn->close();
 
@@ -146,22 +159,6 @@ $conn->close();
             /* width: 200px; */
             height: 200px;
         }
-
-        /* .itemCate {
-            display: none;
-        }
-
-        .itemItem {
-            display: none;
-        }
-
-        .expand1 {
-            display: block;
-        }
-
-        .expand2 {
-            display: block;
-        } */
     </style>
 
 </head>
@@ -234,10 +231,36 @@ $conn->close();
                     <div class="me-2">類別</div>
                     <a class="linkCate" href="product-search.php?type=&page=&name="><i class="fa-solid fa-caret-down text-secondary"></i></a>
                 </div>
-                <a href="product-search.php?type=&page=&name="><i class="fa-solid fa-broom text-secondary me-3"></i></a>
             </div>
+            <!-- 手風琴 -->
+            <?php foreach ($rowsCate as $rowCate) : ?>
 
-            <div class="itemCate">
+                <div class="accordion accordion-flush" id="type">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header ms-4">
+                            <button class=" accordion-button collapsed " type="button" data-bs-toggle="collapse" data-bs-target="#typeItem<?= $rowCate["id"] ?>" aria-expanded="false" aria-controls="typeItem<?= $rowCate["id"] ?>">
+                                <?= $rowCate["name"]; ?>
+                            </button>
+                        </h2>
+                        <!--  -->
+                        <div id="typeItem<?= $rowCate["id"] ?>" class="accordion-collapse collapse" data-bs-parent="#tpye">
+                            <div class="accordion-body">
+                                <?php foreach ($rowsCI as $rowCI) : ?>
+                                    <div class="ms-5">
+                                        <?php if ($rowCI["cateKey"] == $rowCate["id"]) : ?>
+                                            <a class="text-secondary text-decoration-none" href="product-search.php?item=<?= $rowCI["id"] ?>"><?= $rowCI["itemName"]; ?></a>
+
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <?php endforeach; ?>
+
+            <!-- <div class="itemCate">
                 <?php foreach ($rowsCate as $rowCate) : ?>
                     <div class="ms-5 text-decoration-none text-secondary">
                         <a href="product-search.php?type=&page=&name=&category=<?= $rowCate["id"] ?>" class="text-decoration-none text-secondary"><?= $rowCate["name"] ?></a>
@@ -255,7 +278,7 @@ $conn->close();
 
                     </div>
                 <?php endforeach; ?>
-            </div>
+            </div> -->
 
 
 
@@ -271,14 +294,16 @@ $conn->close();
                 <div class="d-flex  align-items-center">
                     <h2 class="mx-2 my-4">搜尋產品結果：</h2>
                     <h5 class="mt-2"> 搜尋『
-                        <?php if (!empty($name)) {
+                        <?php if (isset($name)&& $name!="") {
                             echo $name;
                         } elseif (isset($start) && isset($end)) {
                             echo $start . "到" . $end;
                         } elseif (isset($min) && isset($max)) {
                             echo "$" . $min . "到 $" . $max;
-                        } elseif (isset($category)) {
+                        } elseif (isset($category)&& $category!="") {
                             echo $rowcate["name"];
+                        } elseif (isset($item)&& $item!="") {
+                            echo $rowItem["name"];
                         } else {
                             echo "全部";
                         } ?>
@@ -305,8 +330,9 @@ $conn->close();
                                 <div class="card" style="width: 20rem;">
                                     <img src="/images_bow/<?= $product["img_m"] ?>" class="object-fit-cover card-img-top" alt="...">
                                     <div class="card-body">
-                                        <h5 class="card-title">產品名稱：『 <?= $product["name"] ?> 』</h5>
-                                        <p class="card-text">價錢：</p>
+                                    <p class="card-title">商品編號：<?= $product["id"] ?></p>
+                                        <h5 class="card-text">產品名稱：『 <?= $product["name"] ?> 』</h5>
+                                        <p class="card-text">價錢：$<?= $product["price"] ?></p>
                                         <!-- <a href="#" class="btn btn-primary">商品說明</a> -->
                                     </div>
                                 </div>
@@ -366,32 +392,7 @@ $conn->close();
 
     <!-- js click -->
     <script>
-        // const linkCate = document.querySelector(".linkCate");
-        // const linkCates = document.querySelectorAll(".linkCate");
-        // const itemCate = document.querySelector(".itemCate");
-        // const linkItem = document.querySelector(".linkItem");
-        // const linkItems = document.querySelectorAll(".linkItem");
-        // const itemItem = document.querySelector(".itemItem");
-        // const itemItems = document.querySelectorAll(".itemItem");
 
-
-
-        // const tagCate = document.querySelector(".tagCate");
-        // linkCate.addEventListener("click", function(event) {
-
-        //     event.preventDefault();
-        //     itemCate.classList.toggle("expand1");
-        // });
-
-        // for (let i = 0; i <= linkItems.length; i++) {
-        //     linkItems[i].addEventListener("click", function(event) {
-        //         for (let j = 0; j <= itemItems.length; j++) {
-        //             event.preventDefault();
-        //                     itemItems[j].classList.toggle("expand2");
-        //                     itemItem.classList.toggle("expand2");
-        //         }
-        //     });
-        // }
     </script>
 </body>
 
