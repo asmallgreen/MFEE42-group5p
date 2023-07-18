@@ -38,25 +38,20 @@ if (empty($_SESSION["user"]["member_img"])) {
             --aside-width: 300px;
             --page-spacing-top: 56px;
         }
-
         .brand-name {
             width: var(--aside-width);
         }
-
         .main-aside {
             width: var(--aside-width);
             padding-top: calc(var(--page-spacing-top) + 10px);
         }
-
         .main-content {
             margin-left: var(--aside-width);
             padding-top: calc(var(--page-spacing-top) + 10px);
         }
-
         .borderbottom {
-            border-bottom: 7px solid transparent;
+            /* border-bottom: 7px solid transparent; */
         }
-
         .chart {
             height: 400px;
         }
@@ -113,7 +108,7 @@ if (empty($_SESSION["user"]["member_img"])) {
                     </a>
                     </div>
                     <div class="">
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
+                    <a class="d-block py-2 px-3 text-decoration-none" href="password-edit.php">
                         <i class="fa-solid fa-key"></i> 修改密碼
                     </a>
                     </div>
@@ -192,3 +187,7 @@ if (empty($_SESSION["user"]["member_img"])) {
 </body>
 
 </html>
+
+
+
+

@@ -30,25 +30,20 @@ $sql = "SELECT * FROM membership WHERE id='{$_SESSION['user']['id']}'";
             --aside-width: 300px;
             --page-spacing-top: 56px;
         }
-
         .brand-name {
             width: var(--aside-width);
         }
-
         .main-aside {
             width: var(--aside-width);
             padding-top: calc(var(--page-spacing-top) + 10px);
         }
-
         .main-content {
             margin-left: var(--aside-width);
             padding-top: calc(var(--page-spacing-top) + 10px);
         }
-
         .chart {
             height: 400px;
         }
-
         .deletemember {
             top: 170px;
             right: 50px;
@@ -64,7 +59,7 @@ $sql = "SELECT * FROM membership WHERE id='{$_SESSION['user']['id']}'";
       <img src="/images/bow_icon.jpg" alt="Bootstrap" width="30" height="24">
     </a> -->
                 <div>
-                    <a class="navbar-brand" href="#">會員中心</a>
+                    <a class="navbar-brand " href="dashboard-test.php">會員中心</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -94,24 +89,24 @@ $sql = "SELECT * FROM membership WHERE id='{$_SESSION['user']['id']}'";
     <aside class="main-aside position-fixed bg-light vh-100 border-end">
         <nav class="">
             <ul class="list-unstyled">
-            <li class="p-3">
+                <li class="p-3">
                     <h2 class="" id="">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                             會員
                         </button>
                     </h2>
                     <div class="">
-                    <a class="d-block py-2 px-3 text-decoration-none" href="./member-edit.php">
-                        <i class="fa-solid fa-user-pen"></i> 修改會員資料
-                    </a>
+                        <a class="d-block py-2 px-3 text-decoration-none" href="./member-edit.php">
+                            <i class="fa-solid fa-user-pen"></i> 修改會員資料
+                        </a>
                     </div>
                     <div class="">
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-solid fa-key"></i> 修改密碼
-                    </a>
+                        <a class="d-block py-2 px-3 text-decoration-none" href="password-edit.php">
+                            <i class="fa-solid fa-key"></i> 修改密碼
+                        </a>
                     </div>
                 </li>
-                
+
         </nav>
     </aside>
     <main class="main-content">
@@ -180,23 +175,23 @@ $sql = "SELECT * FROM membership WHERE id='{$_SESSION['user']['id']}'";
                             <div class="pt-2 text-danger"><?= $_SESSION["error"]["phoneMessage"] ?></div>
                         <?php unset($_SESSION["error"]["phoneMessage"]);
                         endif; ?>
-
+                        <div class=" ps-2">
+                            <label for="">address</label>
+                            <input type="text" class="form-control w-100" value="<?= $_SESSION["user"]["address"] ?>" name="address">
+                        </div>
+                        <?php if (isset($_SESSION["error"]["addressMessage"])) : ?>
+                            <div class="pt-2 text-danger"><?= $_SESSION["error"]["addressMessage"] ?></div>
+                        <?php unset($_SESSION["error"]["addressMessage"]);
+                        endif; ?>
+                        <div class="pt-2 ps-2">
+                            <button class="btn btn-info text-end " id="editBtn" data-bs-toggle="modal1" data-bs-target="#exampleModal1" type="submit">
+                                修改完成
+                            </button>
+                        </div>
                     </div>
 
                 </div>
-                <div class=" ps-2">
-                    <label for="">address</label>
-                    <input type="text" class="form-control px-5 w-50" value="<?= $_SESSION["user"]["address"] ?>" name="address">
-                </div>
-                <?php if (isset($_SESSION["error"]["addressMessage"])) : ?>
-                    <div class="pt-2 text-danger"><?= $_SESSION["error"]["addressMessage"] ?></div>
-                <?php unset($_SESSION["error"]["addressMessage"]);
-                endif; ?>
-                <div class="pt-2 ps-2">
-                    <button class="btn btn-info text-end " id="editBtn"  data-bs-toggle="modal1" data-bs-target="#exampleModal1" type="submit">
-                        修改完成
-                    </button>
-                </div>
+
 
 
             </form>
@@ -252,7 +247,7 @@ $sql = "SELECT * FROM membership WHERE id='{$_SESSION['user']['id']}'";
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
     </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 
     <!-- <script>
         const myModal = new bootstrap.Modal(document.getElementById('myModal'), options)

@@ -57,93 +57,61 @@ $sql = "SELECT * FROM membership WHERE id='{$_SESSION['user']['id']}'";
 </head>
 
 <body>
-    <header class="text-bg-dark d-flex shadow fixed-top justify-content-between align-items-center">
-        <a class="bg-black py-3 px-3 text-decoration-none link-light brand-name" href="dashboard-test.php">Membership center</a>
+<header class="text-bg-dark d-flex shadow fixed-top justify-content-between align-items-center">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark container-fluid" data-bs-theme="dark">
+            <div class="container-fluid d-flex justify-content-between">
+                <!-- <a class="navbar-brand" href="#">
+      <img src="/images/bow_icon.jpg" alt="Bootstrap" width="30" height="24">
+    </a> -->
+                <div>
+                    <a class="navbar-brand" href="dashboard-test.php">會員中心</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+
+
+                <div class=" borderbottom" id="navbarNav">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3 ">
+                            hi, <?= $_SESSION["user"]["name"] ?>
+                        </div>
+
+                        <a href="logout-test.php" class="btn btn-dark me-3"><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- <a class="bg-black py-3 px-3 text-decoration-none link-light brand-name" href="dashboard-admin-test.php">管理者後臺介面</a>
         <div class="d-flex align-items-center">
             <div class="me-3">
-                hi, <?= $_SESSION["user"]["name"] ?>
-            </div>
+                hi, 慕朵
+            </div> -->
 
-            <a href="logout-test.php" class="btn btn-dark me-3"><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
-        </div>
+        <!-- <a href="logout-test.php" class="btn btn-dark me-3"><i class="fa-solid fa-right-from-bracket"></i> Log out</a> -->
+
     </header>
     <aside class="main-aside position-fixed bg-light vh-100 border-end">
         <nav class="">
             <ul class="list-unstyled">
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" id="changeTitle" href="member-edit.php">
-                        <i class="fa-solid fa-user-pen"></i> 修改會員資料
-                    </a>
-                </li>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                    <i class="fa-solid fa-key"></i>  修改密碼
-                    </a>
-                </li>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-solid fa-cart-shopping fa-fw me-2"></i>Product
-                    </a>
-                </li>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-solid fa-user-group fa-fw me-2"></i>Customers
-                    </a>
-                </li>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-solid fa-chart-line fa-fw me-2"></i>Report
-                    </a>
-                </li>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-solid fa-puzzle-piece fa-fw me-2"></i>Intergrations
-                    </a>
-                </li>
-            </ul>
-            <div class="my-3 d-flex justify-content-between text-secondary px-3">
-                <div> SAVED REPORTS</div>
-                <a role="button" href="">
-                    <i class="fa-regular fa-square-plus text-secondary"></i>
-                </a>
-            </div>
-            <ul class="list-unstyled">
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-regular fa-file-lines fa-fw me-2"></i>Current month
-                    </a>
-                </li>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-regular fa-file-lines fa-fw me-2"></i> Last quarter
-                    </a>
-                </li>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-regular fa-file-lines fa-fw me-2"></i>Social engagement
-                    </a>
-                </li>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-regular fa-file-lines fa-fw me-2"></i>Year-end sale
-                    </a>
-                </li>
-            </ul>
-            <hr>
-            <ul class="list-unstyled">
-
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="./member-edit.php">
-                        <i class="fa-solid fa-gear fa-fw me-2"></i>Setting
-                    </a>
+                <li class="p-3">
+                    <h2 class="" id="">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            會員
+                        </button>
+                    </h2>
+                    <div class="">
+                        <a class="d-block py-2 px-3 text-decoration-none" href="./member-edit.php">
+                            <i class="fa-solid fa-user-pen"></i> 修改會員資料
+                        </a>
+                    </div>
+                    <div class="">
+                        <a class="d-block py-2 px-3 text-decoration-none" href="password-edit.php">
+                            <i class="fa-solid fa-key"></i> 修改密碼
+                        </a>
+                    </div>
                 </li>
 
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="logout-test.php">
-                        <i class="fa-solid fa-right-from-bracket fa-fw me-2"></i>Sign out
-                    </a>
-                </li>
-            </ul>
         </nav>
     </aside>
     <main class="main-content">
