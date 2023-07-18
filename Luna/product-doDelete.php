@@ -18,8 +18,8 @@ if (isset($_GET["id"]) && is_array($_GET["id"])) {
 foreach ($ids as $id) {
 $sql="UPDATE product_bow SET valid=0 WHERE id='$id'";    
 if ($conn->query($sql) === TRUE) {
-echo "刪除成功";
-    // header("location: user-list.php");
+// echo "刪除成功";
+    header("location: product-list.php");
 
 } else {
     echo "刪除資料錯誤: " . $conn->error;

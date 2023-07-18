@@ -229,8 +229,10 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
                 </div>
 
                 <div class="d-flex align-items-center me-5">
+                    
                     <a href="product-create.php" class="btn"><i class="fa-solid fa-circle-plus">新增</i></a>
-                    <button class="btn"><i class="fa-solid fa-trash">刪除</i></button>
+                        <button class="btn" id="delBtn"><i class="fa-solid fa-trash">刪除</i></button>
+
                     <div class="d-flex justify-content-end align-middle">
                         共 <?= $numProduct ?> 筆, 第 <?= $page ?> 頁</div>
                 </div>
@@ -255,20 +257,6 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
                                         <a class="nav-link <?php if (isset($_GET["category"]) && $_GET["category"] == $cate["id"]) echo "active"; ?>" name="category" href="product-list.php?category=<?= $cate["id"] ?>" href="#"><?= $cate["name"] ?></a>
                                     </li>
                                 <?php endforeach; ?>
-                                <!-- dropdown -->
-                                <!-- <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Dropdown
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    </ul>
-                                </li> -->
                             </ul>
                             <form class="d-flex" action="product-search.php">
                                 <input class="form-control me-2" type="search" placeholder="搜尋產品名稱" aria-label="Search" name="name" value="<?= $_GET["name"] ?>">
@@ -279,7 +267,7 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
                     </div>
                 </nav>
                 <!-- list -->
-                <form class="mx-3" action="product-doDelete.php">
+                <form class="mx-3" id="delForm" action="product-doDelete.php">
 
                     <table class="table text-center align-middle">
                         <thead class="">
@@ -342,10 +330,19 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
     <!-- dropdown -->
-    <script>
+    <!-- <script>
         const dropdownElementList = document.querySelectorAll('.dropdown-toggle')
         const dropdownList = [...dropdownElementList].map(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl))
-    </script>
+    </script> -->
+
+<script>
+  // 在按鈕點擊時觸發表單提交
+  const delBtn = document.getElementById("delBtn");
+  delBtn.addEventListener("click", function() {
+    let delForm = document.getElementById("delForm");
+    delForm.submit();
+  });
+</script>
 </body>
 
 </html>
