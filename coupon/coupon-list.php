@@ -5,18 +5,6 @@ $page = $_GET["page"] ?? 1;
 
 $type=$_GET["type"] ?? 1;
 
-require_once("coupon_db_connect.php");
-
-$sqlTotal = "SELECT coupon_id FROM coupon WHERE valid=1";
-$resultTotal = $conn->query($sqlTotal);
-$totalUser = $resultTotal->num_rows;
-
-$perPage = 5;
-$startItem = ($page - 1) * $perPage;
-
-//計算總共頁數
-$totalPage=ceil($totalUser/$perPage);
-
 if($type==1){    
     $orderBy = "ORDER BY startdate ASC";
 }elseif($type==2){    
@@ -36,6 +24,20 @@ if($type==1){
 }else{
     header("location:../404.php");
 }
+
+require_once("coupon_db_connect.php");
+
+$sqlTotal = "SELECT coupon_id FROM coupon WHERE valid=1 $available ";
+$resultTotal = $conn->query($sqlTotal);
+$totalUser = $resultTotal->num_rows;
+
+$perPage = 5;
+$startItem = ($page - 1) * $perPage;
+
+//計算總共頁數
+$totalPage=ceil($totalUser/$perPage);
+
+
 
 
 
