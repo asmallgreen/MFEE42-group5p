@@ -3,9 +3,9 @@
 // 建立資料庫
 // 需要以下資料
 $servername = "localhost";
-$username = "root";
-$password = "XZ2e/w@@J]EkELUW";
-$dbname = "bownet_db";
+$username = "admin";
+$password = "12345";
+$dbname = "project";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 // 檢查連線
