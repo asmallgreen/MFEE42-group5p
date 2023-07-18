@@ -1,0 +1,24 @@
+:root {
+    --aside-width: 300px;
+    --page-spacing-top: 56px;
+}
+.brand-name {
+    width: var(--aside-width);
+}
+.main-aside {
+    width: var(--aside-width);
+    padding-top: calc(var(--page-spacing-top) + 10px);
+}
+.main-content {
+    margin-left: var(--aside-width);
+    padding-top: calc(var(--page-spacing-top) + 10px);
+}
+.tab-content li {
+    display: none;
+}
+.tabs li a{
+    border-bottom: 5px solid transparent;
+}
+.tabs li a.active {
+    border-bottom: 5px solid rgb(245, 82, 53);
+}
