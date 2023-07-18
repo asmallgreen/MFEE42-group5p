@@ -58,6 +58,113 @@ $stmt->fetch();
       imagePreview.src = '';
     }
   </script>
+   <script>
+    function validateForm() {
+      var formElements = [{
+          id: 'name',
+          message: '請輸入課程名稱'
+        },
+        {
+          id: 'capacity',
+          message: '請輸入人數限制',
+          checkNumeric: true
+        },
+        {
+          id: 'teacher_id',
+          message: '請輸入授課教師'
+        },
+        {
+          id: 'price',
+          message: '請輸入課程價格',
+          checkNumeric: true
+        },
+        {
+          id: 'location',
+          message: '請輸入上課地點'
+        },
+        {
+          id: 'startDate',
+          message: '請輸入課程日期'
+        },
+        {
+          id: 'endDate',
+          message: '請輸入課程日期'
+        },
+        {
+          id: 'startTime',
+          message: '請輸入課程時間'
+        },
+        {
+          id: 'endTime',
+          message: '請輸入課程時間'
+        },
+        {
+          id: 'hours',
+          message: '請輸入課程時數',
+          checkNumeric: true
+        },
+        {
+          id: 'image',
+          message: '請上傳課程圖片'
+        },
+        {
+          id: 'description',
+          message: '請填寫課程敘述'
+        }
+      ];
+
+      var errorContainer = document.getElementById('errorContainer');
+      var errorMessages = document.getElementById('errorMessages');
+      errorMessages.innerHTML = '';
+      errorContainer.style.display = 'none';
+
+      var hasError = false;
+
+      for (var i = 0; i < formElements.length; i++) {
+        var element = document.getElementById(formElements[i].id);
+        var value = element.value.trim();
+
+        if (value === '') {
+          errorMessages.innerHTML += '<li>' + formElements[i].message + '</li>';
+          if (!hasError) {
+            element.focus();
+            hasError = true;
+          }
+        }
+
+        if (formElements[i].checkNumeric && isNaN(value)) {
+          errorMessages.innerHTML += '<li>' + formElements[i].message + '必須是數字</li>';
+          if (!hasError) {
+            element.focus();
+            hasError = true;
+          }
+        }
+      }
+
+      if (startDate.value > endDate.value) {
+        errorMessages.innerHTML += '<li>開始日期不可晚於結束日期</li>';
+        if (!hasError) {
+          startDate.focus();
+          hasError = true;
+        }
+      }
+
+      if (startTime.value > endTime.value) {
+        errorMessages.innerHTML += '<li>開始時間不可晚於結束時間</li>';
+        if (!hasError) {
+          startTime.focus();
+          hasError = true;
+        }
+      }
+
+      if (hasError) {
+        errorContainer.style.display = 'block';
+        return false;
+      }
+
+      return true;
+    }
+  </script>
 
 
 </head>
@@ -69,7 +176,10 @@ $stmt->fetch();
       <div class="col-6">
         <a href="javascript:history.go(-1)" class="btn btn-primary ">回主畫面</a>
         <br><br>
-        <form action="" method="post" name="formAdd" id="formAdd" enctype="multipart/form-data">
+        <div id="errorContainer" class="alert alert-danger" style="display: none;">
+            <ul id="errorMessages"></ul>
+          </div>
+        <form action="" method="post" name="formAdd" id="formAdd" enctype="multipart/form-data" onsubmit="return validateForm()">
 
           <table class="table table-bordered">
             <tr align="center">
