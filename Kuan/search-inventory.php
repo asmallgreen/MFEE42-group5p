@@ -325,7 +325,7 @@ $cateRows = $resultCate->fetch_all(MYSQLI_ASSOC);
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                        <a href="doDelete.php?id=<?= $invertory['id'] ?>" class="btn btn-danger">確認刪除</a>
+                                        <a href="doDelete-inventory.php?id=<?= $invertory['id'] ?>" class="btn btn-danger">確認刪除</a>
                                     </div>
                                 </div>
                             </div>
