@@ -1,20 +1,20 @@
 <?php 
-require_once("connMysql.php");
+require_once("../db_connect.php");
 
 if (isset($_POST["action"]) && ($_POST["action"] == "delete")) {
     $sql_query = "UPDATE course SET is_deleted = 0 WHERE id = ?";
-    $stmt = $db_link->prepare($sql_query);
+    $stmt = $conn->prepare($sql_query);
     $stmt->bind_param("i", $_POST["id"]);
     $stmt->execute();
     $stmt->close();
-    $db_link->close();
+    $conn->close();
     // 重新導向回到主畫面
     header("Location: data_page.php");
     exit; // Add exit to stop further execution
 }
 
 $sql_select = "SELECT id, name, capacity, level, price, location, startDate, endDate, startTime, endTime, hours, schedule, qualification, target, intro, image, description, valid, teacher_id, discount_id FROM course WHERE id = ?";
-$stmt = $db_link->prepare($sql_select);
+$stmt = $conn->prepare($sql_select);
 $stmt->bind_param("i", $_GET["id"]);
 $stmt->execute();
 $stmt->bind_result($id, $name, $capacity, $level, $price, $location, $startDate, $endDate, $startTime, $endTime, $hours, $schedule, $qualification, $target, $intro, $image, $description, $valid, $teacher_id, $discount_id);
@@ -60,5 +60,5 @@ $stmt->fetch();
 
 <?php 
 $stmt->close();
-$db_link->close();
+$conn->close();
 ?>

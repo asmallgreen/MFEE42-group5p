@@ -1,20 +1,20 @@
 <?php
-require_once("connMysql.php");
+require_once("../db_connect.php");
 
 if(isset($_POST["action"]) && ($_POST["action"] == "delete")){
   // Update the is_deleted column to 1
   $update_query = "UPDATE course SET is_deleted = 1 WHERE id=?";
-  $stmt_update = $db_link->prepare($update_query);
+  $stmt_update = $conn->prepare($update_query);
   $stmt_update->bind_param("i", $_POST["id"]);
   $stmt_update->execute();
   $stmt_update->close();
-  $db_link->close();
+  $conn->close();
   // 重新導向回到主畫面
   header("Location: deleted_data_page.php");
 }
 
 $sql_select = "SELECT id, name, capacity, level, price, location, startDate, endDate, startTime, endTime, hours, schedule, qualification, target, intro, image, description, valid, teacher_id, discount_id FROM course WHERE id = ?";
-$stmt = $db_link->prepare($sql_select);
+$stmt = $conn->prepare($sql_select);
 $stmt->bind_param("i", $_GET["id"]);
 $stmt->execute();
 $stmt->bind_result($id, $name, $capacity, $level, $price, $location, $startDate, $endDate, $startTime, $endTime, $hours, $schedule, $qualification, $target, $intro, $image, $description, $valid, $teacher_id, $discount_id);
@@ -60,5 +60,5 @@ $stmt->fetch();
 
 <?php
 $stmt->close();
-$db_link->close();
+$conn->close();
 ?>

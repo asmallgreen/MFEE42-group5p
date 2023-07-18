@@ -1,13 +1,13 @@
 <?php
-require_once("connMysql.php");
+require_once("../db_connect.php");
 
 if (isset($_POST["action"]) && ($_POST["action"] == "add")) {
   $sql_query = "INSERT INTO course (name ,capacity ,level, teacher_id,price ,location ,startDate, endDate, startTime, endTime, hours, image, description) VALUES (?, ?, ?, ? ,? ,?, ?, ?, ?, ?, ?, ?, ?)";
-  $stmt = $db_link->prepare($sql_query);
+  $stmt = $conn->prepare($sql_query);
   $stmt->bind_param("sssssssssssss", $_POST["name"], $_POST["capacity"], $_POST["level"], $_POST["teacher_id"], $_POST["price"], $_POST["location"], $_POST["startDate"], $_POST["endDate"], $_POST["startTime"], $_POST["endTime"], $_POST["hours"], $_POST["image"], $_POST["description"]);
   $stmt->execute();
   $stmt->close();
-  $db_link->close();
+  $conn->close();
   //重新導向回到主畫面
   header("Location: data_page.php");
 }

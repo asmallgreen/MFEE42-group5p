@@ -1,5 +1,5 @@
 <?php
-require_once("connMysql.php");
+require_once("../db_connect.php");
 
 // 預設每頁筆數
 $pageRow_records = isset($_GET['recordPerPage']) ? $_GET['recordPerPage'] : 5;
@@ -41,10 +41,10 @@ $sql_query = "SELECT * FROM course {$whereClause}";
 $sql_query_limit = $sql_query . " LIMIT {$startRow_records}, {$pageRow_records}";
 
 // 以加上限制顯示筆數的 SQL 敘述句查詢資料到 $result 中
-$result = $db_link->query($sql_query_limit);
+$result = $conn->query($sql_query_limit);
 
 // 以未加上限制顯示筆數的 SQL 敘述句查詢資料到 $all_result 中
-$all_result = $db_link->query($sql_query);
+$all_result = $conn->query($sql_query);
 
 // 計算總筆數
 $total_records = $all_result->num_rows;
@@ -71,16 +71,6 @@ $total_pages = ceil($total_records / $pageRow_records);
         }
     </style>
 </head>
-<script>
-    // 檢查總記錄數是否為零
-    var totalRecords = <?php echo $total_records; ?>;
-    if (totalRecords === 0) {
-        // 顯示一個帶有說明的彈出式視窗
-        window.addEventListener('DOMContentLoaded', function() {
-            alert('找不到符合搜尋條件的結果。');
-        });
-    }
-</script>
 
 <body>
     <div class="container-fluid">
