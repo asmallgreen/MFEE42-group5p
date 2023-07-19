@@ -1,20 +1,16 @@
 <?php
-if(isset($_GET["coupon_code"])){
 $couponcode=$_GET["coupon_code"];
 $likeCoupon="LIKE '%$couponcode%'";
-
-}else{
-    $user_count=0;
-    $likeCoupon="";
-}
 require_once("coupon_db_connect.php");
 $sql="SELECT coupon_id, coupon_code, discount, deadline FROM coupon WHERE coupon_code  $likeCoupon AND valid=1";
 $result=$conn->query($sql);
 $rows = $result->fetch_all(MYSQLI_ASSOC);
 $code_count = $result->num_rows;
-if($_GET["coupon_code"]=" "){
-    $code_count = 0;
+if(empty($_GET["coupon_code"])){
+$code_count=0;
 }
+
+
 
 ?>
 

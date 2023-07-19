@@ -24,7 +24,7 @@ if($type==1){
     $orderBy = "ORDER BY deadline DESC";
     $available = "";
 }elseif($type==7){
-    $orderBy ="";
+    $orderBy =" ";
     $available = "AND NOW() >= startdate AND NOW() <= deadline";
 }elseif($type==8){
     $orderBy ="";
