@@ -1,5 +1,5 @@
 <?php
-require_once("../db-connect.php");
+require_once("/xampp/htdocs/practice/db_connect-test.php");
 
 if (isset($_GET["category"])) {
     $category = $_GET["category"];
@@ -52,7 +52,9 @@ $sql = "SELECT product_bow.*, category_bow.name AS cateName FROM product_bow JOI
 $result = $conn->query($sql);
 $productRows = $result->fetch_all(MYSQLI_ASSOC);
 
-
+if(!isset($_GET["name"])){
+    $_GET["name"]="";
+}
 
 
 ?>
@@ -70,31 +72,8 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
 
     <!-- font awsome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <link rel="stylesheet" href="/practice/dashboard-css.css">
     <style>
-        :root {
-            --aside-width: 300px;
-            --page-spacing-top: 56px;
-        }
-
-        .brand-name {
-            width: var(--aside-width);
-        }
-
-        .main-aside {
-            width: var(--aside-width);
-            padding-top: calc(var(--page-spacing-top) + 10px);
-        }
-
-        .main-content {
-            margin-left: var(--aside-width);
-            padding-top: calc(var(--page-spacing-top) + 10px);
-        }
-
-        .chart {
-            height: 400px;
-        }
-
         /* dropdwon */
         .dropdown-menu {
             display: none;
@@ -108,108 +87,14 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
             width: 100px;
             height: 100px;
         }
+        .tab-content li:nth-child(2){
+        display: block;
+        }
     </style>
 </head>
 
 <body>
-    <header class="text-bg-dark d-flex shadow fixed-top justify-content-between align-items-center">
-        <a class="bg-black py-3 px-3 text-decoration-none link-light brand-name" href="/">Product management</a>
-        <div class="d-flex align-items-center">
-            <div class="me-3">管理者使用後台</div>
-
-            <a href="logout-test.php" class="btn btn-dark me-3"><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
-        </div>
-    </header>
-    <aside class="main-aside position-fixed bg-light vh-100 border-end">
-        <nav class="">
-            <ul class="list-unstyled">
-                <div class="my-2 d-flex justify-content-between text-secondary px-3">
-                    <div> 會員</div>
-                    <a role="button" href="">
-                        <i class="fa-regular fa-square-plus text-secondary"></i>
-                    </a>
-                </div>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="./dashboard-admin-test.php">
-                        <i class="fa-solid fa-users fa-fw me-2"></i>會員資料
-                    </a>
-                </li>
-                <div class="my-2 d-flex justify-content-between text-secondary px-3">
-                    <div> 產品</div>
-                    <a role="button" href="">
-                        <i class="fa-regular fa-square-plus text-secondary"></i>
-                    </a>
-                </div>
-
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-solid fa-cart-shopping fa-fw me-2"></i>產品目錄
-                    </a>
-                </li>
-                <div class="my-2 d-flex justify-content-between text-secondary px-3">
-                    <div> 庫存</div>
-                    <a role="button" href="">
-                        <i class="fa-regular fa-square-plus text-secondary"></i>
-                    </a>
-                </div>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-solid fa-box fa-fw me-2"></i>庫存目錄
-                    </a>
-                </li>
-                <div class="my-2 d-flex justify-content-between text-secondary px-3">
-                    <div> 課程</div>
-                    <a role="button" href="">
-                        <i class="fa-regular fa-square-plus text-secondary"></i>
-                    </a>
-                </div>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-solid fa-book fa-fw me-2"></i>課程目錄
-                    </a>
-                </li>
-                <div class="my-2 d-flex justify-content-between text-secondary px-3">
-                    <div> 師資</div>
-                    <a role="button" href="">
-                        <i class="fa-regular fa-square-plus text-secondary"></i>
-                    </a>
-                </div>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-solid fa-user fa-fw me-2"></i>師資目錄
-                    </a>
-                </li>
-                <div class="my-2 d-flex justify-content-between text-secondary px-3">
-                    <div> 行銷</div>
-                    <a role="button" href="">
-                        <i class="fa-regular fa-square-plus text-secondary"></i>
-                    </a>
-                </div>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-solid fa-comments-dollar fa-fw me-2"></i>行銷目錄
-                    </a>
-                </li>
-
-            </ul>
-
-            <hr>
-            <!-- <ul class="list-unstyled">
-            
-            <li>
-                <a class="d-block py-2 px-3 text-decoration-none" href="./member-edit.php">
-                    <i class="fa-solid fa-gear fa-fw me-2"></i>Setting
-                </a>
-            </li>
-            
-            <li>
-                <a class="d-block py-2 px-3 text-decoration-none" href="logout-test.php">
-                    <i class="fa-solid fa-right-from-bracket fa-fw me-2"></i>Sign out
-                </a>
-            </li>
-        </ul> -->
-        </nav>
-    </aside>
+<?php include("/xampp/htdocs/practice/dashboard-admin-header-aside.php") ?>
     <main class="main-content">
         <div class="px-3">
             <div class="d-flex align-items-center border-bottom justify-content-between">
@@ -259,7 +144,7 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
                                 <?php endforeach; ?>
                             </ul>
                             <form class="d-flex" action="product-search.php">
-                                <input class="form-control me-2" type="search" placeholder="搜尋產品名稱" aria-label="Search" name="name" value="<?= $_GET["name"] ?>">
+                                <input class="form-control me-2" type="search" placeholder="搜尋產品名稱" aria-label="Search" name="name" value="">
                                 <input type="number" name="page"  hidden >
                                 <button class="btn btn-outline-success" type="submit">search</button>
                             </form>
@@ -287,7 +172,7 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
                                 <tr class="">
                                     <td class=""><input class="form-check-input" type="checkbox" value="<?= $product["id"] ?>" name="id[]"></td>
                                     <td><?= $product["id"] ?></td>
-                                    <td><img class="listImg" src="/images_bow/<?= $product["img_s1"] ?>" alt=""></td>
+                                    <td><img class="listImg" src="/practice/Luna/images_bow/<?= $product["img_m"] ?>" alt=""></td>
                                     <td><?= $product["name"] ?></td>
                                     <td><?= $product["cateName"] ?></td>
                                     <td><?= $product["price"] ?></td>
@@ -343,6 +228,15 @@ $productRows = $result->fetch_all(MYSQLI_ASSOC);
     delForm.submit();
   });
 </script>
+<?php include("/xampp/htdocs/practice/dashboard-js.php")?>
+ <script>
+    // 使用 JavaScript 為 .tabs li a:nth-child() 元素添加 active class
+    document.addEventListener("DOMContentLoaded", function() {
+      const firstTabLink = document.querySelector(".tabs li:nth-child(2) a");
+      firstTabLink.classList.add("active");
+    });
+  </script>
+
 </body>
 
 </html>

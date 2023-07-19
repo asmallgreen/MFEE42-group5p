@@ -10,7 +10,7 @@ $update = $_POST["update"];
 
 // echo $id, $name, $category, $price, $img_s, $img_m, $update;
 
-require_once("../db-connect.php");
+require_once("/xampp/htdocs/practice/db_connect-test.php");
 
 
 

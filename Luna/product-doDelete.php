@@ -2,7 +2,7 @@
 if(!isset($_GET["id"])){
     die("無法作業 未取得id");
 }
-require_once("../db-connect.php");
+require_once("/xampp/htdocs/practice/db_connect-test.php");
 
 
 if (isset($_GET["id"]) && is_array($_GET["id"])) {

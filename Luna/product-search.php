@@ -1,61 +1,65 @@
 <?php
 // ini_set('display_errors', 1);
 // error_reporting(E_ALL);
+
 if (isset($_GET["name"])) {
     $name = $_GET["name"];
-    $whereClouse = "WHERE name LIKE '%$name%'";
-} elseif (isset($_GET["start"]) && isset($_GET["end"])) {
+    $whereClouse = "name LIKE '%$name%' AND";
+}
+if (isset($_GET["start"]) && isset($_GET["end"])) {
     $start = $_GET["start"];
     if ($start == "") $start = "2023-01-01";
     $end = $_GET["end"];
     if ($end == "") $end = "2023-12-31";
-    $whereClouse = " WHERE DATE(created_at) BETWEEN '$start' AND '$end'";
-} elseif (isset($_GET["min"]) && isset($_GET["max"])) {
+    $whereClouse = "DATE(created_at) BETWEEN '$start' AND '$end' AND";
+}
+if (isset($_GET["min"]) && isset($_GET["max"])) {
     $min = $_GET["min"];
     if ($min == "") $min = 0;
     $max = $_GET["max"];
     if ($max == "") $max = 9999999;
-    $whereClouse = "WHERE product_bow.price>=$min AND product_bow.price<=$max";
-} elseif ($_GET["category"]) {
-    $category = $_GET["category"];
-    $whereClouse = "WHERE product_bow.category=$category";
-} elseif ($_GET["item"]) {
-    $item = $_GET["item"];
-    $whereClouse = "WHERE product_bow.item=$item";
-} else {
-    $name = "";
-    $page = "";
-    $category = "";
-    $product_count = "";
-    $item="";
+    $whereClouse = "product_bow.price>=$min AND product_bow.price<=$max AND";
 }
+if (isset($_GET["category"])) {
+    $category = $_GET["category"];
+    $whereClouse = "product_bow.category=$category AND";
+}
+if (isset($_GET["item"])) {
+    $item = $_GET["item"];
+    $whereClouse = "product_bow.item=$item AND";
+}  
+    // $name = " ";
+    $page = " ";
+    $category = " ";
+    $product_count = " ";
+    // $item=" ";
+    // $whereClouse="";
 
 $type = $_GET["type"] ?? 1;
 if ($type == 1) {
+    $whereClouse="";
     $orderBy = "ORDER BY product_bow.id ASC";
 } elseif ($type == 2) {
+    $whereClouse="";
     $orderBy = "ORDER BY product_bow.id DESC";
 } elseif ($type == 3) {
+    $whereClouse="";
     $orderBy = "ORDER BY product_bow.price ASC";
 } elseif ($type == 4) {
+    $whereClouse="";
     $orderBy = "ORDER BY product_bow.price DESC";
 } else {
+    $whereClouse="";
     $orderBy = "";
 }
 
 // 資料庫
-require_once("../db-connect.php");
-$sql = "SELECT id, name, category, price, created_at, img_m, description 
-FROM product_bow 
-$whereClouse 
-AND valid=1
-$orderBy
-";
-
+require_once("/xampp/htdocs/practice/db_connect-test.php");
+$sql = "SELECT * FROM product_bow WHERE $whereClouse valid=1 $orderBy";
 $result = $conn->query($sql);
 $products = $result->fetch_all(MYSQLI_ASSOC);
 $product_count =  $result->num_rows;
-if (isset($_GET["name"]) || isset($_GET["start"]) && isset($_GET["end"]) || isset($_GET["min"]) && isset($_GET["max"]) || isset($_GET["category"]) || isset($_GET["item"])) {
+if (isset($_GET["name"]) && $name!="" || isset($_GET["start"]) && isset($_GET["end"]) || isset($_GET["min"]) && isset($_GET["max"]) || isset($_GET["category"]) || isset($_GET["item"]) || isset($_GET["type"]) ) {
     $product_count =  $result->num_rows;
 } else {
     $product_count = 0;
@@ -80,12 +84,13 @@ if (isset($_GET["category"])) {
 
 // Item
 // $item=$_GET["item"];
-if($_GET["item"]){
+if(isset($_GET["item"])){
     $sqlItem = "SELECT * FROM item_bow WHERE id=$item";
     $resultItem = $conn->query($sqlItem);
     $rowItem = $resultItem->fetch_assoc();
     // echo $rowItem["name"];
 }
+
 
 
 // Style
@@ -129,31 +134,12 @@ $conn->close();
     <!-- font awsome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+  
+    <link rel="stylesheet" href="/practice/dashboard-css.css">
     <style>
-        :root {
-            --aside-width: 300px;
-            --page-spacing-top: 56px;
+        .tab-content li:nth-child(2){
+        display: block;
         }
-
-        .brand-name {
-            width: var(--aside-width);
-        }
-
-        .main-aside {
-            width: var(--aside-width);
-            padding-top: calc(var(--page-spacing-top) + 10px);
-            overflow: scroll;
-        }
-
-        .main-content {
-            margin-left: var(--aside-width);
-            padding-top: calc(var(--page-spacing-top) + 10px);
-        }
-
-        .chart {
-            height: 400px;
-        }
-
         /* img */
         .object-fit-cover {
             /* width: 200px; */
@@ -164,15 +150,8 @@ $conn->close();
 </head>
 
 <body>
+<?php include("/xampp/htdocs/practice/dashboard-admin-header-aside.php") ?>
 
-    <header class="text-bg-dark d-flex shadow fixed-top justify-content-between align-items-center">
-        <a class="bg-black py-3 px-3 text-decoration-none link-light brand-name" href="/">Product management</a>
-        <div class="d-flex align-items-center">
-            <div class="me-3">管理者使用後台</div>
-
-            <a href="logout-test.php" class="btn btn-dark me-3"><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
-        </div>
-    </header>
     <aside class="main-aside position-fixed bg-light vh-100 border-end">
         <nav class="">
             <div class="my-2 d-flex justify-content-between text-secondary px-3">
@@ -184,7 +163,7 @@ $conn->close();
             <nav class="navbar">
                 <div class="container-fluid">
                     <form class="d-flex" action="product-search.php">
-                        <input class="form-control me-2" type="search" placeholder="搜尋產品名稱" name="name" value="<?= $_GET["name"] ?>">
+                        <input class="form-control me-2" type="search" placeholder="搜尋產品名稱" name="name" value="<?php if(isset( $_GET["name"])) echo $_GET["name"] ?>">
                         <button class="btn btn-outline-success" type="submit">search</button>
                     </form>
                 </div>
@@ -291,31 +270,38 @@ $conn->close();
     <main class="main-content">
         <div class="px-3 ">
             <div class="d-flex align-items-center justify-content-between border-bottom">
+                
                 <div class="d-flex  align-items-center">
                     <h2 class="mx-2 my-4">搜尋產品結果：</h2>
                     <h5 class="mt-2"> 搜尋『
-                        <?php if (isset($name)&& $name!="") {
+                        <?php if (isset($name) && $name!="") {
                             echo $name;
-                        } elseif (isset($start) && isset($end)) {
+                        } ?>
+                        <?php if (isset($start) && isset($end)) {
                             echo $start . "到" . $end;
-                        } elseif (isset($min) && isset($max)) {
+                        } ?>
+                        <?php if (isset($min) && isset($max)) {
                             echo "$" . $min . "到 $" . $max;
-                        } elseif (isset($category)&& $category!="") {
+                        } ?>
+                        <?php if (isset($category)&& $category!="") {
                             echo $rowcate["name"];
-                        } elseif (isset($item)&& $item!="") {
+                        } ?>
+                        <?php if (isset($item)&& $item!="") {
                             echo $rowItem["name"];
-                        } else {
-                            echo "全部";
                         } ?>
 
                         』, 共 <?= $product_count ?> 筆符合</h5>
                 </div>
+                
+                <?php if(!isset($_GET["name"]) && isset($name) && $name!="" && isset($min) && isset($max) && isset($category)&& $category!="" && isset($item)&& $item!=""):?>
+                    <h2 class="mx-2 my-4">所有產品</h2>
+                    <?php endif; ?>
                 <div class="d-flex">
                     <div class="btn-group btn-group-sm me-3" role="group" aria-label="">
-                        <a href="product-search.php?type=1&page=<?= $_GET["page"] ?>&name=<?= $_GET["name"] ?>" class="btn btn-outline-secondary">ID升冪</a>
-                        <a href="product-search.php?type=2&page=<?= $_GET["page"] ?>&name=<?= $_GET["name"] ?>" class="btn btn-outline-secondary">ID降冪</a>
-                        <a href="product-search.php?type=3&page=<?= $_GET["page"] ?>&name=<?= $_GET["name"] ?>" class="btn btn-outline-secondary">Price升冪</a>
-                        <a href="product-search.php?type=4&page=<?= $_GET["page"] ?>&name=<?= $_GET["name"] ?>" class="btn btn-outline-secondary">Price降冪</a>
+                        <a href="/practice/Luna/product-search.php?type=1" class="btn btn-outline-secondary">ID升冪</a>
+                        <a href="/practice/Luna/product-search.php?type=2" class="btn btn-outline-secondary">ID降冪</a>
+                        <a href="/practice/Luna/product-search.php?type=3" class="btn btn-outline-secondary">Price升冪</a>
+                        <a href="/practice/Luna/product-search.php?type=4" class="btn btn-outline-secondary">Price降冪</a>
                     </div>
                     <a href="product-list.php" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-rotate-left px-1"></i>產品列表</a>
                 </div>
@@ -328,11 +314,12 @@ $conn->close();
                         <?php foreach ($products as $product) : ?>
                             <div class="col-auto mx-2 my-2 d-flex">
                                 <div class="card" style="width: 20rem;">
-                                    <img src="/images_bow/<?= $product["img_m"] ?>" class="object-fit-cover card-img-top" alt="...">
+                                    <img src="/practice/Luna/images_bow/<?= $product["img_m"] ?>" class="object-fit-cover card-img-top" alt="...">
                                     <div class="card-body">
                                     <p class="card-title">商品編號：<?= $product["id"] ?></p>
                                         <h5 class="card-text">產品名稱：『 <?= $product["name"] ?> 』</h5>
                                         <p class="card-text">價錢：$<?= $product["price"] ?></p>
+                                        <p class="card-text">item：<?= $product["item"] ?></p>
                                         <!-- <a href="#" class="btn btn-primary">商品說明</a> -->
                                     </div>
                                 </div>
@@ -346,7 +333,7 @@ $conn->close();
                     <div class="row">
                         <div class="col-6">
                             <form action="">
-                                <table class="table table-bordered">
+                                <!-- <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -367,7 +354,7 @@ $conn->close();
                                             </tr>
                                         </tbody>
                                     <?php endforeach; ?>
-                                </table>
+                                </table> -->
                             </form>
                         </div>
                     </div>
@@ -375,6 +362,7 @@ $conn->close();
             </div>
         </div>
     </main>
+
 
 
 

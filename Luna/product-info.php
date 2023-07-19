@@ -2,7 +2,7 @@
 // $id=$_POST["id"];
 $id = $_GET["id"];
 
-require_once("../db-connect.php");
+require_once("/xampp/htdocs/practice/db_connect-test.php");
 $sql = "SELECT * FROM product_bow WHERE valid=1 AND id=$id";
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();

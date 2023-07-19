@@ -1,7 +1,7 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-require_once("../db-connect.php");
+require_once("/xampp/htdocs/practice/db_connect-test.php");
 
 $name=$_POST["name"];
 $category=$_POST["category"];
