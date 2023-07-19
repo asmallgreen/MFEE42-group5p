@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： localhost
--- 產生時間： 2023 年 07 月 18 日 15:06
+-- 產生時間： 2023 年 07 月 19 日 09:38
 -- 伺服器版本： 10.4.28-MariaDB
 -- PHP 版本： 8.2.4
 
@@ -48,14 +48,14 @@ INSERT INTO `styleItem_bow` (`id`, `style`, `name`) VALUES
 (8, 2, '26'),
 (9, 2, '27'),
 (10, 2, '28'),
-(11, 4, '一號'),
-(12, 4, '二號'),
-(13, 4, '三號'),
-(14, 5, '1913'),
-(15, 5, '2014'),
-(16, 5, '2015'),
-(17, 5, '2115'),
-(18, 5, '2117'),
+(11, 4, '1.6 Momme（弓力~14kg）'),
+(12, 4, '1.7 Momme（弓力~16kg）	'),
+(13, 4, '1.8 Momme（弓力~18kg）	'),
+(14, 5, '85cm'),
+(15, 5, '90cm'),
+(16, 5, '95cm'),
+(17, 5, '100cm'),
+(18, 5, '105cm'),
 (19, 6, '黑色'),
 (20, 6, '白色'),
 (21, 3, '21'),
@@ -74,7 +74,9 @@ INSERT INTO `styleItem_bow` (`id`, `style`, `name`) VALUES
 (34, 8, '5'),
 (35, 8, '6'),
 (36, 8, '7'),
-(37, 8, '8');
+(37, 8, '8'),
+(40, 4, '1.9 Momme（弓力~19kg）	'),
+(41, 4, '2.0 Momme（弓力~20kg）	');
 
 --
 -- 已傾印資料表的索引
@@ -94,7 +96,7 @@ ALTER TABLE `styleItem_bow`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `styleItem_bow`
 --
 ALTER TABLE `styleItem_bow`
-  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
