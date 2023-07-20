@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!doctype html>
 <html lang="en">
 
@@ -27,20 +30,40 @@
             <form action="doSignUp-test.php" method="post"  enctype="multipart/form-data">
                 <div class="mb-2">
                     <label for="">帳號</label>
-                    <input type="text" name="account" class="form-control">
+                    <input type="text" name="account" class="form-control" value="<?php if(isset($_SESSION["account"])) echo $_SESSION["account"]?>">
                 </div>
+                <?php if (isset($_SESSION["error"]["accountMessage"])) : ?>
+                            <div class="pt-2 text-danger"><?= $_SESSION["error"]["accountMessage"] ?></div>
+                        <?php unset($_SESSION["error"]["accountMessage"]);
+                        endif; ?>
                 <div class="mb-2">
                     <label for="">密碼</label>
-                    <input type="password" name="password" class="form-control">
+                    <input type="password" name="password" class="form-control" value="<?php if(isset($_SESSION["password"])) echo $_SESSION["password"]?>">
                 </div>
+                <?php if (isset($_SESSION["error"]["passwordMessage"])) : ?>
+                            <div class="pt-2 text-danger"><?= $_SESSION["error"]["passwordMessage"] ?></div>
+                        <?php unset($_SESSION["error"]["passwordMessage"]);
+                        endif; ?>
                 <div class="mb-2">
                     <label for="">再輸入一次密碼</label>
                     <input type="password" name="repassword" class="form-control">
                 </div>
+                <?php if (isset($_SESSION["error"]["repasswordMessage"])) : ?>
+                            <div class="pt-2 text-danger"><?= $_SESSION["error"]["repasswordMessage"] ?></div>
+                        <?php unset($_SESSION["error"]["repasswordMessage"]);
+                        endif; ?>
+                        <?php if (isset($_SESSION["error"]["passwordNotMatchMessage"])) : ?>
+                                    <div class="pt-2 text-danger"><?= $_SESSION["error"]["passwordNotMatchMessage"] ?></div>
+                                <?php unset($_SESSION["error"]["passwordNotMatchMessage"]);
+                                endif; ?>
                 <div class="mb-2">
                     <label for="">姓名</label>
                     <input type="text" name="name" class="form-control">
                 </div>
+                <?php if (isset($_SESSION["error"]["nameMessage"])) : ?>
+                            <div class="pt-2 text-danger"><?= $_SESSION["error"]["nameMessage"] ?></div>
+                        <?php unset($_SESSION["error"]["nameMessage"]);
+                        endif; ?>
                 <div class="mb-3">
                     <label for="">選取圖片</label>
                     <input type="file" name="file" class="form-control">
@@ -57,14 +80,26 @@
                     <label for="">生日</label>
                     <input type="date" name="birthday" class="form-control">
                 </div>
+                <?php if (isset($_SESSION["error"]["birthdayMessage"])) : ?>
+                            <div class="pt-2 text-danger"><?= $_SESSION["error"]["birthdayMessage"] ?></div>
+                        <?php unset($_SESSION["error"]["birthdayMessage"]);
+                        endif; ?>
                 <div class="mb-2">
                     <label for="">email</label>
                     <input type="email" name="email" class="form-control">
                 </div>
+                <?php if (isset($_SESSION["error"]["emailMessage"])) : ?>
+                            <div class="pt-2 text-danger"><?= $_SESSION["error"]["emailMessage"] ?></div>
+                        <?php unset($_SESSION["error"]["emailMessage"]);
+                        endif; ?>
                 <div class="mb-2">
                     <label for="">手機號碼</label>
                     <input type="tel" name="phone" class="form-control">
                 </div>
+                <?php if (isset($_SESSION["error"]["phoneMessage"])) : ?>
+                            <div class="pt-2 text-danger"><?= $_SESSION["error"]["phoneMessage"] ?></div>
+                        <?php unset($_SESSION["error"]["phoneMessage"]);
+                        endif; ?>
                 <div class="mb-2">
                     <label for="">地址</label>
                     <br>
@@ -101,6 +136,11 @@
                     <select name="district" id="district"></select>
                     <input type="text" name="address" class="form-control">
                 </div>
+                
+                <?php if (isset($_SESSION["error"]["addressMessage"])) : ?>
+                            <div class="pt-2 text-danger"><?= $_SESSION["error"]["addressMessage"] ?></div>
+                        <?php unset($_SESSION["error"]["addressMessage"]);
+                        endif; ?>
                 <div class="text-end">
                     <a href="sign-in-test.php" class="btn btn-info">回上一頁</a>
                     <button class="btn btn-info a">送出</button>

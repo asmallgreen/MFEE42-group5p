@@ -122,6 +122,7 @@ if (empty($_GET["name"])) {
                                 <th>email</th>
                                 <th>phone</th>
                                 <th>level</th>
+                                <th>詳細資料</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -133,6 +134,9 @@ if (empty($_GET["name"])) {
                                     <td><?= $row["email"] ?></td>
                                     <td><?= $row["phone"] ?></td>
                                     <td><?= $row["level"] ?></td>
+                                    <td>
+                                    <a href="member.php?id=<?= $row["id"] ?>" class="btn btn-info">顯示</a>
+                                </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

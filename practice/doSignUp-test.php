@@ -1,37 +1,11 @@
 <?php
-
-if(!isset($_POST["account"])){
-    die("請依正常管道進入");
-}
-if(empty($_POST["account"])){
-    die("請輸入帳號");
-}
-if(empty($_POST["password"])){
-    die("請輸入密碼");
-}
-if(empty($_POST["name"])){
-    die("請輸入姓名");
-}
-if(empty($_POST["birthday"])){
-    die("請選擇生日");
-}
-if(empty($_POST["email"])){
-    die("請輸入email");
-}
-if(empty($_POST["phone"])){
-    die("請輸入手機號碼");
-}
-        $pattern = "/^09\d{8}$/";
-        if(preg_match($pattern, $_POST["phone"])){
-            echo "手機號碼格式正確";
-        }else{
-            echo "手機號碼格式錯誤";
-        }
-
-if(empty($_POST["address"])){
-    die("請輸入地址");
-}
-
+session_start();
+// if(!isset($_POST["account"])){
+//     $_SESSION["error"]["accountMessage"] = "請輸入帳號";
+//     header("location: sign-up-test.php");
+//     exit;
+//     // die("請依正常管道進入");
+// }
 $account=$_POST["account"];
 $password=$_POST["password"];
 $repassword=$_POST["repassword"];
@@ -45,13 +19,104 @@ $district=$_POST["district"];
 $address=$_POST["address"];
 $fullAddress=$selectedCity.$district.$address;
 
+
+$_SESSION["account"]=$account;
+$_SESSION["password"]=$password;
+$_SESSION["repassword"]=$repassword;
+$_SESSION["name"]=$name;
+$_SESSION["gender"]=$gender;
+$_SESSION["birthday"]=$birthday;
+$_SESSION["email"]=$email;
+$_SESSION["phone"]=$phone;
+$_SESSION["selectedCity"]=$selectedCity;
+$_SESSION["district"]=$district;
+$_SESSION["address"]=$address;
+
 $now=date("Y-m-d H:i:s");
+if(empty($account)){
+    $_SESSION["error"]["accountMessage"] = "請輸入帳號";
+    header("location: sign-up-test.php");
+    exit;
+    // die("請輸入帳號");
+}
+if(empty($_POST["password"])){
+    $_SESSION["error"]["passwordMessage"] = "請輸入密碼";
+    header("location: sign-up-test.php");
+    exit;
+    // die("請輸入密碼");
+}
+if(empty($_POST["repassword"])){
+    $_SESSION["error"]["repasswordMessage"] = "請再次輸入密碼";
+    header("location: sign-up-test.php");
+    exit;
+    // die("請輸入密碼");
+}
+if(empty($_POST["name"])){
+    $_SESSION["error"]["nameMessage"] = "請輸入姓名";
+    header("location: sign-up-test.php");
+    exit;
+    // die("請輸入姓名");
+}
+if(empty($_POST["birthday"])){
+    $_SESSION["error"]["birthdayMessage"] = "請輸入生日";
+    header("location: sign-up-test.php");
+    exit;
+    // die("請選擇生日");
+}
+if(empty($_POST["email"])){
+    $_SESSION["error"]["emailMessage"] = "請輸入電子信箱";
+    header("location: sign-up-test.php");
+    exit;
+    // die("請輸入email");
+}
+        $emailpattern= "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+        if(preg_match($emailpattern, $_POST["email"])){
+            // echo "電子信箱格式正確";
+        }else{
+            // echo "電子信箱格式錯誤";
+            $_SESSION["error"]["emailformMessage"] = "電子信箱格式錯誤";
+        }
+if(empty($_POST["phone"])){
+    $_SESSION["error"]["phoneMessage"] = "請輸入電話號碼";
+    header("location: sign-up-test.php");
+    exit;
+    // die("請輸入手機號碼");
+}
+        $pattern = "/^09\d{8}$/";
+        if(preg_match($pattern, $_POST["phone"])){
+            // echo "手機號碼格式正確";
+        }else{
+            // echo "手機號碼格式錯誤";
+        }
+
+if(empty($_POST["address"])){
+    // die("請輸入地址");
+    $_SESSION["error"]["addressMessage"] = "請輸入地址";
+    header("location: sign-up-test.php");
+    exit;
+}
 
 if($password!=$repassword){
-    die("密碼前後不一致");
+    $_SESSION["error"]["passwordNotMatchMessage"] = "密碼前後不一致";
+    header("location: sign-up-test.php");
+    exit;
+    // die("密碼前後不一致");
 }
 $md5Password=md5($password);
 // var_dump($md5Password);
+$account=$_POST["account"];
+$password=$_POST["password"];
+$repassword=$_POST["repassword"];
+$name=$_POST["name"];
+$gender=$_POST["gender"];
+$birthday=$_POST["birthday"];
+$email=$_POST["email"];
+$phone=$_POST["phone"];
+$selectedCity=$_POST["selected_city"];
+$district=$_POST["district"];
+$address=$_POST["address"];
+$fullAddress=$selectedCity.$district.$address;
+
 
 require_once("pdo-connect-test.php");
 
@@ -96,10 +161,13 @@ if ($stmt->execute()) {
     echo "<br>";
 
     // 更新暫存中的會員資料
+    $_SESSION["user"]["account"] = $account;
+    $_SESSION["user"]["level"] = $level;
     $_SESSION["user"]["name"] = $name;
     $_SESSION["user"]["gender"] = $gender;
     $_SESSION["user"]["email"] = $email;
     $_SESSION["user"]["phone"] = $phone;
+    $_SESSION["user"]["birthday"] = $birthday;
     $_SESSION["user"]["address"] = $address;
     $_SESSION["user"]["member_img"] = $filename;
 
