@@ -32,13 +32,13 @@ $md5Password=md5($password);
 //使用PDO預處理來預防SQL injection
 require_once("pdo-connect-test.php");
 $sql = "UPDATE membership SET password='$md5Password' WHERE id=$id";
-$stmt = $db_host->prepare($sql);
+$stmt = $conn->prepare($sql);
 
 try {
     $stmt->execute();
     $_SESSION["user"]["password"]=$password;
-
-    header("location: dashboard-test.php");
+    $_SESSION["passwordEditSuccess"];
+    header("location: password-edit.php");
 } catch (PDOException $e) {
     echo "預處理陳述式執行失敗！ <br/>";
     echo "Error: " . $e->getMessage() . "<br/>";

@@ -64,7 +64,7 @@ if(empty($_POST["level"])){
 
 
 
-$sql="SELECT * FROM coupon WHERE coupon_code = '$couponcode' ";
+$sql="SELECT * FROM coupon WHERE coupon_code = '$couponcode' AND valid=1 ";
 $result=$conn->query($sql);
 $codeCount=$result->num_rows;
 

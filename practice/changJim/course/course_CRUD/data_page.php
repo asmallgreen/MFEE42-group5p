@@ -1,5 +1,5 @@
 <?php
-require_once("connMysql.php");
+require_once("/xampp/htdocs/practice/db_connect-test.php");
 
 // 預設每頁筆數
 $pageRow_records = isset($_GET['recordPerPage']) ? $_GET['recordPerPage'] : 5;
@@ -20,7 +20,7 @@ $search_keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
 $whereClause = 'WHERE is_deleted = 1';
 if ($search_keyword) {
   if ($search_field === '') {
-    $fields = ['name', 'location', 'schedule', 'qualification', 'target', 'intro', 'description']; // 需要納入搜尋範圍的欄位必須填入(以文字型別為主，數值類交由篩選處理)
+    $fields = ['name', 'location', 'schedule', 'qualification', 'target', 'intro', 'description', 'teacher_id']; // 需要納入搜尋範圍的欄位必須填入(以文字型別為主，數值類交由篩選處理)
     $fieldConditions = [];
     foreach ($fields as $field) {
       $fieldConditions[] = "{$field} LIKE '%{$search_keyword}%'";
@@ -47,10 +47,10 @@ if ($sortField) {
 $sql_query_limit = $sql_query . " LIMIT {$startRow_records}, {$pageRow_records}";
 
 // 以加上限制顯示筆數的 SQL 敘述句查詢資料到 $result 中
-$result = $db_link->query($sql_query_limit);
+$result = $conn->query($sql_query_limit);
 
 // 以未加上限制顯示筆數的 SQL 敘述句查詢資料到 $all_result 中
-$all_result = $db_link->query($sql_query);
+$all_result = $conn->query($sql_query);
 
 // 計算總筆數
 $total_records = $all_result->num_rows;
@@ -70,49 +70,45 @@ $total_pages = ceil($total_records / $pageRow_records);
   <link rel="stylesheet" href="/practice/dashboard-css.css">
   <style>
     /* Truncate table cell text with ellipsis (...) */
+    table {
+      table-layout: fixed;
+    }
     .table-responsive td,
     .table-responsive th {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .table-responsive table tr th a{
+    .table-responsive table tr th a {
       color: black;
       text-decoration: none;
     }
+    .dateWidth{
+      width: 7rem;
+    }
+
     .tab-content li:nth-child(4){
         display: block;
     }
   </style>
 </head>
-<script>
-  // 檢查總記錄數是否為零
-  var totalRecords = <?php echo $total_records; ?>;
-  if (totalRecords === 0) {
-    // 顯示一個帶有說明的彈出式視窗
-    window.addEventListener('DOMContentLoaded', function() {
-      alert('找不到符合搜尋條件的結果。');
-    });
-  }
-</script>
+
 
 <body>
 <?php include("/xampp/htdocs/practice/dashboard-admin-header-aside.php") ?>
-    <main class="py-5">
+    <main class="main-content py-5">
       <div class="container-fluid py-3">
-    <a class="text-decoration-none" href="data_page.php">
-      <h1 class="text-center">課程管理系統</h1>
+      <a class="text-decoration-none" href="data_page.php">
+      <h1 class="text-center mb-5">課程管理清單</h1>
     </a>
-    <div class="text-center mb-3">
-      <a href="add.php" class="btn btn-primary">新增課程資料</a>
     </div>
 
 
     <!-- 搜尋表單 -->
     <form method="GET" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-      <div class="text-center mb-3 row">
-        <div class="text-center mb-3 col-1">
-          <label for="recordPerPage" class="form-label">每頁顯示筆數：</label>
+      <div class="text-center mb-3 d-flex justify-content-between">
+        <div class="text-center mb-3">
+          <label for="recordPerPage" class="form-label"></label>
           <select name="recordPerPage" id="recordPerPage" class="form-select" onchange="updateRecordPerPage('<?php echo $search_field; ?>', '<?php echo $search_keyword; ?>')">
             <option value="5" <?php if ($pageRow_records == 5) echo 'selected'; ?>>5</option>
             <option value="10" <?php if ($pageRow_records == 10) echo 'selected'; ?>>10</option>
@@ -122,17 +118,20 @@ $total_pages = ceil($total_records / $pageRow_records);
           </select>
         </div>
 
-        <div class="d-flex justify-content-center col-10">
+        <div class="d-flex justify-content-center">
           <div class="mx-2">
-            <label for="keyword" class="form-label">關鍵字：</label>
-            <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo $search_keyword; ?>">
+            <label for="keyword" class="form-label"></label>
+            <input type="text" name="keyword" id="keyword" class="form-control" value="<?php echo $search_keyword; ?>" placeholder="請輸入關鍵字">
           </div>
           <div class="mx-2 d-flex">
             <input type="hidden" name="search" value="true">
-            <button type="submit" class="btn btn-primary align-self-center">搜尋</button>
+            <button type="submit" class="btn btn-primary align-self-center mt-2">搜尋</button>
           </div>
         </div>
-        <div class="col-1"></div>
+
+        <div class="text-center mb-3">
+          <a href="add.php" class="btn btn-warning mt-4">新增課程</a>
+        </div>
       </div>
     </form>
 
@@ -161,6 +160,11 @@ $total_pages = ceil($total_records / $pageRow_records);
             </a>
           </th>
           <th>
+            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'teacher_id', 'sortOrder' => $sortField === 'teacher_id' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
+              授課教師 <?php if ($sortField === 'teacher_id') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+            </a>
+          </th>
+          <th>
             <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'price', 'sortOrder' => $sortField === 'price' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
               課程價格 <?php if ($sortField === 'price') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
             </a>
@@ -170,7 +174,7 @@ $total_pages = ceil($total_records / $pageRow_records);
               上課地點 <?php if ($sortField === 'location') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
             </a>
           </th>
-          <th>
+          <th class="dateWidth">
             <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'startDate', 'sortOrder' => $sortField === 'startDate' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
               課程日期 <?php if ($sortField === 'startDate') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
             </a>
@@ -187,7 +191,7 @@ $total_pages = ceil($total_records / $pageRow_records);
           </th>
           <th>
             <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'image', 'sortOrder' => $sortField === 'image' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
-              相關影音 <?php if ($sortField === 'image') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
+              課程圖片 <?php if ($sortField === 'image') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
             </a>
           </th>
           <th>
@@ -200,68 +204,69 @@ $total_pages = ceil($total_records / $pageRow_records);
               開放報名 <?php if ($sortField === 'valid') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
             </a>
           </th>
-          <th>
-            <a href="data_page.php?<?php echo http_build_query(array_merge($_GET, ['sortField' => 'teacher_id', 'sortOrder' => $sortField === 'teacher_id' && $sortOrder === 'ASC' ? 'DESC' : 'ASC'])); ?>">
-              授課教師 <?php if ($sortField === 'teacher_id') echo $sortOrder === 'ASC' ? '▲' : '▼'; ?>
-            </a>
-          </th>
           <th>操作</th>
         </tr>
 
         <!-- 資料內容 -->
-        <?php while ($row_result = $result->fetch_assoc()) : ?>
-          <tr align="center">
-            <td><?php echo $row_result["id"]; ?></td>
-            <td><?php echo $row_result["name"]; ?></td>
-            <td><?php echo $row_result["capacity"]; ?></td>
-            <td>
-              <?php
-              $level = $row_result["level"];
-              $level_text = '';
-              switch ($level) {
-                case 1:
-                  $level_text = '初學';
-                  break;
-                case 2:
-                  $level_text = '入門';
-                  break;
-                case 3:
-                  $level_text = '進階';
-                  break;
-                default:
-                  $level_text = '未定義';
-                  break;
-              }
-              echo $level_text;
-              ?>
-            </td>
-            <td><?php echo $row_result["price"]; ?></td>
-            <td><?php echo $row_result["location"]; ?></td>
-            <td>
-              <div><?php echo $row_result["startDate"]; ?></div>
-              <div><?php echo $row_result["endDate"]; ?></div>
-            </td>
-            <td>
-              <div><?php echo $row_result["startTime"]; ?></div>
-              <div><?php echo $row_result["endTime"]; ?></div>
-            </td>
-            <td><?php echo $row_result["hours"]; ?></td>
-            <td><?php echo $row_result["image"]; ?></td>
-            <td><?php echo $row_result["description"]; ?></td>
-            <td>
-              <?php
-              $valid = $row_result["valid"];
-              $valid_text = ($valid == 1) ? '已開放' : '未開放';
-              echo $valid_text;
-              ?>
-            </td>
-            <td><?php echo $row_result["teacher_id"]; ?></td>
-            <td align="center">
-              <a href="update.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-primary">修改</a>
-              <a href="delete.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-danger">刪除</a>
-            </td>
+        <?php if ($result->num_rows > 0) : ?>
+          <?php while ($row_result = $result->fetch_assoc()) : ?>
+            <tr align="center">
+              <td><?php echo $row_result["id"]; ?></td>
+              <td><?php echo $row_result["name"]; ?></td>
+              <td><?php echo $row_result["capacity"]; ?></td>
+              <td>
+                <?php
+                $level = $row_result["level"];
+                $level_text = '';
+                switch ($level) {
+                  case 1:
+                    $level_text = '初學';
+                    break;
+                  case 2:
+                    $level_text = '入門';
+                    break;
+                  case 3:
+                    $level_text = '進階';
+                    break;
+                }
+                echo $level_text;
+                ?>
+              </td>
+              <td><?php echo $row_result["teacher_id"]; ?></td>
+              <td><?php echo $row_result["price"]; ?></td>
+              <td><?php echo $row_result["location"]; ?></td>
+              <td>
+                <div><?php echo $row_result["startDate"]; ?></div>
+                <div><?php echo $row_result["endDate"]; ?></div>
+              </td>
+              <td>
+                <div><?php echo $row_result["startTime"]; ?></div>
+                <div><?php echo $row_result["endTime"]; ?></div>
+              </td>
+              <td><?php echo $row_result["hours"]; ?></td>
+              <td>
+                <img class="img my-2" width="100" src="<?php echo $row_result["image"]; ?>" alt="">
+              </td>
+              <td><?php echo $row_result["description"]; ?></td>
+              <td>
+                <?php
+                $valid = $row_result["valid"];
+                $valid_text = ($valid == 1) ? '已開放' : '未開放';
+                echo $valid_text;
+                ?>
+              </td>
+
+              <td align="center" class="deleteBtn">
+                <a href="update.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-primary">修改</a>
+                <a href="delete.php?id=<?php echo $row_result["id"]; ?>" class="btn btn-sm btn-danger">刪除</a>
+              </td>
+            </tr>
+          <?php endwhile; ?>
+        <?php else : ?>
+          <tr>
+            <td colspan="14" align="center">查無符合條件的資料</td>
           </tr>
-        <?php endwhile; ?>
+        <?php endif; ?>
       </table>
     </div>
 
@@ -290,7 +295,7 @@ $total_pages = ceil($total_records / $pageRow_records);
     </main>
   
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     function updateRecordPerPage(field, keyword) {
       var recordPerPage = document.getElementById('recordPerPage').value;

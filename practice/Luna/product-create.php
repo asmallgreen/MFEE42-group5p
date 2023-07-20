@@ -64,6 +64,28 @@
                                     </select>
                                 </div>
                                 <div class="d-flex my-2 align-items-center">
+                                    <label class="mx-2 col-3 text-end" for="">項目</label>
+                                    <select class="form-select" name="item">
+                                        <option value="1">竹弓</option>
+                                        <option value="2">合成弓</option>
+                                        <option value="3">竹箭</option>
+                                        <option value="4">合成箭</option>
+                                        <option value="5">麻弦</option>
+                                        <option value="6">合成弦</option>
+                                        <option value="7">手套</option>
+                                        <option value="8">道服</option>
+                                        <option value="9">胸擋</option>
+                                        <option value="10">和服</option>
+                                        <option value="11">腰帶</option>
+                                        <option value="12">褲子</option>
+                                        <option value="13">襪子</option>
+                                        <option value="14">矢尻</option>
+                                        <option value="15">箭筒</option>
+                                        <option value="16">弦卷</option>
+                                        <option value="17">粉末容器</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex my-2 align-items-center">
                                     <label class="mx-2 col-3 text-end" for="">價格：</label>
                                     <input type="number" class="form-control" name="price" placeholder="新台幣$">
                                 </div>

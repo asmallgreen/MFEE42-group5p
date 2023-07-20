@@ -18,29 +18,29 @@ if ($type == 3) {
     $orderBy = "ORDER BY product_bow.price DESC";
 }
 
-if (isset($_GET["name"])) {
+if (isset($_GET["name"]) && $_GET["name"]!="") {
     $name = $_GET["name"];
     $whereClouse = "name LIKE '%$name%' AND";
 }
-if (isset($_GET["start"]) && isset($_GET["end"])) {
+elseif (isset($_GET["start"]) && isset($_GET["end"])) {
     $start = $_GET["start"];
     if ($start == "") $start = "2023-01-01";
     $end = $_GET["end"];
     if ($end == "") $end = "2023-12-31";
     $whereClouse = "DATE(created_at) BETWEEN '$start' AND '$end' AND";
 }
-if (isset($_GET["min"]) && isset($_GET["max"])) {
+elseif (isset($_GET["min"]) && isset($_GET["max"])) {
     $min = $_GET["min"];
     if ($min == "") $min = 0;
     $max = $_GET["max"];
     if ($max == "") $max = 9999999;
     $whereClouse = "product_bow.price>='$min' AND product_bow.price<= '$max' AND";
 }
-if (isset($_GET["category"])) {
+elseif (isset($_GET["category"])) {
     $category = $_GET["category"];
     $whereClouse = "product_bow.category= '$category' AND";
 }
-if (isset($_GET["item"])) {
+elseif (isset($_GET["item"])) {
     $item = $_GET["item"];
     $whereClouse = "product_bow.item= '$item' AND";
 }  
@@ -57,7 +57,8 @@ $sql = "SELECT * FROM product_bow WHERE $whereClouse valid=1 $orderBy";
 $result = $conn->query($sql);
 $products = $result->fetch_all(MYSQLI_ASSOC);
 $product_count =  $result->num_rows;
-if (isset($_GET["name"]) && $name!="" || isset($_GET["start"]) && isset($_GET["end"]) || isset($_GET["min"]) && isset($_GET["max"]) || isset($_GET["category"]) || isset($_GET["item"]) || isset($_GET["type"]) ) {
+
+if (isset($_GET["name"]) && $_GET["name"]!="" || isset($_GET["start"]) && isset($_GET["end"]) || isset($_GET["min"]) && isset($_GET["max"]) || isset($_GET["category"]) || isset($_GET["item"]) || isset($_GET["type"]) ) {
     $product_count =  $result->num_rows;
 } else {
     $product_count = 0;
@@ -149,6 +150,9 @@ $conn->close();
             /* width: 200px; */
             height: 200px;
         }
+        .main-aside{
+            overflow: scroll;
+        }
     </style>
 
 </head>
@@ -218,50 +222,52 @@ $conn->close();
             <!-- 手風琴 -->
             <?php foreach ($rowsCate as $rowCate) : ?>
 
-                <div class="accordion accordion-flush" id="type">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header ms-4">
-                            <button class=" accordion-button collapsed " type="button" data-bs-toggle="collapse" data-bs-target="#typeItem<?= $rowCate["id"] ?>" aria-expanded="false" aria-controls="typeItem<?= $rowCate["id"] ?>">
-                                <?= $rowCate["name"]; ?>
-                            </button>
-                        </h2>
-                        <!--  -->
-                        <div id="typeItem<?= $rowCate["id"] ?>" class="accordion-collapse collapse" data-bs-parent="#tpye">
-                            <div class="accordion-body">
-                                <?php foreach ($rowsCI as $rowCI) : ?>
-                                    <div class="ms-5">
-                                        <?php if ($rowCI["cateKey"] == $rowCate["id"]) : ?>
-                                            <a class="text-secondary text-decoration-none" href="product-search.php?item=<?= $rowCI["id"] ?>"><?= $rowCI["itemName"]; ?></a>
+<div class="accordion accordion-flush" id="type">
+    <div class="accordion-item">
+        <h2 class="accordion-header ms-4">
+            <button class=" accordion-button collapsed " type="button" data-bs-toggle="collapse" data-bs-target="#typeItem<?= $rowCate["id"] ?>" aria-expanded="false" aria-controls="typeItem<?= $rowCate["id"] ?>">
+                <?= $rowCate["name"]; ?>
+            </button>
+        </h2>
+        <!--  -->
+        <div id="typeItem<?= $rowCate["id"] ?>" class="accordion-collapse collapse" data-bs-parent="#tpye">
+            <div class="accordion-body">
+                <?php foreach ($rowsCI as $rowCI) : ?>
+                    <div class="ms-5">
+                        <?php if ($rowCI["cateKey"] == $rowCate["id"]) : ?>
+                            <a class="text-secondary text-decoration-none" href="product-search.php?item=<?= $rowCI["id"] ?>"><?= $rowCI["itemName"]; ?></a>
 
-                                        <?php endif; ?>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            <?php endforeach; ?>
-
-            <!-- <div class="itemCate">
-                <?php foreach ($rowsCate as $rowCate) : ?>
-                    <div class="ms-5 text-decoration-none text-secondary">
-                        <a href="product-search.php?type=&page=&name=&category=<?= $rowCate["id"] ?>" class="text-decoration-none text-secondary"><?= $rowCate["name"] ?></a>
-                        <a class="linkItem" href=""><i class="fa-solid fa-caret-down text-secondary"></i></a>
-                        <div class="ms-5">
-                            <?php foreach ($rowsCI as $rowCI) : ?>
-                                <div class="itemItem">
-                                    <?php if ($rowCI["cateKey"] == $rowCate["id"]) : ?>
-                                        <?= $rowCI["itemName"]; ?>
-                                    <?php endif; ?>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-
-
+                        <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
-            </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php endforeach; ?>
+
+<!-- <div class="itemCate">
+<?php foreach ($rowsCate as $rowCate) : ?>
+    <div class="ms-5 text-decoration-none text-secondary">
+        <a href="product-search.php?type=&page=&name=&category=<?= $rowCate["id"] ?>" class="text-decoration-none text-secondary"><?= $rowCate["name"] ?></a>
+        <a class="linkItem" href=""><i class="fa-solid fa-caret-down text-secondary"></i></a>
+        <div class="ms-5">
+            <?php foreach ($rowsCI as $rowCI) : ?>
+                <div class="itemItem">
+                    <?php if ($rowCI["cateKey"] == $rowCate["id"]) : ?>
+                        <?= $rowCI["itemName"]; ?>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+
+    </div>
+<?php endforeach; ?>
+</div> -->
+          
+            
 
 
 
@@ -274,7 +280,7 @@ $conn->close();
     <main class="main-content">
         <div class="px-3 ">
             <div class="d-flex align-items-center justify-content-between border-bottom">
-                
+                        <?php if(isset($_GET["name"]) || isset($_GET["start"]) || isset($_GET["end"]) || isset($_GET["min"]) || isset($_GET["max"]) || isset($_GET["category"]) || isset($_GET["item"])):?>
                 <div class="d-flex  align-items-center">
                     <h2 class="mx-2 my-4">搜尋產品結果：</h2>
                     <h5 class="mt-2"> 搜尋『
@@ -296,8 +302,8 @@ $conn->close();
 
                         』, 共 <?= $product_count ?> 筆符合</h5>
                 </div>
-                
-                <?php if(!isset($_GET["name"]) && isset($name) && $name!="" && isset($min) && isset($max) && isset($category)&& $category!="" && isset($item)&& $item!=""):?>
+                <?php endif; ?> 
+                <?php if(!isset($_GET["name"]) && !isset($_GET["start"]) && !isset($_GET["end"]) && !isset($_GET["min"]) && !isset($_GET["max"]) && !isset($_GET["category"])&& !isset($_GET["item"])):?>
                     <h2 class="mx-2 my-4">所有產品</h2>
                     <?php endif; ?>
                 <div class="d-flex">
@@ -367,20 +373,20 @@ $conn->close();
         </div>
     </main>
 
-
-
-
-
-
-
-
-
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
+<?php include("/xampp/htdocs/practice/dashboard-js.php")?>
+ <script>
+    // 使用 JavaScript 為 .tabs li a:nth-child() 元素添加 active class
+    document.addEventListener("DOMContentLoaded", function() {
+      const firstTabLink = document.querySelector(".tabs li:nth-child(2) a");
+      firstTabLink.classList.add("active");
+    });
+  </script>
 
     <!-- js click -->
     <script>

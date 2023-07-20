@@ -59,6 +59,8 @@ if (empty($_SESSION["user"]["member_img"])) {
 </head>
 
 <body>
+
+
     <header class="text-bg-dark d-flex shadow fixed-top justify-content-between align-items-center">
         <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark container-fluid" data-bs-theme="dark">
             <div class="container-fluid d-flex justify-content-between">

@@ -53,7 +53,60 @@ if($password!=$repassword){
 $md5Password=md5($password);
 // var_dump($md5Password);
 
-require_once("../db_connect-test.php");
+require_once("pdo-connect-test.php");
+
+// 檢查是否有文件上傳
+if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
+    // 有文件上傳時的處理邏輯
+    if (move_uploaded_file($_FILES["file"]["tmp_name"], "images/" . $_FILES["file"]["name"])) {
+        $filename = $_FILES["file"]["name"];
+        echo "上傳成功，檔名為" . $filename . "<br>";
+    } else {
+        echo "上傳照片失敗" . "<br>";
+        // 可以選擇在這裡停止執行或採取其他適當的操作
+        // return; // 停止執行
+    }
+} else {
+    // 沒有文件上傳時的處理邏輯
+    $filename = "avatar01.jpg"; // 設定默認文件
+}
+
+// 更新語句
+        $sql = "INSERT INTO membership (account, password, name, gender, birthday, email, phone, address, level, member_img, created_at, valid) VALUES (:account, :password, :name, :gender, :birthday, :email, :phone, :address, 1, :member_img, :created_at, 1)";
+
+
+$stmt = $conn->prepare($sql);
+$stmt->bindParam(':account', $account);
+$stmt->bindParam(':password', $md5Password);
+$stmt->bindParam(':name', $name);
+$stmt->bindParam(':gender', $gender);
+$stmt->bindParam(':birthday', $birthday);
+$stmt->bindParam(':email', $email);
+$stmt->bindParam(':phone', $phone);
+$stmt->bindParam(':address', $fullAddress);
+$stmt->bindParam(':member_img', $filename);
+$stmt->bindParam(':created_at', $now);
+
+if ($stmt->execute()) {
+    echo "會員註冊成功";
+    if (!empty($filename)) {
+        echo "，且照片已上傳並保存";
+        $_SESSION["user"]["member_img"] = $filename;
+    }
+    echo "<br>";
+
+    // 更新暫存中的會員資料
+    $_SESSION["user"]["name"] = $name;
+    $_SESSION["user"]["gender"] = $gender;
+    $_SESSION["user"]["email"] = $email;
+    $_SESSION["user"]["phone"] = $phone;
+    $_SESSION["user"]["address"] = $address;
+    $_SESSION["user"]["member_img"] = $filename;
+
+    header("location: dashboard-test.php");
+} else {
+    echo "修改會員資料錯誤: " . $stmt->errorInfo()[2] . "<br>";
+}
 
 // $sql="INSERT INTO membership (account, password, name, gender, birthday, email, phone, address, level, member_img, created_at, valid) VALUES ( '$account','$md5Password','$name', '$gender', '$birthday', '$email', '$phone', '$fullAddress', 1, $filename, '$now', 1)";
 
@@ -128,56 +181,3 @@ require_once("../db_connect-test.php");
 
 // $conn = null;
 
-
-// 檢查是否有文件上傳
-if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
-    // 有文件上傳時的處理邏輯
-    if (move_uploaded_file($_FILES["file"]["tmp_name"], "images/" . $_FILES["file"]["name"])) {
-        $filename = $_FILES["file"]["name"];
-        echo "上傳成功，檔名為" . $filename . "<br>";
-    } else {
-        echo "上傳照片失敗" . "<br>";
-        // 可以選擇在這裡停止執行或採取其他適當的操作
-        // return; // 停止執行
-    }
-} else {
-    // 沒有文件上傳時的處理邏輯
-    $filename = "avatar01.jpg"; // 設定默認文件
-}
-
-// 更新語句
-        $sql = "INSERT INTO membership (account, password, name, gender, birthday, email, phone, address, level, member_img, created_at, valid) VALUES (:account, :password, :name, :gender, :birthday, :email, :phone, :address, 1, :member_img, :created_at, 1)";
-
-
-$stmt = $db_host->prepare($sql);
-$stmt->bindParam(':account', $account);
-$stmt->bindParam(':password', $md5Password);
-$stmt->bindParam(':name', $name);
-$stmt->bindParam(':gender', $gender);
-$stmt->bindParam(':birthday', $birthday);
-$stmt->bindParam(':email', $email);
-$stmt->bindParam(':phone', $phone);
-$stmt->bindParam(':address', $fullAddress);
-$stmt->bindParam(':member_img', $filename);
-$stmt->bindParam(':created_at', $now);
-
-if ($stmt->execute()) {
-    echo "會員註冊成功";
-    if (!empty($filename)) {
-        echo "，且照片已上傳並保存";
-        $_SESSION["user"]["member_img"] = $filename;
-    }
-    echo "<br>";
-
-    // 更新暫存中的會員資料
-    $_SESSION["user"]["name"] = $name;
-    $_SESSION["user"]["gender"] = $gender;
-    $_SESSION["user"]["email"] = $email;
-    $_SESSION["user"]["phone"] = $phone;
-    $_SESSION["user"]["address"] = $address;
-    $_SESSION["user"]["member_img"] = $filename;
-
-    header("location: dashboard-test.php");
-} else {
-    echo "修改會員資料錯誤: " . $stmt->errorInfo()[2] . "<br>";
-}

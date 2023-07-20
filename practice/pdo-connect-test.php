@@ -5,7 +5,7 @@ $password = "12345";
 $dbname = "project";
 
 try{
-    $db_host=new PDO(
+    $conn=new PDO(
         "mysql:host={$servername};dbname={$dbname};charset=utf8", $username, $password
     );
 

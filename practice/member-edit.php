@@ -3,6 +3,7 @@ session_start();
 if (!isset($_SESSION["user"])) {
     header("location: sign-in.php");
 }
+
 require_once("../db_connect-test.php");
 $sql = "SELECT * FROM membership WHERE id='{$_SESSION['user']['id']}'";
 
@@ -52,6 +53,32 @@ $sql = "SELECT * FROM membership WHERE id='{$_SESSION['user']['id']}'";
 </head>
 
 <body>
+<!-- modal彈出視窗，顯示會員資料修改成功訊息 -->
+<?php if (isset($_SESSION["editSuccess"])):?>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">編輯成功</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <?=$_SESSION["editSuccess"]; unset($_SESSION["editSuccess"])?>
+      </div>
+      <div class="modal-footer">
+        <a href="/practice/dashboard-test.php" type="button" class="btn btn-secondary" >關閉</a>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+        // 使用 JavaScript 來顯示 Modal
+        document.addEventListener("DOMContentLoaded", function() {
+            var modal = new bootstrap.Modal(document.getElementById("exampleModal"));
+            modal.show();
+        });
+    </script>
+    <?php endif; ?>
 <header class="text-bg-dark d-flex shadow fixed-top justify-content-between align-items-center">
         <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark container-fluid" data-bs-theme="dark">
             <div class="container-fluid d-flex justify-content-between">

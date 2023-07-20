@@ -24,33 +24,16 @@ $row = $result->fetch_assoc();
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/practice/dashboard-css.css">
     <style>
-        :root {
-            --aside-width: 300px;
-            --page-spacing-top: 56px;
-        }
-
-        .brand-name {
-            width: var(--aside-width);
-        }
-
-        .main-aside {
-            width: var(--aside-width);
-            padding-top: calc(var(--page-spacing-top) + 10px);
-        }
-
-        .main-content {
-            margin-left: var(--aside-width);
-            padding-top: calc(var(--page-spacing-top) + 10px);
-        }
-
-        .chart {
-            height: 400px;
+        .tab-content li:nth-child(6){
+        display: block;
         }
     </style>
 </head>
 
 <body>
+
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
@@ -68,106 +51,8 @@ $row = $result->fetch_assoc();
     </div>
   </div>
 </div>
-    <header class="text-bg-dark d-flex shadow fixed-top justify-content-between align-items-center">
-        <a class="bg-black py-3 px-3 text-decoration-none link-light brand-name" href="/">管理者後臺介面</a>
-        <div class="d-flex align-items-center">
-            <div class="me-3">
-                hi, 慕朵
-            </div>
-
-            <!-- <a href="logout-test.php" class="btn btn-dark me-3"><i class="fa-solid fa-right-from-bracket"></i> Log out</a> -->
-        </div>
-    </header>
-    <aside class="main-aside position-fixed bg-light vh-100 border-end">
-        <nav class="">
-            <ul class="list-unstyled">
-                <div class="my-2 d-flex justify-content-between text-secondary px-3">
-                    <div> 會員</div>
-                    <a role="button" href="">
-                        <i class="fa-regular fa-square-plus text-secondary"></i>
-                    </a>
-                </div>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="./dashboard-admin-test.php">
-                        <i class="fa-solid fa-users fa-fw me-2"></i>會員資料
-                    </a>
-                </li>
-                <div class="my-2 d-flex justify-content-between text-secondary px-3">
-                    <div> 產品</div>
-                    <a role="button" href="">
-                        <i class="fa-regular fa-square-plus text-secondary"></i>
-                    </a>
-                </div>
-
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-solid fa-cart-shopping fa-fw me-2"></i>產品目錄
-                    </a>
-                </li>
-                <div class="my-2 d-flex justify-content-between text-secondary px-3">
-                    <div> 庫存</div>
-                    <a role="button" href="">
-                        <i class="fa-regular fa-square-plus text-secondary"></i>
-                    </a>
-                </div>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                    <i class="fa-solid fa-box fa-fw me-2"></i>庫存目錄
-                    </a>
-                </li>
-                <div class="my-2 d-flex justify-content-between text-secondary px-3">
-                    <div> 課程</div>
-                    <a role="button" href="">
-                        <i class="fa-regular fa-square-plus text-secondary"></i>
-                    </a>
-                </div>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                    <i class="fa-solid fa-book fa-fw me-2"></i>課程目錄
-                    </a>
-                </li>
-                <div class="my-2 d-flex justify-content-between text-secondary px-3">
-                    <div> 師資</div>
-                    <a role="button" href="">
-                        <i class="fa-regular fa-square-plus text-secondary"></i>
-                    </a>
-                </div>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-solid fa-user fa-fw me-2"></i>師資目錄
-                    </a>
-                </li>
-                <div class="my-2 d-flex justify-content-between text-secondary px-3">
-                    <div> 行銷</div>
-                    <a role="button" href="">
-                        <i class="fa-regular fa-square-plus text-secondary"></i>
-                    </a>
-                </div>
-                <li>
-                    <a class="d-block py-2 px-3 text-decoration-none" href="">
-                        <i class="fa-solid fa-comments-dollar fa-fw me-2"></i>行銷目錄
-                    </a>
-                </li>
-
-            </ul>
-
-            <hr>
-            <!-- <ul class="list-unstyled">
-            
-            <li>
-                <a class="d-block py-2 px-3 text-decoration-none" href="./member-edit.php">
-                    <i class="fa-solid fa-gear fa-fw me-2"></i>Setting
-                </a>
-            </li>
-            
-            <li>
-                <a class="d-block py-2 px-3 text-decoration-none" href="logout-test.php">
-                    <i class="fa-solid fa-right-from-bracket fa-fw me-2"></i>Sign out
-                </a>
-            </li>
-        </ul> -->
-        </nav>
-    </aside>
+<?php include("/xampp/htdocs/practice/dashboard-admin-header-aside.php") ?>
+   
     <main class="main-content">
         <div class="px-3">
            <form action="coupon-doUpdate.php" method="post">
@@ -212,6 +97,14 @@ $row = $result->fetch_assoc();
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <?php include("/xampp/htdocs/practice/dashboard-js.php")?>
+ <script>
+    // 使用 JavaScript 為 .tabs li a:nth-child() 元素添加 active class
+    document.addEventListener("DOMContentLoaded", function() {
+      const sixthTabLink = document.querySelector(".tabs li:nth-child(6) a");
+      sixthTabLink.classList.add("active");
+    });
+  </script>
 </body>
 
 </html>

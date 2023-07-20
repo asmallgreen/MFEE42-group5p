@@ -49,17 +49,17 @@
                         </button>
                     </h2>
                     <div class="">
-                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="admin-member.php">
+                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="/practice/admin-member.php">
                             <i class="fa-solid fa-users fa-fw me-2"></i>會員資料
                         </a>
                     </div>
                     <div class="">
-                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="sign-up-test.php">
+                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="/practice/sign-up-test.php">
                             <i class="fa-solid fa-users fa-fw me-2"></i>會員註冊
                         </a>
                     </div>
                     <div class="">
-                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="sign-in-test.php">
+                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="/practice/sign-in-test.php">
                             <i class="fa-solid fa-users fa-fw me-2"></i>會員登入
                         </a>
                     </div>
@@ -77,17 +77,17 @@
                         </button>
                     </h2>
                     <div class="">
-                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="admin-member.php">
+                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="/practice/Luna/product-list.php">
                             <i class="fa-solid fa-users fa-fw me-2"></i>產品列表
                         </a>
                     </div>
                     <div class="">
-                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="sign-up-test.php">
+                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="/practice/Luna/product-search.php">
                             <i class="fa-solid fa-users fa-fw me-2"></i>產品搜尋
                         </a>
                     </div>
                     <div class="">
-                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="sign-in-test.php">
+                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="/practice/Luna/product-create.php">
                             <i class="fa-solid fa-users fa-fw me-2"></i>新增產品
                         </a>
                     </div>
@@ -143,12 +143,12 @@
                         </button>
                     </h2>
                     <div class="">
-                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="admin-member.php">
+                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="/practice/kuwacha/teacher-list.php">
                             <i class="fa-solid fa-users fa-fw me-2"></i>師資列表
                         </a>
                     </div>
                     <div class="">
-                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="sign-up-test.php">
+                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="/practice/kuwacha/create-teacher.php">
                             <i class="fa-solid fa-users fa-fw me-2"></i>新增師資
                         </a>
                     </div>
@@ -160,12 +160,12 @@
                         </button>
                     </h2>
                     <div class="">
-                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="admin-member.php">
+                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="/practice/ciro/coupon-list.php">
                             <i class="fa-solid fa-users fa-fw me-2"></i>優惠列表
                         </a>
                     </div>
                     <div class="">
-                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="sign-up-test.php">
+                        <a class="d-block py-2 px-3 text-decoration-none" id="memberaside" href="/practice/ciro/newcoupon-ajax.php">
                             <i class="fa-solid fa-users fa-fw me-2"></i>新增優惠券
                         </a>
                     </div>

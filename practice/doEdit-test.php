@@ -1,7 +1,5 @@
 <?php
 session_start();
-// require_once("../db_connect-test.php");
-
 
 if (!isset($_SESSION["user"])) {
     header("location: sign-in-test.php");
@@ -123,7 +121,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
 // 更新語句
 $sql = "UPDATE membership SET name='$name', gender='$gender', email='$email', phone='$phone', address='$address', member_img='$filename' WHERE id=$id";
 
-$stmt = $db_host->prepare($sql);
+$stmt = $conn->prepare($sql);
 
 if ($stmt->execute()) {
     echo "會員資料修改成功";
@@ -143,19 +141,9 @@ if ($stmt->execute()) {
     $_SESSION["user"]["phone"] = $phone;
     $_SESSION["user"]["address"] = $address;
     $_SESSION["user"]["member_img"] = $filename;
-    
-    echo '<script>$("#exampleModal1").modal("show");</script>';
+    $_SESSION["editSuccess"] = "資料修改完成";
 
-    // 自動跳轉頁面
-    echo '<script>setTimeout(function() { window.location.href = "dashboard-test.php"; }, 2000);</script>';
-    // echo '<script>$(document).ready(function() {
-    //     $("#exampleModal1").modal("show");
-    //     setTimeout(function() {
-    //         window.location.href = "dashboard-test.php";
-    //     }, 2000);
-    // });</script>';
-
-    header("location: dashboard-test.php");
+    header("location: member-edit.php");
 } else {
     echo "修改會員資料錯誤: " . $stmt->errorInfo()[2] . "<br>";
 }
